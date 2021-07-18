@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;atom.xml">
+        
+        <title>
+            
+    NX - Angular Storybook and Cypress Testing
+
+        </title>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Post
+</h2>
+
+    
+        
+            
+    
+    01&#x2F;11&#x2F;2021, Mon
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;javascript&#x2F;">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;angular&#x2F;">
+                            #Angular
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+    <h3 id="scaffolding-for-angular-and-storybook-with-cypress">Scaffolding for Angular and Storybook with Cypress</h3>
+<p>First, use npx to localize the install of NX (v11.0.20) and Angular CLI (v11.0.20).</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Create a nx workspace
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> create-nx-workspace@latest
+</span></code></pre><span id="continue-reading"></span>
+<p>Then &quot;Choose the Angular workspace&quot; and &quot;Choose Application name of your choice&quot;.</p>
+<p>If the Angular module install did not appear in the package.json, install it now by</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Install the Angular module
+</span><span style="color:#ffb454;">npm</span><span style="color:#bfbab0;"> install</span><span style="color:#f29718;"> -D</span><span style="color:#bfbab0;"> @nrwl/angular
+</span></code></pre>
+<p>To see a demo of the Cypress test window in persistent standalone mode</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># The defined projects can be found in the &quot;nx.json&quot; under the &quot;projects&quot; key.
+
+# Click on the spec file you wish to execute upon seeing the window
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> nx run project-name-e2e:e2e</span><span style="color:#f29718;"> --watch
+</span></code></pre>
+<p>You will find related information for the Angular plugin with</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># List associated information of the Angular plugin
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> nx list @nrwl/angular
+</span></code></pre>
+<p>Generate a library under the &quot;lib&quot; folder</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># The generated libraries will count as &quot;projects&quot;
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> ng g @nrwl/angular:lib ui
+</span></code></pre>
+<p>The Storybook integration begins with adding the nrwl plugin.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Adding the plugin
+</span><span style="color:#ffb454;">npm</span><span style="color:#bfbab0;"> add</span><span style="color:#f29718;"> --dev</span><span style="color:#bfbab0;"> @nrwl/storybook
+
+</span><span style="font-style:italic;color:#5c6773;"># Associate Storybook with a &quot;project&quot;
+</span><span style="color:#bfbab0;">npx nx g @nrwl/angular:storybook-configuration project-name
+
+</span><span style="font-style:italic;color:#5c6773;"># Demo run of Storybook (Navigate to http://localhost:4400/)
+</span><span style="color:#bfbab0;">npx nx run project-name:storybook
+</span></code></pre>
+<p>See additional information for the Storybook generator</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Options for the Storybook generator
+</span><span style="color:#ffb454;">Options:
+  --name</span><span style="color:#bfbab0;">                  Library or application name
+  </span><span style="color:#ffb454;">--configureCypress</span><span style="color:#bfbab0;">      Run the cypress-configure generator
+  </span><span style="color:#ffb454;">--generateStories</span><span style="color:#bfbab0;">       Automatically generate </span><span style="color:#f29668;">*</span><span style="color:#bfbab0;">.stories.ts files for components declared in this library
+  </span><span style="color:#ffb454;">--generateCypressSpecs</span><span style="color:#bfbab0;">  Automatically generate </span><span style="color:#f29668;">*</span><span style="color:#bfbab0;">.spec.ts files in the cypress e2e app generated by the cypress-configure generator
+  </span><span style="color:#ffb454;">--linter</span><span style="color:#bfbab0;">                The tool to use for running lint checks. (default: tslint)
+  </span><span style="color:#ffb454;">--dryRun</span><span style="color:#bfbab0;">                Runs through and reports activity without writing to disk.
+  </span><span style="color:#ffb454;">--skip-nx-cache</span><span style="color:#bfbab0;">         Skip the use of Nx cache.
+  </span><span style="color:#ffb454;">--help</span><span style="color:#bfbab0;">                  Show available options for project target.
+</span></code></pre>
+<p>The initial setup association of Storybook</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Use Storybook on a generated &#39;ui&#39; folder
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> nx g @nrwl/angular:storybook-configuration ui
+</span></code></pre>
+<p>Set the Storybook Cli Prompt Configuration Options to &quot;Yes&quot;</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffb454;">?</span><span style="color:#bfbab0;"> Configure a cypress e2e app to run against the storybook instance</span><span style="color:#f29668;">?</span><span style="color:#bfbab0;"> Yes
+</span><span style="color:#ffb454;">?</span><span style="color:#bfbab0;"> Automatically generate </span><span style="color:#f29668;">*</span><span style="color:#bfbab0;">.stories.ts files for components declared in this library</span><span style="color:#f29668;">?</span><span style="color:#bfbab0;"> Yes
+</span><span style="color:#ffb454;">?</span><span style="color:#bfbab0;"> Automatically generate </span><span style="color:#f29668;">*</span><span style="color:#bfbab0;">.spec.ts files in the cypress e2e app generated by the cypress-configure generator</span><span style="color:#f29668;">?</span><span style="color:#bfbab0;"> Yes
+</span></code></pre>
+<p>The generated integration test folder lies outside the area of the ui folder, which is grouped along with any of your other e2e tests in the &quot;/apps&quot; folder.</p>
+<p>When you generate a component, they will need to reside inside a &quot;library&quot; folder.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Generate a component into lib/ui folder
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> ng g component button</span><span style="color:#f29718;"> --project</span><span style="color:#f29668;">=</span><span style="color:#bfbab0;">ui</span><span style="color:#f29718;"> --export
+</span></code></pre>
+<p>If the automatic generation of spec files for Storybook and Cypress did not
+automatically generate the spec files, generate them manually with the command below.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Generate stories for components after initial Storybook configuration
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> nx generate @nrwl/angular:stories</span><span style="color:#f29718;"> --name</span><span style="color:#f29668;">=</span><span style="color:#bfbab0;">ui
+</span></code></pre><pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Options for generating stories individually for components in the library
+
+</span><span style="color:#ffb454;">Options:
+  --name</span><span style="color:#bfbab0;">                  Library or application name
+  </span><span style="color:#ffb454;">--generateCypressSpecs</span><span style="color:#bfbab0;">  Automatically generate </span><span style="color:#f29668;">*</span><span style="color:#bfbab0;">.spec.ts files in the cypress e2e app generated by the cypress-configure generator
+  </span><span style="color:#ffb454;">--dryRun</span><span style="color:#bfbab0;">                Runs through and reports activity without writing to disk.
+  </span><span style="color:#ffb454;">--skip-nx-cache</span><span style="color:#bfbab0;">         Skip the use of Nx cache.
+  </span><span style="color:#ffb454;">--help</span><span style="color:#bfbab0;">                  Show available options for project target.
+</span></code></pre>
+<p>View Storybook in either your browser or run the Cypress tests against the Storybook components inside a standalone window.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Run the StoryBook server for viewing in the browser
+</span><span style="color:#ffb454;">npx</span><span style="color:#bfbab0;"> nx run ui:storybook
+
+</span><span style="font-style:italic;color:#5c6773;"># Run Cypress test for the library
+</span><span style="color:#bfbab0;">npx nx run ui-e2e:e2e</span><span style="color:#f29718;"> --watch
+</span></code></pre>
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+        <div class="post-nav">
+            
+            <div class="page-order-group">
+                <a class="previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;zola-config&#x2F;">‹ Previous - Setting Up Zola</a>
+            </div>
+            
+            
+            <div class="page-order-group">
+                <a class="next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pandoc-filter&#x2F;">Pandoc Filter - Next ›</a>
+            </div>
+            
+        </div>
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+                <div class="section footer">
+                    <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2021 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+                </div>
+            
+        </div>
+    </body>
+</html>

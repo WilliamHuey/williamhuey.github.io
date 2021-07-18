@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;atom.xml">
+        
+        <title>
+            
+    jQuery Plugins - Prevent Multiple Instantiations
+
+        </title>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Post
+</h2>
+
+    
+        
+            
+    
+    06&#x2F;03&#x2F;2014, Tue
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;javascript&#x2F;">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;jquery&#x2F;">
+                            #jQuery
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+    <h2 id="script-loading-safety">Script Loading Safety</h2>
+<p>The <a href="https://github.com/jquery-boilerplate/jquery-boilerplate">jQuery Boilerplate</a> is a popular boilerplate and provides a safety
+net for double instantiation of a jQuery object with this code</p>
+<span id="continue-reading"></span><pre style="background-color:#0f1419;">
+<code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Prevent Double Instantation on jQuery Object
+
+</span><span style="color:#ff7733;">if </span><span style="color:#bfbab0;">(</span><span style="color:#f29668;">!</span><span style="color:#bfbab0;">$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span style="color:#bfbab0;">(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;plugin_&quot; </span><span style="color:#f29668;">+ </span><span style="color:#bfbab0;">pluginName)) {
+  $</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span style="color:#bfbab0;">(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;plugin_&quot; </span><span style="color:#f29668;">+ </span><span style="color:#bfbab0;">pluginName</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">new </span><span style="color:#59c2ff;">Plugin</span><span style="color:#bfbab0;">(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">options))</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#bfbab0;">}
+</span></code></pre>
+<p>This is good safeguard for your jQuery objects, but what happens if
+your plugin script gets load twice?</p>
+<pre style="background-color:#0f1419;">
+<code class="language-html" data-lang="html"><span style="font-style:italic;color:#5c6773;">&lt;!-- Accidental Reloading of Plugin Script--&gt;
+
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">head</span><span style="color:#39bae690;">&gt;
+  &lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;</span><span style="color:#bfbab0;">TakeOut</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+  &lt;</span><span style="color:#59c2ff;">meta </span><span style="color:#ffb454;">charset</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot; </span><span style="color:#39bae690;">/&gt;
+  &lt;</span><span style="color:#59c2ff;">script
+    </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;assets/vendor/js/jquery-1.11.1.min.js&quot;
+    </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;text/javascript&quot;
+  </span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+  &lt;</span><span style="color:#59c2ff;">script </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;src/TakeOut.js&quot; </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;text/javascript&quot;</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+  &lt;</span><span style="color:#59c2ff;">script </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;src/TakeOut.js&quot; </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;text/javascript&quot;</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+&lt;/</span><span style="color:#59c2ff;">head</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>This is unlikely to happen, but this problem could manifest in more devious or and less apparent ways, such as when project files are minify and concatenated.</p>
+<p>It might cause some unexpected behaviors if the plugin attaches event
+listeners by default. In order to protect your page, do the following:</p>
+<pre style="background-color:#0f1419;">
+<code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Attachment Check
+
+</span><span style="color:#bfbab0;">(</span><span style="color:#ff7733;">function </span><span style="color:#bfbab0;">(</span><span style="color:#f29718;">$</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">window</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">document</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">undefined</span><span style="color:#bfbab0;">) {
+  </span><span style="color:#ff7733;">var </span><span style="color:#bfbab0;">pluginName </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;MyMagnificentJQueryPlugin&quot;</span><span style="color:#bfbab0cc;">;
+
+  </span><span style="font-style:italic;color:#5c6773;">// Only allow for one instantiation of this script
+  </span><span style="color:#ff7733;">if </span><span style="color:#bfbab0;">(</span><span style="color:#f29668;">typeof </span><span style="color:#bfbab0;">$</span><span style="color:#f29668;">.</span><span style="color:#bfbab0;">fn[pluginName] </span><span style="color:#f29668;">!== </span><span style="color:#c2d94c;">&quot;undefined&quot;</span><span style="color:#bfbab0;">) {
+    </span><span style="color:#ff7733;">return</span><span style="color:#bfbab0cc;">;
+  </span><span style="color:#bfbab0;">}
+
+  </span><span style="font-style:italic;color:#5c6773;">// Rest of your jQuery plugin logic here
+</span><span style="color:#bfbab0;">})(jQuery</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">window</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">document)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>There is a check in the beginning of the script to see if the plugin
+has already attached itself to the jQuery object.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+        <div class="post-nav">
+            
+            <div class="page-order-group">
+                <a class="previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-quick-tips-1&#x2F;">‹ Previous - Nodejs Quick Tips #1</a>
+            </div>
+            
+            
+            <div class="page-order-group">
+                <a class="next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;typeof-wrapper&#x2F;">Typeof Wrapper - Next ›</a>
+            </div>
+            
+        </div>
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+                <div class="section footer">
+                    <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2021 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+                </div>
+            
+        </div>
+    </body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;atom.xml">
+        
+        <title>
+            
+    Angular - Module for Routes
+
+        </title>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Post
+</h2>
+
+    
+        
+            
+    
+    03&#x2F;10&#x2F;2021, Wed
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;typescript&#x2F;">
+                            #typescript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;angular&#x2F;">
+                            #Angular
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+    <h3 id="organize-routes-into-modules">Organize Routes into Modules</h3>
+<p>In Angular, to make routing cleaner, routes may be defined inside modules to localize the path definition to where a specific component is associated.</p>
+<p>Here, we have the &quot;/useful/&quot; route and nested child route of &quot;/useful/stuff&quot; defined for our &quot;useful component&quot;.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">//useful.module.ts
+
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ UsefulComponent } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;./useful.component&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ NgModule } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;@angular/core&quot;</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ RouterModule } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;@angular/router&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">const </span><span style="color:#bfbab0;">routes </span><span style="color:#f29668;">= </span><span style="color:#bfbab0;">[
+  {
+    path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">,
+    </span><span style="color:#bfbab0;">component</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">UsefulComponent</span><span style="color:#bfbab0cc;">,
+    </span><span style="color:#bfbab0;">children</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[{ path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;stuff&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">component</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">UsefulComponent }]</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">}</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">]</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#bfbab0;">@</span><span style="color:#ffb454;">NgModule</span><span style="color:#bfbab0;">({
+  imports</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[RouterModule</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">forChild</span><span style="color:#bfbab0;">(routes)]</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">})
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">UsefulModule </span><span style="color:#bfbab0;">{}
+</span></code></pre><span id="continue-reading"></span>
+<p>By convention, there is a dedicated &quot;app-routing.module&quot; defined for aggregating all the routes for the application.
+The &quot;useful&quot; path is defined in this module and is lazily loaded with the &quot;loadChildren&quot; key definition.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">//app-routing.module.ts
+
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ NgModule } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;@angular/core&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ RouterModule</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">Routes } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;@angular/router&quot;</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ HomeComponent } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;./home/home.component&quot;</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#ff7733;">const </span><span style="color:#bfbab0;">routes</span><span style="color:#f29668;">: </span><span style="color:#59c2ff;">Routes </span><span style="color:#f29668;">= </span><span style="color:#bfbab0;">[
+  { path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">component</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">HomeComponent }</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">{
+    path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;useful&quot;</span><span style="color:#bfbab0cc;">,
+    </span><span style="color:#ffb454;">loadChildren</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">() </span><span style="color:#ff7733;">=&gt;
+      </span><span style="color:#f29668;">import</span><span style="color:#bfbab0;">(</span><span style="color:#c2d94c;">&quot;./useful/useful.module&quot;</span><span style="color:#bfbab0;">)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">then</span><span style="color:#bfbab0;">((</span><span style="color:#f29718;">m</span><span style="color:#bfbab0;">) </span><span style="color:#ff7733;">=&gt; </span><span style="color:#bfbab0;">{
+        </span><span style="color:#ff7733;">return </span><span style="color:#bfbab0;">m</span><span style="color:#f29668;">.</span><span style="color:#bfbab0;">UsefulModule</span><span style="color:#bfbab0cc;">;
+      </span><span style="color:#bfbab0;">})</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">}</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">]</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#bfbab0;">@</span><span style="color:#ffb454;">NgModule</span><span style="color:#bfbab0;">({
+  imports</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[RouterModule</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">forRoot</span><span style="color:#bfbab0;">(routes)]</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">exports</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[RouterModule]</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">})
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">AppRoutingModule </span><span style="color:#bfbab0;">{}
+</span></code></pre>
+<p>The &quot;app-routing.module&quot; is loaded into the main &quot;imports&quot; key of the &quot;app.module&quot; file.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">//app.module.ts
+
+</span><span style="color:#bfbab0;">@</span><span style="color:#ffb454;">NgModule</span><span style="color:#bfbab0;">({
+  declarations</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[AppComponent</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">HomeComponent]</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">imports</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[BrowserModule</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">HttpClientModule</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">AppRoutingModule]</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">bootstrap</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[AppComponent]</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">})
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">AppModule </span><span style="color:#bfbab0;">{}
+</span></code></pre>
+<p>Although, lazily loaded modules require more effort to setup as to plain defining the module directly into the &quot;imports&quot; key of the &quot;app.module&quot;, there is the good benefit of excluding data loading for other paths since you only need the data for the current path that you are on. It becomes more useful when your application grows over time.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+        <div class="post-nav">
+            
+            <div class="page-order-group">
+                <a class="previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;typescript-descriptive-string-arrays&#x2F;">‹ Previous - TypeScript - Descriptive String Arrays</a>
+            </div>
+            
+            
+            <div class="page-order-group">
+                <a class="next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;selenium-python-quick-tips-1&#x2F;">Selenium - Python - Quick Tips #1 - Next ›</a>
+            </div>
+            
+        </div>
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+                <div class="section footer">
+                    <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2021 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+                </div>
+            
+        </div>
+    </body>
+</html>

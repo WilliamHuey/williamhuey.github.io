@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;atom.xml">
+        
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                <div id="content" class="section post-section">
+                    <h2 id="title">
+                        Posts
+                    </h2>
+                    <div class="posts">
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-library-picks-1&#x2F;">
+                                RxJS - Library Picks #1
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    04&#x2F;14&#x2F;2021, Wed
+
+                                </div>
+                                <h3 id="rxdeep"><a href="https://www.npmjs.com/package/rxdeep">Rxdeep</a></h3>
+<p>For the easier determination of a value change inside a deeply nested object, use Rxdeep's state's output observable for wrapping an object to subscribe to the change events.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-js" data-lang="js"><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ state } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;rxdeep&#39;</span><span style="color:#bfbab0cc;">;
+ 
+</span><span style="color:#ff7733;">const </span><span style="color:#bfbab0;">s </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">state</span><span style="color:#bfbab0;">([ { name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;John&#39; </span><span style="color:#bfbab0;">}</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">{ name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Jack&#39; </span><span style="color:#bfbab0;">}</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">{ name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Jill&#39; </span><span style="color:#bfbab0;">} ])</span><span style="color:#bfbab0cc;">;
+
+</span><span style="font-style:italic;color:#5c6773;">// Listen to changes on &#39;name&#39; property of index 1 on the list:
+</span><span style="color:#bfbab0;">s</span><span style="color:#f29668;">.</span><span style="color:#f07178;">sub</span><span style="color:#bfbab0;">(</span><span style="color:#f29718;">1</span><span style="color:#bfbab0;">)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">sub</span><span style="color:#bfbab0;">(</span><span style="color:#c2d94c;">&#39;name&#39;</span><span style="color:#bfbab0;">)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span style="color:#bfbab0;">(</span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span style="color:#bfbab0;">)</span><span style="color:#bfbab0cc;">;     </span><span style="font-style:italic;color:#5c6773;">// --&gt; logs `Jack`
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;javascript&#x2F;">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;rxjs&#x2F;">
+                                        #RxJS
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-library-picks-1&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pandoc-quick-tips-1&#x2F;">
+                                Pandoc - Quick Tips #1
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    04&#x2F;07&#x2F;2021, Wed
+
+                                </div>
+                                <h3 id="render-full-html-site">Render Full Html Site</h3>
+<p>By default, converting a LaTeX file into an HTML file only produces a partial HTML page. Pandoc conversion only strictly contains the content wrapped in the basic HTML equivalent tags, which is spartan as the following example would only output a paragraph tag without a html, head, nor body tag available.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-latex" data-lang="latex"><span style="color:#ff7733;">\documentclass</span><span style="color:#bfbab0;">{</span><span style="font-style:italic;color:#39bae6;">article</span><span style="color:#bfbab0;">}
+
+</span><span style="color:#ff7733;">\usepackage</span><span style="color:#bfbab0;">[</span><span style="color:#f29718;">margin</span><span style="color:#bfbab0;">=0.5in]{</span><span style="font-style:italic;color:#39bae6;">geometry</span><span style="color:#bfbab0;">}
+</span><span style="color:#f07178;">\title</span><span style="color:#bfbab0;">{Tex}
+</span><span style="color:#f07178;">\date</span><span style="color:#bfbab0;">{}
+
+</span><span style="color:#ff7733;">\begin</span><span style="color:#bfbab0;">{</span><span style="color:#f29718;">document</span><span style="color:#bfbab0;">}
+</span><span style="color:#f07178;">\maketitle
+
+</span><span style="color:#bfbab0;">some content
+
+</span><span style="color:#ff7733;">\end</span><span style="color:#bfbab0;">{</span><span style="color:#f29718;">document</span><span style="color:#bfbab0;">}
+</span></code></pre>
+<p>To fix this problem, the &quot;full html&quot; page requires the &quot;-s&quot; flag (standalone mode) to achieve the proper conversion.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffb454;">pandoc</span><span style="color:#f29718;"> -o </span><span style="color:#c2d94c;">&#39;my-output-file.html&#39; &#39;my-input-file.tex&#39;</span><span style="color:#f29718;"> -s
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;shell&#x2F;">
+                                        #shell
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;pandoc&#x2F;">
+                                        #pandoc
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pandoc-quick-tips-1&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;svg-screenshots&#x2F;">
+                                Webpage Svg Screenshots
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    04&#x2F;03&#x2F;2021, Sat
+
+                                </div>
+                                <h3 id="accessible-screenshots-of-web-pages">Accessible screenshots of web pages</h3>
+<p>Taking a screenshot on a webpage illustrates and preserves the layout information with accompanying text, however, taking a screenshot where the content is primarily text implies a lost of useful information because you can no longer select the text nor zoom into the image without significant quality lost as is the case with most commonly used image formats such as png and jpeg.</p>
+
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;browser&#x2F;">
+                                        #browser
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;svg&#x2F;">
+                                        #svg
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;svg-screenshots&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-key-combination-detection&#x2F;">
+                                RxJS - Key Combination Detection
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    03&#x2F;27&#x2F;2021, Sat
+
+                                </div>
+                                <h3 id="hot-keys">Hot Keys</h3>
+<p>A hot key combination such as &quot;ctrl + shift + alt + a&quot; could be used to trigger a behavior in a web application such as the opening of a dialog or panel. It also provides a convenient shortcut when an action is often repeated in a workflow. There are certainly many libraries out there designated for such a <a href="https://www.npmjs.com/search?q=hotkey">task</a>, but if you are already using RxJS, it is flexible enough that this functionality can be replicated without using an additional library.</p>
+
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;javascript&#x2F;">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;rxjs&#x2F;">
+                                        #RxJS
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-key-combination-detection&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;selenium-python-quick-tips-1&#x2F;">
+                                Selenium - Python - Quick Tips #1
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    03&#x2F;17&#x2F;2021, Wed
+
+                                </div>
+                                <h3 id="webdriver-manager">Webdriver Manager</h3>
+<p>Use the latest version of the web driver for your browser of choice when testing by installing the <a href="https://pypi.org/project/webdriver-manager/">webdriver_manager</a> package.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffb454;">pip</span><span style="color:#bfbab0;"> install webdriver-manager
+</span></code></pre>
+<p>The package will automatically download the newest version when tests are run with Selenium. This will relieve you of having to manually download the driver for inclusion in a folder while testing.</p>
+
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;testing&#x2F;">
+                                        #testing
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;python&#x2F;">
+                                        #python
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;selenium&#x2F;">
+                                        #selenium
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;selenium-python-quick-tips-1&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;angular-module-route&#x2F;">
+                                Angular - Module for Routes
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    03&#x2F;10&#x2F;2021, Wed
+
+                                </div>
+                                <h3 id="organize-routes-into-modules">Organize Routes into Modules</h3>
+<p>In Angular, to make routing cleaner, routes may be defined inside modules to localize the path definition to where a specific component is associated.</p>
+<p>Here, we have the &quot;/useful/&quot; route and nested child route of &quot;/useful/stuff&quot; defined for our &quot;useful component&quot;.</p>
+<pre style="background-color:#0f1419;">
+<code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">//useful.module.ts
+
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ UsefulComponent } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;./useful.component&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ NgModule } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;@angular/core&quot;</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#ff7733;">import </span><span style="color:#bfbab0;">{ RouterModule } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;@angular/router&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">const </span><span style="color:#bfbab0;">routes </span><span style="color:#f29668;">= </span><span style="color:#bfbab0;">[
+  {
+    path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">,
+    </span><span style="color:#bfbab0;">component</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">UsefulComponent</span><span style="color:#bfbab0cc;">,
+    </span><span style="color:#bfbab0;">children</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[{ path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;stuff&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#bfbab0;">component</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">UsefulComponent }]</span><span style="color:#bfbab0cc;">,
+  </span><span style="color:#bfbab0;">}</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">]</span><span style="color:#bfbab0cc;">;
+
+</span><span style="color:#bfbab0;">@</span><span style="color:#ffb454;">NgModule</span><span style="color:#bfbab0;">({
+  imports</span><span style="color:#bfbab0cc;">: </span><span style="color:#bfbab0;">[RouterModule</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">forChild</span><span style="color:#bfbab0;">(routes)]</span><span style="color:#bfbab0cc;">,
+</span><span style="color:#bfbab0;">})
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">UsefulModule </span><span style="color:#bfbab0;">{}
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;typescript&#x2F;">
+                                        #typescript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;tags&#x2F;angular&#x2F;">
+                                        #Angular
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;angular-module-route&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;typescript-descriptive-string-arrays&#x2F;">
+                                TypeScript - Descriptive String Arrays
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    03&#x2F;01&#x2F;2021, Mon
+
+                                </div>
+                                <h3 id="strings-from-a-union-type">Strings from a Union Type</h3>
+<p>Often times, an array would contain one of many possible string values, and it would be express as such</p>
+<pre style="background-color:#0f1419;">
+<code class="language-typescript" data-lang="typescript"><span style="color:#ff7733;">interface </span><span style="color:#59c2ff;">BuildFlagsStatus </span><span style="color:#bfbab0;">{
+  optionalArgsFlagKeys</span><span style="color:#f29668;">: </span><span style="color:#59c2ff;">Array</span><span style="color:#bfbab0;">&lt;</span><span style="font-style:italic;color:#39bae6;">string</span><span style="color:#bfbab0;">&gt;
+}
+</span></code></pre>
+<p>However, this is a not very helpful approach because usually the string values allowed to placed inside the array comes from a select group of strings.</p>
+<p>To be more descriptive, create a string union type and use that for typing an array.</p>
+
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;categories&#x2F;typescript&#x2F;">
+                                        #typescript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;typescript-descriptive-string-arrays&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <nav class="pagination">
+                            <div class="pagination-links">
+                                
+                                <a class="pagination-link previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;2&#x2F;">‹ Previous</a>
+                                
+                                
+                                <a class="pagination-link next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;4&#x2F;">Next ›</a>
+                                
+                            </div>
+                            
+                            <div class="pagination-pages">
+                                Page 3 of 11
+                            </div>
+                            
+                        </nav>
+                    </div>
+                </div>
+            
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+                <div class="section footer">
+                    <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2021 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+                </div>
+            
+        </div>
+    </body>
+</html>
