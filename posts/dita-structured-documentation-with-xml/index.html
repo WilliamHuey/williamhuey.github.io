@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    DITA - Structured Documentation with XML
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    DITA - Structured Documentation with XML
+</h2>
+
+    
+        
+            
+    
+    06&#x2F;11&#x2F;2023, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/documentation/">
+                            #documentation
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="dita-setup">DITA Setup</h3>
+<p>DITA stands for Darwin Information Typing Architecture, it is an XML specification that prescribes tags for organizing your documentation content.
+For Dita to be able to generate a well-defined structure, it suggests a rather prescriptive methods of tag use. The intention of Dita is to promote content reuse so that your documentation project will be more manageable as it scales up in size and complexity.</p>
+<p>Getting started with Dita begins with having these prerequisites.</p>
+<ul>
+<li>Java</li>
+<li>Text editor</li>
+<li>DITA-OT</li>
+</ul>
+<span id="continue-reading"></span>
+<p>Alternatively, there are xml editors out there that bundle Dita together with Dita which offers you the convenience of an integrated DITA authoring experience.
+These editors tend to be in the family of WYSIWYG editors. Most of these solutions are paid software, but <a href="https://xmlmind.com/xmleditor/">XMLmind XML Editor</a> is a free alternative.</p>
+<p>However, the rest of this article will focus on using more developer centric tools for better learning when working with the raw xml markup.</p>
+<h4 id="installing-prerequisites">Installing Prerequisites</h4>
+<h5 id="java">Java</h5>
+<p>The version of Java that DITA-OT version 4.0.2 supports is version 17.
+To make managing the versions of Java easier, using a general tools installer version manager such as <a href="https://github.com/asdf-vm/asdf">asdf</a>.
+Asdf is commonly used to install different programming languages onto your machine.</p>
+<p>After installing asdf with the <a href="https://asdf-vm.com/guide/getting-started.html#official-download">official installation instructions</a>, you are ready to use it to install Java.</p>
+<p>Asdf requires that you add plugins to manage the many tools that out there for installation. You install a plugin for a particular tool that you would want to use.</p>
+<p>Add the Java plugin for asdf.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">asdf</span><span> plugin add java
+</span></code></pre>
+<p>List all Java versions to find the latest version 17 of Java.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">asdf</span><span> list-all java
+</span></code></pre>
+<p>Install the Java version. Pick a version that is up-to-date, the version of Java shown below is shown for demonstration purposes.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">asdf</span><span> install java oracle-17.0.6
+</span></code></pre>
+<p>Set the installed Java version as global.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">asdf</span><span> global java oracle-17.0.6
+</span></code></pre>
+<p>Additional Java configuration information can be found from the <a href="https://github.com/halcyon/asdf-java">asdf java plugin page</a>.</p>
+<h5 id="dita-ot">DITA-OT</h5>
+<p>The DITA-OT binary will provide the actual DITA functionality. This will put <code>dita</code> into the command line for processing our DITA xml documents.</p>
+<p>Download Dita from github located at <a href="https://github.com/dita-ot/dita-ot/releases">https://github.com/dita-ot/dita-ot/releases</a>.
+Extract the zip file into a location where you can reference the dita binary.</p>
+<p>Put the DITA binary into your path by adding this line into your .bashrc file. Substitute with your location of the DITA folder.</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>export PATH=$PATH:/the/path/to/your/Dita/dita-ot-4.0.2/bin/
+</span></code></pre>
+<h5 id="text-editor">Text Editor</h5>
+<p>A text editor with xml highlighting support is recommended.</p>
+<h3 id="basic-example">Basic Example</h3>
+<p>The following will be a minimal DITA example. Create a <code>dita-example</code> folder with the associated DITA files.</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>dita-example/
+</span><span>├── map.ditamap
+</span><span>└── concept.dita
+</span></code></pre>
+<p>The <code>map.ditamap</code> serves as the entry point file that DITA reads to determine references to topic type and other ditamap files. This file indicates which files will be build for the final output. These referencing files have the extension of <code>.ditamap</code>.</p>
+<p>With DITA, the two file extension types you will frequently encounter will be <code>.ditamap</code> and <code>.dita</code>. The <code>.dita</code> file are for storing the topic information content.</p>
+<p>The <code>map.ditmap</code> file uses a <code>&lt;topicref&gt;</code> tag to reference the <code>concept.dita</code> file.</p>
+<pre  tabindex="0" data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;?</span><span style="color:#59c2ff;">xml </span><span style="color:#ffb454;">version</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;1.0&quot; </span><span style="color:#ffb454;">encoding</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot;</span><span style="color:#39bae690;">?&gt;
+</span><span style="color:#39bae690;">&lt;!</span><span style="color:#ff7733;">DOCTYPE </span><span>map </span><span style="color:#ff7733;">PUBLIC </span><span style="color:#c2d94c;">&quot;-//OASIS//DTD DITA Map//EN&quot; &quot;map.dtd&quot;</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">map </span><span style="color:#ffb454;">chunk</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;by-topic&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;</span><span>DITA Topic Map</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">topicref </span><span style="color:#ffb454;">keys</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;concepts&quot; </span><span style="color:#ffb454;">href</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;concept.dita&quot; </span><span style="color:#ffb454;">toc</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;yes&quot; </span><span style="color:#39bae690;">/&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">map</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>DITA's authoring strategy involves writing for "topics" which serve as discrete cohesive units of information. The three more commonly used topic types are the <code>&lt;concept&gt;</code>, <code>&lt;task&gt;</code>, and <code>&lt;reference&gt;</code>.
+The type of topic you use will be determined by what that pieces of information is intended to convey to the audience.</p>
+<p>The <code>&lt;concept&gt;</code> explains the background information of the subject that you are trying to illustrate. It will provide the general purpose of the subject.</p>
+<p>The <code>&lt;task&gt;</code> topic will list out the specific instructional steps that are carried out when attempting to perform a 'task'. This topic type is suited for use with something that is found in a cooking recipe or assembly instruction manual where mechanical steps are listed in a bulleted list.</p>
+<p>The <code>&lt;reference&gt;</code> topic is used for providing supporting information. This can be complementary information for the <code>&lt;concept&gt;</code>.</p>
+<p>As for our example, we will focus on using the <code>&lt;concept&gt;</code> topic.
+To define a <code>&lt;concept&gt;</code> document, these first two lines are needed. The first line declares that it is a xml file, while the second is to help DITA identify it as a concept document.</p>
+<pre  tabindex="0" data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;?</span><span style="color:#59c2ff;">xml </span><span style="color:#ffb454;">version</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;1.0&quot; </span><span style="color:#ffb454;">encoding</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot;</span><span style="color:#39bae690;">?&gt;
+</span><span style="color:#39bae690;">&lt;!</span><span style="color:#ff7733;">DOCTYPE </span><span>concept </span><span style="color:#ff7733;">PUBLIC </span><span style="color:#c2d94c;">&quot;-//OASIS//DTD DITA Concept//EN&quot; &quot;concept.dtd&quot;</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>Next, the <code>&lt;concept&gt;</code> tag is added along with the <code>&lt;title&gt;</code> and <code>&lt;shortdesc&gt;</code> tags. The <code>&lt;title&gt;</code> states the subject that will be discussed and the <code>&lt;shortdesc&gt;</code> offers a brief description of the topic.</p>
+<pre  tabindex="0" data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;?</span><span style="color:#59c2ff;">xml </span><span style="color:#ffb454;">version</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;1.0&quot; </span><span style="color:#ffb454;">encoding</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot;</span><span style="color:#39bae690;">?&gt;
+</span><span style="color:#39bae690;">&lt;!</span><span style="color:#ff7733;">DOCTYPE </span><span>concept </span><span style="color:#ff7733;">PUBLIC </span><span style="color:#c2d94c;">&quot;-//OASIS//DTD DITA Concept//EN&quot; &quot;concept.dtd&quot;</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">concept </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;concept&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;</span><span>Painting a Wall</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">shortdesc</span><span style="color:#39bae690;">&gt;</span><span>Periodic painting of a wall will ensure that moisture does not damage the material underneath. It also ensures that you living environment is visually pleasant to look at.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">shortdesc</span><span style="color:#39bae690;">&gt;
+</span><span>    ...
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">concept</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>Add the <code>&lt;conbody&gt;</code> below the <code>&lt;shortdesc&gt;</code> along with the <code>&lt;section&gt;</code> information to describe the topic in detail. You can add additional sections for further details.</p>
+<pre  tabindex="0" data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;?</span><span style="color:#59c2ff;">xml </span><span style="color:#ffb454;">version</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;1.0&quot; </span><span style="color:#ffb454;">encoding</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot;</span><span style="color:#39bae690;">?&gt;
+</span><span style="color:#39bae690;">&lt;!</span><span style="color:#ff7733;">DOCTYPE </span><span>concept </span><span style="color:#ff7733;">PUBLIC </span><span style="color:#c2d94c;">&quot;-//OASIS//DTD DITA Concept//EN&quot; &quot;concept.dtd&quot;</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">concept </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;concept&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;</span><span>Painting a Wall</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">shortdesc</span><span style="color:#39bae690;">&gt;</span><span>Periodic painting of a wall will ensure that moisture does not damage the material underneath. It also ensures that you living environment is visually pleasant to look at.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">shortdesc</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">conbody</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">section</span><span style="color:#39bae690;">&gt;
+</span><span>          </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;</span><span>Clearing the Area for Painting</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>          </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">p</span><span style="color:#39bae690;">&gt;</span><span>Remove obstructing items from the wall that is painted. You will need room to manuever you painting equipment.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">p</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">section</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">conbody</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">concept</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>Run the DITA command to generate the output in html.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">dita</span><span style="color:#f29718;"> --input</span><span style="color:#f29668;">=</span><span>map.ditamap</span><span style="color:#f29718;"> --format</span><span style="color:#f29668;">=</span><span>html5
+</span></code></pre>
+<p>The <code>dita</code> command will create an <code>out</code> folder with these files.</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>out/
+</span><span>├── commonltr.css
+</span><span>├── commonrtl.css
+</span><span>├── concept.html
+</span><span>└── index.html
+</span></code></pre>
+<p>The map.ditamap outputs to the <code>index.html</code> file and the <code>concept.html</code>. The css files are auto-generated to support styling the generated html. View the html files in your browser.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    D3FC - X-Axis Adjustments
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    D3FC - X-Axis Adjustments
+</h2>
+
+    
+        
+            
+    
+    07&#x2F;11&#x2F;2021, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/graphing/">
+                            #graphing
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="label-modifications">Label Modifications</h3>
+<p>D3FC provides a nice layer of convenient customization over D3 when working with basic construction of graphs such as when tweaking axis labels. The following examples will be a modification of the <a href="https://github.com/d3fc/d3fc/blob/master/docs/building-a-chart.md">base example</a>.</p>
+<span id="continue-reading"></span><h4 id="offset-x-axis-label-text">Offset X-axis Label Text</h4>
+<p>By default, text lies directly underneath a tick mark, but there is an option
+in D3FC to allow you to move the text slightly over to the right.</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span>
+</span><span style="font-style:italic;color:#5c6773;">// ...
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>scaleLinear </span><span style="color:#f29668;">= </span><span>d3</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">scaleLinear</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">const </span><span>scaleBand </span><span style="color:#f29668;">= </span><span>d3</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">scaleBand</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>fc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">chartCartesian</span><span>(
+</span><span>    {
+</span><span>        xScale</span><span style="color:#bfbab0cc;">: </span><span>scaleBand</span><span style="color:#bfbab0cc;">,
+</span><span>        yScale</span><span style="color:#bfbab0cc;">: </span><span>scaleLinear</span><span style="color:#bfbab0cc;">,
+</span><span>        xAxis</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>            </span><span style="color:#ffb454;">bottom</span><span style="color:#bfbab0cc;">: </span><span>(</span><span style="color:#f29718;">scale</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>                </span><span style="color:#ff7733;">return </span><span>fc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">axisBottom</span><span>(scale)
+</span><span>                    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">tickCenterLabel</span><span>(</span><span style="color:#f29718;">false</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>)
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// ...
+</span></code></pre>
+<p><a href="https://jsfiddle.net/b7wkpf98/">Offset X-axis Label Text Example</a></p>
+<p>The following shows a customization of tilting the label to 45 degrees using the <code>xDecorate</code> function:</p>
+<h4 id="angle-label-text">Angle Label Text</h4>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span>
+</span><span style="font-style:italic;color:#5c6773;">//...
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Chart primary options configuration
+</span><span style="color:#ff7733;">const </span><span>chart </span><span style="color:#f29668;">= </span><span>fc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">chartCartesian</span><span>(
+</span><span>    {
+</span><span>        xScale</span><span style="color:#bfbab0cc;">: </span><span>scaleBand</span><span style="color:#bfbab0cc;">,
+</span><span>        yScale</span><span style="color:#bfbab0cc;">: </span><span>scaleLinear</span><span style="color:#bfbab0cc;">,
+</span><span>    }
+</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">chartLabel</span><span>(</span><span style="color:#c2d94c;">&#39;2015 Cumulative Sales&#39;</span><span>)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// x extent is categorical data so no extent required
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">xDomain</span><span>(data</span><span style="color:#f29668;">.</span><span>sales</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">map</span><span>(</span><span style="color:#f29718;">d </span><span style="color:#ff7733;">=&gt; </span><span>d</span><span style="color:#f29668;">.</span><span>month))
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// y extent used for number ranges
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// used to return the minimum and maximum value in an array from the given array using natural order.
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">yDomain</span><span>(</span><span style="color:#ffb454;">yExtent</span><span>(data</span><span style="color:#f29668;">.</span><span>sales))
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// padding is the white space between the bars
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">xPadding</span><span>(</span><span style="color:#f29718;">0.1</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">xDecorate</span><span>(</span><span style="color:#f29718;">selection </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>        selection
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#f07178;">select</span><span>(</span><span style="color:#c2d94c;">&#39;text&#39;</span><span>)
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">attr</span><span>(</span><span style="color:#c2d94c;">&#39;transform&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;rotate(-45 25 15)&#39;</span><span>)
+</span><span>    })
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// ...
+</span></code></pre>
+<p><a href="https://jsfiddle.net/yd50afvj/">Angle Label Text Example</a></p>
+<p>If there is a one-off change of tilting the x-axis labels without the need to
+perform further customization, there is a built-in faculty in D3FC for
+achieving this behavior:</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="color:#ff7733;">const </span><span>axis </span><span style="color:#f29668;">= </span><span>fc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">axisLabelRotate</span><span>(fc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">axisOrdinalBottom</span><span>(scale))</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>However, if multiple types of transformation are required on the x-axis, one will need
+to use the <code>xDecorate</code> function to perform more manual tuning of axis and label options, but you will lose out on the ability to using the convenience "axis" methods.</p>
+<p>Below is an example of using multiple x-axis transformation:</p>
+<h4 id="change-x-axis-text-color-based-on-corresponding-bar-value">Change X-axis Text Color Based on Corresponding Bar Value</h4>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// ...
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Track the labels which are to have its color changed
+</span><span style="font-style:italic;color:#5c6773;">// when the bar chart colors are also changed
+</span><span style="color:#ff7733;">const </span><span>monthsSalesStatus </span><span style="color:#f29668;">= </span><span>{}</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>bar</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">decorate</span><span>(</span><span style="color:#f29718;">selection </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// The selection passed to decorate is the one which the component creates
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// within its internal data join, here we use the update selection to
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// apply a style to &#39;path&#39; elements created by the bar series
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Change to green
+</span><span>    selection</span><span style="color:#f29668;">.</span><span style="color:#f07178;">select</span><span>(</span><span style="color:#c2d94c;">&#39;.bar &gt; path&#39;</span><span>)
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">style</span><span>(</span><span style="color:#c2d94c;">&#39;fill&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">d </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>            </span><span style="color:#ff7733;">if </span><span>(d</span><span style="color:#f29668;">.</span><span>sales </span><span style="color:#f29668;">&lt; </span><span>data</span><span style="color:#f29668;">.</span><span>targets[</span><span style="color:#f29718;">0</span><span>]</span><span style="color:#f29668;">.</span><span>value) {
+</span><span>                monthsSalesStatus[d</span><span style="color:#f29668;">.</span><span>month] </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;low&quot;
+</span><span>                </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&#39;inherit&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>            } </span><span style="color:#ff7733;">else </span><span>{
+</span><span>                monthsSalesStatus[d</span><span style="color:#f29668;">.</span><span>month] </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;high&quot;
+</span><span>                </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&#39;#0c0&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>            }
+</span><span>        })</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// ...
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Chart primary options configuration
+</span><span style="color:#ff7733;">const </span><span>chart </span><span style="color:#f29668;">= </span><span>fc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">chartCartesian</span><span>(
+</span><span>    {
+</span><span>        xScale</span><span style="color:#bfbab0cc;">: </span><span>scaleBand</span><span style="color:#bfbab0cc;">,
+</span><span>        yScale</span><span style="color:#bfbab0cc;">: </span><span>scaleLinear</span><span style="color:#bfbab0cc;">,
+</span><span>    }
+</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">chartLabel</span><span>(</span><span style="color:#c2d94c;">&#39;2015 Cumulative Sales&#39;</span><span>)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// x extent is categorical data so no extent required
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">xDomain</span><span>(data</span><span style="color:#f29668;">.</span><span>sales</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">map</span><span>(</span><span style="color:#f29718;">d </span><span style="color:#ff7733;">=&gt; </span><span>d</span><span style="color:#f29668;">.</span><span>month))
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// y extent used for number ranges
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// used to returns the minimum and maximum value in an array from the given array using natural order.
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">yDomain</span><span>(</span><span style="color:#ffb454;">yExtent</span><span>(data</span><span style="color:#f29668;">.</span><span>sales))
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// padding is the white space between the bars
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">xPadding</span><span>(</span><span style="color:#f29718;">0.1</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">xDecorate</span><span>((</span><span style="color:#f29718;">selection</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>        selection
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#f07178;">select</span><span>(</span><span style="color:#c2d94c;">&#39;text&#39;</span><span>)
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">attr</span><span>(</span><span style="color:#c2d94c;">&#39;transform&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;rotate(-45 25 15)&#39;</span><span>)
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">style</span><span>(</span><span style="color:#c2d94c;">&#39;fill&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">d </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>                </span><span style="color:#ff7733;">if </span><span>(monthsSalesStatus[d] </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;low&quot;</span><span>) {
+</span><span>                    </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&#39;#000&#39;
+</span><span>                } </span><span style="color:#ff7733;">else </span><span>{
+</span><span>                    </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&#39;#0c0&#39;
+</span><span>                }
+</span><span>            })</span><span style="color:#bfbab0cc;">;
+</span><span>    })
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// ...
+</span></code></pre>
+<p>Within the <code>bar.decorate</code> method, tracking of the months with higher is done to allow the <code>xDecorate</code> method below to read the values from <code>monthsSalesStatus</code> to make the appropriate color changes to the x-axis labels.</p>
+<p><a href="https://jsfiddle.net/hwy5dtmv/1/">Change X-axis Text Color Based on Corresponding Bar Value Example</a></p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

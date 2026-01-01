@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Quarto in Docker Container
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Quarto in Docker Container
+</h2>
+
+    
+        
+            
+    
+    09&#x2F;07&#x2F;2024, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #Python
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/quarto/">
+                            #quarto
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="reproducible-quarto-environment">Reproducible Quarto Environment</h3>
+<p>Quarto a tool to help with technical and scientific publishing which incorporates programming languages and typesetting support in all-in-one solution. Since quarto relies on python and many other dependencies, it is safer to run Quarto in a docker container to avoid significant changes on your host machine. In addition, it will help with a repeat set up when you need to bring up the same environment again.</p>
+<span id="continue-reading"></span>
+<p>Create the Dockerfile below to install Quarto inside Ubuntu</p>
+<pre  tabindex="0" data-lang="dockerfile" style="background-color:#0f1419;color:#bfbab0;" class="language-dockerfile "><code class="language-dockerfile" data-lang="dockerfile"><span style="font-style:italic;color:#5c6773;"># Use Ubuntu version 24.04 as the base
+</span><span style="color:#ff7733;">FROM</span><span> ubuntu:</span><span style="color:#59c2ff;">24.04
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Set working directory
+</span><span style="color:#ff7733;">WORKDIR </span><span>/app
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Install dependencies
+</span><span style="color:#ff7733;">RUN </span><span>apt-get update &amp;&amp; apt-get install -y \
+</span><span>    curl \
+</span><span>    r-base r-base-dev \
+</span><span>    python3 python3-pip \
+</span><span>    &amp;&amp; rm -rf /var/lib/apt/lists/*
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Remove the EXTERNALLY-MANAGED tag issued by Ubuntu
+</span><span style="color:#ff7733;">RUN </span><span>rm /usr/lib/python*/EXTERNALLY-MANAGED
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Install Jupyter, Rmarkdown and knitr dependencies of Quarto
+</span><span style="color:#ff7733;">RUN </span><span>pip3 install jupyter
+</span><span style="color:#ff7733;">RUN </span><span>R -e </span><span style="color:#c2d94c;">&quot;install.packages(&#39;knitr&#39;, repos=&#39;https://cran.rstudio.com/&#39;)&quot;
+</span><span style="color:#ff7733;">RUN </span><span>R -e </span><span style="color:#c2d94c;">&quot;install.packages(&#39;rmarkdown&#39;, repos=&#39;https://cran.rstudio.com/&#39;)&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Specify the Quarto version using an ARG
+</span><span style="color:#ff7733;">ARG </span><span>QUARTO_VERSION=1.6.8
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Download and install Quarto
+</span><span style="color:#ff7733;">RUN </span><span>curl -L -O https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb \
+</span><span>&amp;&amp; dpkg -i quarto-${QUARTO_VERSION}-linux-amd64.deb
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Expose port 8080 for Quarto preview server
+</span><span style="color:#ff7733;">EXPOSE </span><span>8080
+</span></code></pre>
+<p>Create a 'project' folder on the same level as the Dockerfile.
+Within the 'project' folder, create a 'my-document.qmd' with the contents below.</p>
+<pre  tabindex="0" data-lang="markdown" style="background-color:#0f1419;color:#bfbab0;" class="language-markdown "><code class="language-markdown" data-lang="markdown"><span style="background-color:#bfbab010;font-weight:bold;color:#5c6773;">---
+</span><span>title: &quot;A Sample Quarto Document&quot;
+</span><span>author: &quot;Name&quot;
+</span><span>date: &quot;September 5, 2024&quot;
+</span><span>
+</span><span style="background-color:#bfbab010;font-weight:bold;color:#5c6773;">---
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;"># </span><span style="font-weight:bold;color:#59c2ff;">Introduction
+</span><span>
+</span><span>This is some sample text.
+</span><span>
+</span></code></pre>
+<p>The above provides all the files required for a minimal docker Quarto environment.</p>
+<p>Then you will need to build the image to create the container.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">docker</span><span> build</span><span style="color:#f29718;"> -t</span><span> my-quarto-image .
+</span></code></pre>
+<p>Map your host's 'project' folder to the 'app' folder in the container when running the container. The <code>--rm</code> will also remove the container after
+exiting.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">docker</span><span> run</span><span style="color:#f29718;"> -it --rm -p</span><span> 8080:8080</span><span style="color:#f29718;"> -v</span><span> ./project:/app my-quarto-image
+</span></code></pre>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># quarto preview filename.qmd --port &lt;your-desired-port&gt; --host 0.0.0.0
+</span><span style="color:#ffb454;">quarto</span><span> preview my-document.qmd</span><span style="color:#f29718;"> --port</span><span> 8080</span><span style="color:#f29718;"> --host</span><span> 0.0.0.0
+</span></code></pre>
+<p>You should now be able to visit <code>localhost:8080</code> on your host machine to view
+the contents of the qmd document. Live reload is also enable, and changes you make to your document will automatically reload inside your browser.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

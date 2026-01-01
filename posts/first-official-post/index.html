@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    First Official Post
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    First Official Post
+</h2>
+
+    
+        
+            
+    
+    03&#x2F;24&#x2F;2013, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/ruby/">
+                            #Ruby
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/octopress/">
+                            #octopress
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h2 id="customizing-octopress-default-theme">Customizing Octopress Default Theme</h2>
+<h3 id="change-default-theme-css">Change Default Theme CSS</h3>
+<p>In your sass/custom/_colors.scss file, define the values for the items below. I'm using the following colors for my theme, but feel free to change them to whatever you want them to be.</p>
+<span id="continue-reading"></span><h3 id="header-colors">Header Colors</h3>
+<pre  tabindex="0" data-lang="css" style="background-color:#0f1419;color:#bfbab0;" class="language-css "><code class="language-css" data-lang="css"><span style="font-style:italic;color:#5c6773;">/* Header Background and Subtitle Color */
+</span><span>
+</span><span>$</span><span style="color:#59c2ff;">header-bg</span><span>: #1a1a1a;
+</span><span>$</span><span style="color:#59c2ff;">subtitle-color</span><span>: </span><span style="color:#ffb454;">#c4c4c4</span><span> !default;
+</span></code></pre>
+<h3 id="text-colors">Text Colors</h3>
+<pre  tabindex="0" data-lang="css" style="background-color:#0f1419;color:#bfbab0;" class="language-css "><code class="language-css" data-lang="css"><span style="font-style:italic;color:#5c6773;">/* Text Regular and Text Light Colors */
+</span><span>
+</span><span>$</span><span style="color:#59c2ff;">text-color</span><span>: </span><span style="color:#ffb454;">#fafafa</span><span> !default;
+</span><span>$</span><span style="color:#59c2ff;">text-color-light</span><span>: #919191 !default;
+</span></code></pre>
+<h3 id="link-colors">Link Colors</h3>
+<pre  tabindex="0" data-lang="css" style="background-color:#0f1419;color:#bfbab0;" class="language-css "><code class="language-css" data-lang="css"><span style="font-style:italic;color:#5c6773;">/* Link State Colors */
+</span><span>
+</span><span>$</span><span style="color:#59c2ff;">link-color</span><span>: </span><span style="color:#ffb454;">#fffffa</span><span> !default;
+</span><span>$</span><span style="color:#59c2ff;">link-color-hover</span><span>: </span><span style="color:#ffb454;">#c4c4c4</span><span> !default;
+</span><span>$</span><span style="color:#59c2ff;">link-color-visited</span><span>: </span><span style="color:#ffb454;">#a8a8a8</span><span> !default;
+</span></code></pre>
+<h3 id="nav-background-colors">Nav Background Colors</h3>
+<pre  tabindex="0" data-lang="css" style="background-color:#0f1419;color:#bfbab0;" class="language-css "><code class="language-css" data-lang="css"><span style="font-style:italic;color:#5c6773;">/* Nav Foreground and Background Color */
+</span><span>
+</span><span>$</span><span style="color:#59c2ff;">nav-bg-front</span><span>: </span><span style="color:#59c2ff;">background-color</span><span>(none) !default;
+</span><span>$</span><span style="color:#59c2ff;">nav-bg-back</span><span>: </span><span style="color:#59c2ff;">background-color</span><span>(none) !default;
+</span></code></pre>
+<h3 id="cut-out-google-fonts">Cut Out Google Fonts</h3>
+<p>Reduce the number of requests that you make to get your site to load faster. Follow the directions on the <a href="https://web.archive.org/web/20150419021552/http://blog.bigdinosaur.org/using-at-font-face-with-octopress/">big dinosaur blog.</a></p>
+<h3 id="removing-default-javascript">Removing Default Javascript</h3>
+<p>In the /source/_include/head.html file, remove any unwanted javascript. I decided to do this because having dom manipulation or feature detection javascript libraries were not critical to consuming the information on my blog.</p>
+<h3 id="adding-a-custom-favicon">Adding a Custom Favicon</h3>
+<p>Navigate to source/_include/custom/head.html and insert these lines:</p>
+<pre  tabindex="0" data-lang="html" style="background-color:#0f1419;color:#bfbab0;" class="language-html "><code class="language-html" data-lang="html"><span>/* Adding Favicon in Ico and Png Format */
+</span><span>
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">link
+</span><span>  </span><span style="color:#ffb454;">href</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;{{ root_url }}/favicon.ico&quot;
+</span><span>  </span><span style="color:#ffb454;">rel</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;shortcut icon&quot;
+</span><span>  </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;image/x-icon&quot;
+</span><span style="color:#39bae690;">/&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">link
+</span><span>  </span><span style="color:#ffb454;">href</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;{{ root_url }}/favicon.png&quot;
+</span><span>  </span><span style="color:#ffb454;">rel</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;shortcut icon&quot;
+</span><span>  </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;image/x-icon&quot;
+</span><span style="color:#39bae690;">/&gt;
+</span></code></pre>
+<p>Make sure to include the favicon.ico and favicon.png to source/_includes directory for this to work. Before including the lines below, be sure to open the ico file in a couple of different browsers to check if the ico is loaded properly and there are no visual defects on your ico file.</p>
+<p>I used an online tool to convert my png file to an ico over at <a href="http://www.rw-designer.com/image-to-icon">rw-designer.com</a>. The default settings should work ok.</p>
+<p>On another note you may also want to include additional icons for <a href="http://hiltmon.com/blog/2013/02/10/add-web-clip-icons-to-octopress/">Apple devices</a>.</p>
+<h3 id="settings-in-config-yml">Settings in _config.yml</h3>
+<pre  tabindex="0" data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span style="font-style:italic;color:#5c6773;"># Some Changes to _config.yml
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># change the date format for posts to mm/dd/yyyy
+</span><span style="color:#59c2ff;">date</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;%m/%d/%Y&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># remove the recent post sidebar on the right
+</span><span style="font-style:italic;color:#5c6773;"># recent posts will now appear on the bottom
+</span><span style="color:#59c2ff;">sidebar</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">collapse
+</span></code></pre>
+<h3 id="minifying-content">Minifying Content</h3>
+<p>Install <a href="https://github.com/stereobooster/jekyll-press">jekyll-press</a> to minify your html, css and javascript. Detailed instructions are on the github page.</p>
+<h3 id="use-monokai-syntax-highlighting-scheme">Use Monokai Syntax Highlighting Scheme</h3>
+<p>Go to https://github.com/sanukcode/Monokai-Sublime-Text-Octopress and follow the instructions.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

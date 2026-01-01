@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                <div id="content" class="section post-section">
+                    <h2 id="title">
+                        Posts
+                    </h2>
+                    <div class="posts">
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;word-proximity-search&#x2F;">
+                                Word Proximity Search
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    02&#x2F;04&#x2F;2023, Sat
+
+                                </div>
+                                <p>When you search for related words in a general area that are not in strict sequential order, you will have to resort to use a regex pattern that search across multiple words at a time.</p>
+<pre data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#c2d94c;">&quot;firstword someword anotherword someotherword secondword&quot;</span><span style="color:#f29668;">.</span><span style="color:#f07178;">match</span><span>(</span><span style="color:#95e6cb;">/</span><span style="color:#ff7733;">\b</span><span style="color:#95e6cb;">(?:firstword(?:</span><span style="color:#f29718;">\W</span><span style="color:#f29668;">+</span><span style="color:#f29718;">\w</span><span style="color:#f29668;">+</span><span style="color:#95e6cb;">)</span><span style="color:#f29668;">{1,3}?</span><span style="color:#f29718;">\W</span><span style="color:#f29668;">+</span><span style="color:#95e6cb;">secondword)</span><span style="color:#ff7733;">\b</span><span style="color:#95e6cb;">/</span><span style="color:#ff7733;">g</span><span>)
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Returns
+</span><span style="font-style:italic;color:#5c6773;">// [&quot;firstword someword anotherword someotherword secondword&quot;]
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;word-proximity-search&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;fzf-find-application-and-execute&#x2F;">
+                                fzf - Find CLI Application and Execute
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;01&#x2F;2023, Sun
+
+                                </div>
+                                <h3 id="run-the-application-when-found">Run the Application when Found</h3>
+<p>When you have an application you wish to search for that you know starts with a certain letter, you type the letter into your Bash shell and press tab to display all the suggestions. Most likely, there will be more applications than one would be able to identify readily by eye.</p>
+<p>To make the task of finding your application easier, one can use <code>fzf</code> to perform real-time filtering of your application search.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/fzf/">
+                                        #fzf
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/cli-tools/">
+                                        #cli-tools
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;fzf-find-application-and-execute&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pyside-matplotlib-simple-graph&#x2F;">
+                                PySide6 and Matplotlib - Simple Line Plot
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    12&#x2F;01&#x2F;2022, Thu
+
+                                </div>
+                                <h3 id="fill-a-window-with-a-graph">Fill a Window with a Graph</h3>
+<p>The <a href="https://pypi.org/project/PySide6/">PySide6</a> library offers Python bindings for <a href="https://doc.qt.io/qt-6/index.html">Qt</a> which is a C++ cross-platform UI library. Qt has been in development for a long time and this will give a stable and mature platform for developing desktop applications.
+PySide enables one to leverage all the packages from the Python community while using QT. The Python graphing library, <a href="https://matplotlib.org/stable/gallery/user_interfaces/embedding_in_qt_sgskip.html">Matplotlib</a>, becomes a naturally pairing with the QT library because Matplotlib provides integration options.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                                        #python
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pyside-matplotlib-simple-graph&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;coqui-stt-extract-words-from-audio-file&#x2F;">
+                                Coqui STT - Extract Words from Audio Files
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    11&#x2F;02&#x2F;2022, Wed
+
+                                </div>
+                                <h3 id="speech-to-text-cli-tool">Speech to Text CLI Tool</h3>
+<p>There could be a time when you were listening to a podcast, but you can not make out the spelling of a word that you would like to understand.
+If there was a way to add a 'live-caption' feature to your podcast, this will inform you of the vocabulary that you are missing. To get remedy this problem, you can use a <a href="https://en.wikipedia.org/wiki/Speech-to-text_reporter">Speech-to-Text</a> tool to output the transcript of the audio.</p>
+<p>You might also want to convert an audio file to text if you are able to read quicker than you can listen to the audio file.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/cli-tools/">
+                                        #cli-tools
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;coqui-stt-extract-words-from-audio-file&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;forgit-git-with-fzf&#x2F;">
+                                forgit - Git with fzf
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    10&#x2F;15&#x2F;2022, Sat
+
+                                </div>
+                                <h3 id="fuzzy-finder-for-git-commands">Fuzzy Finder for Git Commands</h3>
+<p>The real time fuzzy finder tool fzf is a good tool to perform searches for files as well as filtering output from other command line tools. This tool complements Git really well due to the fact git has a <a href="https://developers.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaBindings/Tasks/masterdetail.html">master-detail</a> workflow view. When you are looking at a commit log (master), you want to look at the file changes (details) for that commit.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/git/">
+                                        #git
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;forgit-git-with-fzf&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;docusaurus-basic-config&#x2F;">
+                                Docusaurus - Basic Config
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    09&#x2F;10&#x2F;2022, Sat
+
+                                </div>
+                                <h3 id="documentation-centric-changes">Documentation-centric Changes</h3>
+<p>Docusaurus is a JavaScript framework documentation generator. This tool provides many useful conveniences such as documentation versioning and search integration. Docusaurus gives you the ability to quickly get a working documentation site running by using a config-based means of manipulating your settings for the site. Even though it is config-based, one can drop to a lower level by changing JavaScript and styles files in the <code>src</code> source to make custom changes to your site.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/documentation/">
+                                        #documentation
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;docusaurus-basic-config&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;ava-with-testdouble&#x2F;">
+                                Using Ava with Testdouble
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    08&#x2F;05&#x2F;2022, Fri
+
+                                </div>
+                                <h3 id="example-of-a-simple-test-case">Example of a Simple Test Case</h3>
+<p><a href="https://github.com/avajs/ava">Ava</a> is a unique testing framework in that it is one of the few testing frameworks out there that recognizes observable resolution.
+It also makes asynchronous testing the default option when you write tests ensuring better performance.
+Another nice feature of Ava is that it has a <a href="https://github.com/avajs/ava#magic-assert">nicer assertion output display</a>.</p>
+<p><a href="https://github.com/testdouble/testdouble.js">Testdouble</a> is an assertion library which specializes in create 'doubles'. Testdouble is different from Sinon because Testdouble will replace the function outright for which it is substituting when mocking out a function or object. It also makes it easier to track using a 'sandbox' API to alleviate the user from having to restore an original replaced function.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/testing/">
+                                        #testing
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;ava-with-testdouble&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <nav class="pagination">
+                            <div class="pagination-links">
+                                
+                                <a class="pagination-link previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;5&#x2F;">‹ Previous</a>
+                                
+                                
+                                <a class="pagination-link next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;7&#x2F;">Next ›</a>
+                                
+                            </div>
+                            
+                            <div class="pagination-pages">
+                                Page 6 of 23
+                            </div>
+                            
+                        </nav>
+                    </div>
+                </div>
+            
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

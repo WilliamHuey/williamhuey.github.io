@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Give Screenshots More Space
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Give Screenshots More Space
+</h2>
+
+    
+        
+            
+    
+    06&#x2F;13&#x2F;2021, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/css/">
+                            #css
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="screenshot-to-gutters">Screenshot To Gutters</h3>
+<p>While taking an image screenshot of an entire software application such as the browser or terminal intact yields the most information when attempting to describe the behavior. It can be a bit difficult to discern what is actually happening in the application due to the "zoomed out" nature of the taken image.
+It is rare that a user will need to focus on the entirety of the image when a
+screenshot is shown, because only a certain portion of image is reference at
+one time.</p>
+<span id="continue-reading"></span>
+<p>This is especially true and more pronounced problem for images taken of the terminal where the font size
+is not that large to begin with, and the problem is due in part to people having
+larger monitors with high resolutions.</p>
+<p>The example show here occurs with the Postman Api tool shows what could happen when you are viewing their documentation site when you are on a midsize screen of 1575px:</p>
+<img src="/images/posts/documenting-your-api-postman-learning-center-midsize.png" alt="documenting api postman learning center midsize">
+<p>Here the above site shown on with a screen of 800px in width:</p>
+<img src="/images/posts/documenting-your-api-postman-learning-center.png" alt="documenting api postman learning center">
+<p>Even on the moderately size screen, the image is not ideal as text in the image is not legible. Also, on the second example, while most people aren't using their mobile phones to view the documentation while developing Apis, they might still do in a pinch to reference something useful.</p>
+<p>A quick fix for this problem is to use the right gutter as excess space for the display of the screenshot. I found an example of this
+using <a href="https://codepen.io/tylersticka/pen/PmRRqb">CSS grid</a> from this <a href="https://cloudfour.com/thinks/breaking-out-with-css-grid-layout/">article</a>.</p>
+<p>Borrowing ideas from the article link above, here is a pare-down example of how an image can take up more space on the right when the screen size allows for it:</p>
+<pre  tabindex="0" data-lang="html" style="background-color:#0f1419;color:#bfbab0;" class="language-html "><code class="language-html" data-lang="html"><span style="color:#39bae690;">&lt;!</span><span style="color:#ff7733;">DOCTYPE </span><span style="color:#f29718;">html</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">html </span><span style="color:#ffb454;">lang</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;en&quot; </span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">head</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">meta </span><span style="color:#ffb454;">charset</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    Image spans outside central column. Image flows to the right gutter.
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">link </span><span style="color:#ffb454;">rel</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;stylesheet&quot; </span><span style="color:#ffb454;">href</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;./style.css&quot;</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">head</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">body</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">div </span><span style="color:#ffb454;">class</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;content&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">p</span><span style="color:#39bae690;">&gt;</span><span>Just some words.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">p</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">figure</span><span style="color:#39bae690;">&gt;
+</span><span>        </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">img </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;./even-more-amazing.svg&quot; </span><span style="color:#ffb454;">alt</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;smiley&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">figure</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">p</span><span style="color:#39bae690;">&gt;</span><span>Some more words.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">p</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">div</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">body</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">html</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<pre  tabindex="0" data-lang="css" style="background-color:#0f1419;color:#bfbab0;" class="language-css "><code class="language-css" data-lang="css"><span style="color:#59c2ff;">* </span><span>{
+</span><span>  </span><span style="color:#39bae6;">margin</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#59c2ff;">body </span><span>{
+</span><span>  </span><span style="color:#39bae6;">background</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">yellowgreen</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">color</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">#000</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">margin</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#ff7733;">rem </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#59c2ff;">p </span><span>{
+</span><span>  </span><span style="color:#39bae6;">font-size</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">4</span><span style="color:#ff7733;">rem</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">padding</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#ff7733;">rem</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#59c2ff;">figure </span><span>{
+</span><span>  </span><span style="color:#39bae6;">background</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">orangered</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#59c2ff;">img </span><span>{
+</span><span>  </span><span style="color:#39bae6;">max-width</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">100</span><span style="color:#ff7733;">%</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffb454;">.content </span><span>{
+</span><span>  </span><span style="color:#39bae6;">display</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">grid</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">grid-template-columns</span><span style="color:#bfbab0cc;">:
+</span><span>    [</span><span style="color:#c2d94c;">full-start</span><span>] </span><span style="color:#f07178;">minmax</span><span>(</span><span style="color:#f29718;">1</span><span style="color:#ff7733;">em</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">1</span><span style="color:#ff7733;">fr</span><span>)
+</span><span>    [</span><span style="color:#c2d94c;">main-start</span><span>] </span><span style="color:#f07178;">minmax</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">40</span><span style="color:#ff7733;">em</span><span>)
+</span><span>    [</span><span style="color:#c2d94c;">main-end</span><span>] </span><span style="color:#f07178;">minmax</span><span>(</span><span style="color:#f29718;">1</span><span style="color:#ff7733;">em</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">1</span><span style="color:#ff7733;">fr</span><span>)
+</span><span>    [</span><span style="color:#c2d94c;">full-end</span><span>]</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffb454;">.content </span><span style="color:#bfbab0cc;">&gt; </span><span style="color:#59c2ff;">* </span><span>{
+</span><span>  </span><span style="color:#39bae6;">grid-column</span><span style="color:#bfbab0cc;">: </span><span>main</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffb454;">.content </span><span style="color:#bfbab0cc;">&gt; </span><span style="color:#59c2ff;">figure </span><span>{
+</span><span>  </span><span style="color:#39bae6;">grid-column</span><span style="color:#bfbab0cc;">: </span><span>full</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">padding</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#ff7733;">rem
+</span><span>}
+</span><span>
+</span><span style="color:#ffb454;">.content </span><span style="color:#bfbab0cc;">&gt; </span><span style="color:#59c2ff;">figure img </span><span>{
+</span><span>  </span><span style="color:#39bae6;">display</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">block</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">width</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">100</span><span style="color:#ff7733;">%</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">@media </span><span>(</span><span style="color:#39bae6;">min-width</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">60</span><span style="color:#ff7733;">em</span><span>) {
+</span><span>  </span><span style="color:#ffb454;">.content </span><span style="color:#bfbab0cc;">&gt; </span><span style="color:#59c2ff;">figure </span><span>{
+</span><span>    </span><span style="color:#39bae6;">align-items</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">end</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#39bae6;">display</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">inherit</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#39bae6;">grid-template-columns</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#f29668;">inherit</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#ffb454;">.content </span><span style="color:#bfbab0cc;">&gt; </span><span style="color:#59c2ff;">figure </span><span style="color:#bfbab0cc;">&gt; </span><span style="color:#59c2ff;">img </span><span>{
+</span><span>    </span><span style="color:#39bae6;">grid-column</span><span style="color:#bfbab0cc;">: </span><span>main / full</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>The general idea of the CSS is to divide the page to three vertical columns area
+and the image spans the middle (main) and the right of main when the screen size is mid to large (60em or greater) and then the image
+takes the whole width of the screen on sizes less than 60em:</p>
+<img src="/images/posts/image-spans-to-the-right.png" alt="image spans to the right">
+<p>While the CSS grid solution helps with viewing the screenshot on mid to large size screens, it only buys time until the small screen sizes are encountered.</p>
+<img src="/images/posts/image-spans-full-width.png" alt="image spans full width">
+<p>One solution to solving this problem is to increase the text size when taking a screenshot of the whole application or to crop the important part of the
+screenshot out and explain what the image is about. Another idea is to use a <a href="https://nishanths.github.io/loupe-js/?shape=rectangle">loupe</a> to have a "call-out" kind of view of the important parts of the screenshot. This is commonly seen in e-commerce sites where you need to look at the details of an item on the product page.</p>
+<img src="/images/posts/loupe.jpg" alt="loupe, zoom in on image section">
+<p>Having responsive text is certainly not an issue with the modern web, but having responsive screenshots are also warranted because it serves to better the user experience when viewed when you are on a smaller device. This entails
+more careful consideration of how screenshots should be taken.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

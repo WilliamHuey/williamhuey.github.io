@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Setting Up Zola
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Setting Up Zola
+</h2>
+
+    
+        
+            
+    
+    01&#x2F;07&#x2F;2021, Thu
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/cms/">
+                            #cms
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="static-site-generator-configuration">Static Site Generator Configuration</h3>
+<p>Zola is a decent static site generator written in Rust. This post will list some of my impressions and settings I made to get it customized to my liking to emulate the look and feel of my previous <a href="https://web.archive.org/web/20200212105912/https://williamhuey.github.io/">blog</a> design.</p>
+<h4 id="generating-a-new-project">Generating a new project</h4>
+<p>After using the init command, empty folders are generated, but it isn't quite clear on what needs to be modified. Running the server on the newly generated project yields a welcome page, but the physical page is not to be found in any folder.
+To get started quickly, I recommend that you use a <a href="https://www.getzola.org/themes/">theme</a> and then customize it to your needs.</p>
+<span id="continue-reading"></span><h4 id="adding-posts-to-the-index-page">Adding posts to the index page</h4>
+<p>The way posts are display are dependent on how they are nested within the top level "content" folder. Having the "content/blog" route entails that you have a "blog" folder inside the "content" folder. Each url route's configuration is determined by a "_index.md" that lies within each nested folder. This pattern makes for intuitive discernment of content that is in your site.</p>
+<p>When you have the folder structure of "content/blog", the site's paginator needs to know that the posts content is one level below the "content" folder. Add the following to "content/blog/_index.md" allows for paginating the posts on the "index.html":</p>
+<pre  tabindex="0" data-lang="md" style="background-color:#0f1419;color:#bfbab0;" class="language-md "><code class="language-md" data-lang="md"><span>transparent = true
+</span></code></pre>
+<h4 id="mark-the-post-s-summary-content">Mark the post's summary content</h4>
+<p>Generally, the index page where you list all the posts will have a quick blurb of the post's content instead of the entire post's listing. They tend to include only the first paragraph of text of the post for each of the paginated post.</p>
+<p>By adding</p>
+<pre  tabindex="0" data-lang="md" style="background-color:#0f1419;color:#bfbab0;" class="language-md "><code class="language-md" data-lang="md"><span style="font-style:italic;color:#5c6773;">&lt;!-- more --&gt;
+</span></code></pre>
+<p>In your post's markdown file, it specifies the point where you want the summary to end and this will truncate the paginated posts display on your "index.html".</p>
+<h4 id="note-on-dates-in-the-url">Note on dates in the URL</h4>
+<p>Another issue is that there is a common pattern for blogs to have the date encoded into URL scheme.</p>
+<p>Take this pattern for example: /2021/01/08/a-new-post</p>
+<p>However, due to the explanation of the author of the Zola project, this doesn't seem to be a problem that will be addressed in the near future.
+<a href="https://github.com/getzola/zola/issues/635#issuecomment-524564469">https://github.com/getzola/zola/issues/635#issuecomment-524564469</a>.</p>
+<p>By forgoing this URL pattern, I have to use an alias field with a value of the old URL scheme in each of the post's front matter to redirect to the new path. This is done to not break the old URL links.</p>
+<pre  tabindex="0" data-lang="md" style="background-color:#0f1419;color:#bfbab0;" class="language-md "><code class="language-md" data-lang="md"><span>aliases = [&quot;2016/12/06/README-md-Reuse/&quot;]
+</span></code></pre>
+<h4 id="archives-page">Archives page</h4>
+<p>The "get_section" helper method comes in handy for globally retrieving the page of concern</p>
+<pre  tabindex="0" data-lang="html" style="background-color:#0f1419;color:#bfbab0;" class="language-html "><code class="language-html" data-lang="html"><span>{% set section = get_section(path=&quot;posts/_index.md&quot;) %}
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">h2 </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;title&quot;</span><span style="color:#39bae690;">&gt;</span><span>{{section.title}}</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">h2</span><span style="color:#39bae690;">&gt;
+</span><span>{% for year, posts in section.pages | reverse | group_by(attribute=&quot;year&quot;) %}
+</span><span>...
+</span></code></pre>
+<p>Also in the associated "_index.md" file for that template, use the 'sort_by = "date"' key to perform the proper ordering</p>
+<pre  tabindex="0" data-lang="md" style="background-color:#0f1419;color:#bfbab0;" class="language-md "><code class="language-md" data-lang="md"><span>+++
+</span><span>title = &quot;Archives&quot;
+</span><span>template = &quot;posts.html&quot;
+</span><span>aliases = [&#39;/archives&#39;]
+</span><span>transparent = true
+</span><span>sort_by = &quot;date&quot;
+</span><span>+++
+</span></code></pre>
+<h4 id="front-matter-in-posts">Front matter in posts</h4>
+<p>Make sure that "[taxonomies]" and "[extra]" go below the other front matter keys in your post markdown files or else Zola will error out.</p>
+<pre  tabindex="0" data-lang="md" style="background-color:#0f1419;color:#bfbab0;" class="language-md "><code class="language-md" data-lang="md"><span>title = &#39;README.md Reuse&#39;
+</span><span>description = &quot;markdown reuse&quot;
+</span><span>[taxonomies]
+</span></code></pre>
+<h4 id="code-blocks">Code Blocks</h4>
+<p>Zola does not provide support for description titles headers. Get around this by adding a comment line on the top of the code blocks to describe what you code is about.</p>
+<h4 id="assets">Assets</h4>
+<p>The "static" folder on the root level is where you should put all images or supporting site files for the site and posts.</p>
+<h4 id="additional-notes">Additional Notes</h4>
+<h5 id="link-checker">Link Checker</h5>
+<p>There is very convenient command built into Zola that can check whether links are dead within your posts</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">zola</span><span> check
+</span></code></pre>
+<h5 id="documentation">Documentation</h5>
+<p>The documentation on <a href="https://tera.netlify.app/docs/">Tera</a>, the templating engine used by Zola, is a good source to consult when you want to modify your templates.</p>
+<h5 id="developing">Developing</h5>
+<p>When developing, use "http://127.0.0.1:1111/" instead of "http://localhost:1111/" URL in case you get a CORS asset error when accessing fonts.</p>
+<h4 id="conclusion">Conclusion</h4>
+<p>Overall, Zola is a fast and compact static site generator that is easy to get started due to the ease of setup and configuration. No longer do you need to install NPM modules to get the right dependencies for your static site generator to get off the ground.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Oclif - Delegate &#x2F; Wrap Existing CLI Commands
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Oclif - Delegate &#x2F; Wrap Existing CLI Commands
+</h2>
+
+    
+        
+            
+    
+    05&#x2F;07&#x2F;2021, Fri
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                            #shell
+                        </a>
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/typescript/">
+                            #typescript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                            #NodeJs
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="cli-wrap-with-spawn-and-programmatic-access">CLI Wrap with Spawn and Programmatic Access</h3>
+<p><a href="https://www.npmjs.com/package/oclif">Oclif</a> is a Nodejs command line generator tool that grants you the ability to conveniently create a CLI with the following</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npx</span><span> oclif single mycoollistofthings
+</span></code></pre>
+<p>Supposedly you have your own custom CLI, but you wish to delegate some of these commands to an existing CLI tool. You are then wrapping another CLI command for the intent of adding additional functionality with <code>mycoollistofthings</code>. Here is the new command's mapping behavior of the <code>ls -r</code> command.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npx</span><span> mycoollistofthings</span><span style="color:#f29718;"> -r
+</span></code></pre>
+<span id="continue-reading"></span>
+<p>Every command created by oclif will take its command line name as its corresponding file name inside the <code>src/commands/</code> folder of the oclif project. This file will be responsible for running the <code>ls</code> command underneath it.</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>src/
+</span><span>├── commands
+</span><span>│   └── mycoollistofthings.ts
+</span><span>...
+</span></code></pre>
+<p>One way to delegate the command for <code>ls</code> to <code>mycoollistofthings</code> is to spawn the process underneath it when the command is running</p>
+<pre  tabindex="0" data-lang="typescript" style="background-color:#0f1419;color:#bfbab0;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span style="font-style:italic;color:#5c6773;">// Choosen to create the CLI with the TypeScript option
+</span><span style="color:#ff7733;">const </span><span>{ spawn } </span><span style="color:#f29668;">= </span><span style="color:#f07178;">require</span><span>(</span><span style="color:#c2d94c;">&#39;child_process&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ Command</span><span style="color:#bfbab0cc;">, </span><span>flags } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@oclif/command&#39;
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">MyCoolListOfThings </span><span style="color:#ff7733;">extends </span><span style="text-decoration:underline;color:#59c2ff;">Command </span><span>{
+</span><span>  </span><span style="color:#ff7733;">static </span><span>description </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&#39;describe the command here&#39;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">static </span><span>flags </span><span style="color:#f29668;">= </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// add --version flag to show CLI version
+</span><span>    version</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">version</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;v&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    help</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">help</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;h&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// flag with a value (-n, --name=VALUE)
+</span><span>    name</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">string</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;n&#39;</span><span style="color:#bfbab0cc;">, </span><span>description</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;name to print&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// flag with no value (-f, --force)
+</span><span>    force</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">boolean</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;f&#39; </span><span>})
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">static </span><span>args </span><span style="color:#f29668;">= </span><span>[{ name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;file&#39; </span><span>}]
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">async </span><span style="color:#ffb454;">run</span><span>() {
+</span><span>    </span><span style="color:#ff7733;">const </span><span>{ args</span><span style="color:#bfbab0cc;">, </span><span>flags } </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#f07178;">parse</span><span>(MyCoolListOfThings)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">let </span><span>ls </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">spawn</span><span>(</span><span style="color:#c2d94c;">&#39;ls&#39;</span><span style="color:#bfbab0cc;">, </span><span>[</span><span style="color:#c2d94c;">&#39;-r&#39;</span><span>])</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    ls</span><span style="color:#f29668;">.</span><span>stdout
+</span><span>      </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">on</span><span>(</span><span style="color:#c2d94c;">&#39;data&#39;</span><span style="color:#bfbab0cc;">, </span><span>(</span><span style="color:#f29718;">data</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">any</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">`${</span><span>data</span><span style="color:#c2d94c;">}`</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>      })</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">export </span><span style="color:#f29668;">= </span><span>MyCoolListOfThings
+</span><span>
+</span></code></pre>
+<p>This is not only good if you wish to have sensible defaults, but spawning the command gives you dynamic access for adding extra flag arguments when needed.</p>
+<pre  tabindex="0" data-lang="typescript" style="background-color:#0f1419;color:#bfbab0;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span style="color:#ff7733;">const </span><span>{ spawn } </span><span style="color:#f29668;">= </span><span style="color:#f07178;">require</span><span>(</span><span style="color:#c2d94c;">&#39;child_process&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ Command</span><span style="color:#bfbab0cc;">, </span><span>flags } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@oclif/command&#39;
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">MyCoolListOfThings </span><span style="color:#ff7733;">extends </span><span style="text-decoration:underline;color:#59c2ff;">Command </span><span>{
+</span><span>  </span><span style="color:#ff7733;">static </span><span>description </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&#39;describe the command here&#39;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">static </span><span>flags </span><span style="color:#f29668;">= </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// add --version flag to show CLI version
+</span><span>    version</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">version</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;v&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    help</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">help</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;h&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// flag with a value (-n, --name=VALUE)
+</span><span>    name</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">string</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;n&#39;</span><span style="color:#bfbab0cc;">, </span><span>description</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;name to print&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// flag with no value (-f, --force)
+</span><span>    force</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">boolean</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;f&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>    all</span><span style="color:#bfbab0cc;">: </span><span>flags</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">boolean</span><span>({ char</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;a&#39; </span><span>})</span><span style="color:#bfbab0cc;">,
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">static </span><span>args </span><span style="color:#f29668;">= </span><span>[{ name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;file&#39; </span><span>}]
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">async </span><span style="color:#ffb454;">run</span><span>() {
+</span><span>    </span><span style="color:#ff7733;">const </span><span>{ args</span><span style="color:#bfbab0cc;">, </span><span>flags } </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#f07178;">parse</span><span>(MyCoolListOfThings)
+</span><span>    </span><span style="color:#ff7733;">const </span><span>spawnArgs </span><span style="color:#f29668;">= </span><span>flags</span><span style="color:#f29668;">.</span><span>all </span><span style="color:#f29668;">? </span><span>[</span><span style="color:#c2d94c;">&#39;--r&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;--a&#39;</span><span>] </span><span style="color:#f29668;">: </span><span>[</span><span style="color:#c2d94c;">&#39;--r&#39;</span><span>]
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">let </span><span>ls </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">spawn</span><span>(</span><span style="color:#c2d94c;">&#39;ls&#39;</span><span style="color:#bfbab0cc;">, </span><span>spawnArgs)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    ls</span><span style="color:#f29668;">.</span><span>stdout
+</span><span>      </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">on</span><span>(</span><span style="color:#c2d94c;">&#39;data&#39;</span><span style="color:#bfbab0cc;">, </span><span>(</span><span style="color:#f29718;">data</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">any</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">`${</span><span>data</span><span style="color:#c2d94c;">}`</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>      })</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">export </span><span style="color:#f29668;">= </span><span>MyCoolListOfThings
+</span><span>
+</span></code></pre>
+<p>However, there will be times when attempting to "wrap" another CLI will not work as expected. Such as the case when attempting to wrap the <a href="https://github.com/snowpackjs/snowpack">snowpack</a> CLI because the <a href="https://www.snowpack.dev/concepts/hot-module-replacement">HMR</a> will not work. The saving grace of using snowpack is that it has <a href="https://www.snowpack.dev/reference/javascript-interface">programmatic access</a>.</p>
+<p>So when "spawn wrapping" a CLI does not work, see if the programmatic access is
+available for the CLI execution.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

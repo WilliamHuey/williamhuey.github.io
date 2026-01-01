@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Document Fragment with Kor UI
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Document Fragment with Kor UI
+</h2>
+
+    
+        
+            
+    
+    01&#x2F;15&#x2F;2022, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/html/">
+                            #html
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="dynamically-adding-lit-elements-into-page">Dynamically Adding Lit Elements into Page</h3>
+<p><a href="https://lit.dev/">Lit elements</a> are an implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">web components</a>. Lit elements are useful because it encourages component reuse across different JavaScript frameworks, which leads to reduced development time.</p>
+<p>The traditional usage of Lit elements / web components involves defining the component inside your html page, however there might be instances where you do not wish to modify the html page by introducing the web component markup. The introduced web components might serve only as an assistive means for using the page, but the html export of the page must remain immaculate.</p>
+<span id="continue-reading"></span>
+<p>Since the page can not be modified during the initial definition, it will not be initially rendered. This will mean that dom manipulation will need to be employed after the fact and a way to achieve this is to use a document fragment.</p>
+<p>If we were to use a web component library that is built on top of the default Lit elements, such as the <a href="https://kor-ui.com/introduction/welcome">Kor UI library</a>, the Lit element library will also need to be used because the Kor UI library does not offer low-level dynamic page manipulation capabilities.</p>
+<p>The Lit element library will allow for the creation of a new wrapper web component that renders the Kor UI element inside a document fragment using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/range/createContextualFragment">Range.createContextualFragment()</a> method. The <code>createContextualFragment</code> method will take in a raw string and render it as live html.</p>
+<p>After this, when a new custom Lit element is defined and registered, it can be inserted into a dom element of your choice.</p>
+<p>The below example shows the complete usage:</p>
+<pre  tabindex="0" data-lang="html" style="background-color:#0f1419;color:#bfbab0;" class="language-html "><code class="language-html" data-lang="html"><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">link
+</span><span>  </span><span style="color:#ffb454;">rel</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;stylesheet&quot;
+</span><span>  </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;text/css&quot;
+</span><span>  </span><span style="color:#ffb454;">href</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;https://unpkg.com/@kor-ui/kor@1.9.1/kor-styles.css&quot;
+</span><span style="color:#39bae690;">/&gt;
+</span><span>
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">script </span><span style="color:#ffb454;">type</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;module&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#ff7733;">import </span><span>{ LitElement</span><span style="color:#bfbab0cc;">, </span><span>html } </span><span style="color:#ff7733;">from
+</span><span>    </span><span style="color:#c2d94c;">&#39;https://unpkg.com/lit@2.1.1/index.js?module&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">import </span><span style="color:#c2d94c;">&#39;https://unpkg.com/@kor-ui/kor@1.9.1/components/button/index.js?module&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>  
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Wrap the Kor Button component
+</span><span>  </span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">KorButtonWrap </span><span style="color:#ff7733;">extends </span><span style="text-decoration:underline;color:#59c2ff;">LitElement </span><span>{
+</span><span>
+</span><span>    </span><span style="color:#ffb454;">render</span><span>() {
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">html </span><span style="color:#c2d94c;">`</span><span>${
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">document
+</span><span>          </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">createRange</span><span>()
+</span><span>          </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">createContextualFragment</span><span>(</span><span style="color:#c2d94c;">`
+</span><span style="color:#c2d94c;">            &lt;kor-button label=&#39;</span><span>${</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>label}</span><span style="color:#c2d94c;">&#39; color=&#39;primary&#39;&gt;&lt;/kor-button&gt;
+</span><span style="color:#c2d94c;">          `</span><span>)
+</span><span>      }</span><span style="color:#c2d94c;">`</span><span style="color:#bfbab0cc;">;
+</span><span>    }  
+</span><span>  }
+</span><span>  
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Register the Kor button into a custom wrapper element
+</span><span>  customElements</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">define</span><span>(</span><span style="color:#c2d94c;">&#39;kor-button-wrap&#39;</span><span style="color:#bfbab0cc;">, </span><span>KorButtonWrap)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Create the custom wrapper element for the button
+</span><span>  </span><span style="color:#ff7733;">let </span><span>korButtonWrap </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">document</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">createElement</span><span>(</span><span style="color:#c2d94c;">&#39;kor-button-wrap&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Define text dynamically after the creation of the wrapped kor button
+</span><span>  korButtonWrap</span><span style="color:#f29668;">.</span><span>label </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&#39;some text&#39;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Get div container for appending the element
+</span><span>  </span><span style="color:#ff7733;">let </span><span>container </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">document</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">getElementById</span><span>(</span><span style="color:#c2d94c;">&#39;container&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Insert the wrapped kor button into a div container
+</span><span>  container</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">appendChild</span><span>(korButtonWrap)</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+</span><span>
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">div </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;container&quot;</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">div</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>Online example:
+<a href="https://jsfiddle.net/1vczbamp/">https://jsfiddle.net/1vczbamp/</a></p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Dearpygui - Menu Bar
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Dearpygui - Menu Bar
+</h2>
+
+    
+        
+            
+    
+    03&#x2F;25&#x2F;2023, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #python
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/dearpygui/">
+                            #dearpygui
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <p>With dearpygui, there are two ways to create a menu bar that displays within your main application window. One method of creating a menu bar is to use the "Viewport Menu Bar" which is the traditional menu bar with the fixed horizontal row of menu entries found near the top of your main applications window and the other is the "Menu Bar" which is a floating menu window inside your main application window.</p>
+<span id="continue-reading"></span>
+<p>The 'Menu Bar' contains 'Menu' entries, and the 'Menu' entries contain the 'Menu Items'. The 'Menu Items' can reside directly underneath the 'Menu Bar'.</p>
+<h3 id="viewport-menu-bar">Viewport Menu Bar</h3>
+<p>Below is the annotated code sample from the main <a href="https://dearpygui.readthedocs.io/en/latest/documentation/menus.html">documentation page</a>.</p>
+<img src="/images/posts/viewport-menubar.png" alt="viewport-menubar-example">
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="font-style:italic;color:#5c6773;"># Viewport Menu Bar
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>dearpygui</span><span style="color:#f29668;">.</span><span>dearpygui </span><span style="color:#ff7733;">as </span><span>dpg
+</span><span>
+</span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">print_me</span><span>(</span><span style="color:#f29718;">sender</span><span>):
+</span><span>    </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Menu Item: </span><span>{sender}</span><span style="color:#c2d94c;">&quot;</span><span>)
+</span><span>
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">create_context</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">create_viewport</span><span>(</span><span style="color:#f29718;">title</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&#39;Custom Title&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">width</span><span style="color:#f29668;">=</span><span style="color:#f29718;">600</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">height</span><span style="color:#f29668;">=</span><span style="color:#f29718;">200</span><span>)
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Create the menu bar
+</span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">viewport_menu_bar</span><span>():
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># A top-level &#39;File&#39; menu entry
+</span><span>    </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;File&quot;</span><span>):
+</span><span>        dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Save&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>        dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Save As&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Nested &#39;Settings&#39; menu entry under &#39;File&#39; with further nested
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># &#39;Setting 1&#39; and &#39;Setting 2&#39; entries
+</span><span>        </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Settings&quot;</span><span>):
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Setting 1&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">check</span><span style="color:#f29668;">=</span><span style="color:#f29718;">True</span><span>)
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Setting 2&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># A top-level &#39;Help&#39; menu item entry that triggers a callback upon clicking
+</span><span>    dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Help&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># A top-level &#39;Widget Items&#39; menu entry with items that can be added which
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># are not a direct &#39;menu item&#39;
+</span><span>    </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Widget Items&quot;</span><span>):
+</span><span>        dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_checkbox</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Pick Me&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>        dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_button</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Press Me&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>        dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_color_picker</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Color Me&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Application setup
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setup_dearpygui</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show_viewport</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">start_dearpygui</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">destroy_context</span><span>()
+</span></code></pre>
+<h3 id="menu-bar-example">Menu Bar Example</h3>
+<p>The 'Menu Bar' example below is nearly identical to the example shown above except that the call to create the menu bar is now switched to a <code>dpg.window</code> call. This 'window' appears as a floating widget element within your main application window.</p>
+<img src="/images/posts/menubar.png" alt="menubar-example">
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="font-style:italic;color:#5c6773;"># Menu Bar Example
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>dearpygui</span><span style="color:#f29668;">.</span><span>dearpygui </span><span style="color:#ff7733;">as </span><span>dpg
+</span><span>
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">create_context</span><span>()
+</span><span>
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">create_viewport</span><span>(</span><span style="color:#f29718;">title</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&#39;Custom Title&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">width</span><span style="color:#f29668;">=</span><span style="color:#f29718;">600</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">height</span><span style="color:#f29668;">=</span><span style="color:#f29718;">200</span><span>)
+</span><span>
+</span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">print_me</span><span>(</span><span style="color:#f29718;">sender</span><span>):
+</span><span>    </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Menu Item: </span><span>{sender}</span><span style="color:#c2d94c;">&quot;</span><span>)
+</span><span>
+</span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">window</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Tutorial&quot;</span><span>):
+</span><span>    </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu_bar</span><span>():
+</span><span>        </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;File&quot;</span><span>):
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Save&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Save As&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>            </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Settings&quot;</span><span>):
+</span><span>                dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Setting 1&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">check</span><span style="color:#f29668;">=</span><span style="color:#f29718;">True</span><span>)
+</span><span>                dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Setting 2&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>        dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_menu_item</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Help&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>        </span><span style="color:#ff7733;">with </span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">menu</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Widget Items&quot;</span><span>):
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_checkbox</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Pick Me&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_button</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Press Me&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>            dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_color_picker</span><span>(</span><span style="color:#f29718;">label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Color Me&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">callback</span><span style="color:#f29668;">=</span><span>print_me)
+</span><span>
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setup_dearpygui</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show_viewport</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">start_dearpygui</span><span>()
+</span><span>dpg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">destroy_context</span><span>()
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

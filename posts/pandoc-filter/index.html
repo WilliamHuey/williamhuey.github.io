@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Pandoc Filter
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Pandoc Filter
+</h2>
+
+    
+        
+            
+    
+    01&#x2F;17&#x2F;2021, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/markdown/">
+                            #markdown
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="output-file-manipulation">Output file Manipulation</h3>
+<p>When working with a document format conversion, such as converting over a Markdown file to LaTeX,
+there will be occasions where you might want to manipulate the output when Pandoc is not able to completely infer the output that is desired.</p>
+<span id="continue-reading"></span>
+<p>Fortunately, Pandoc does offer a means of performing such a task through something called a
+<a href="https://pandoc.org/filters.html">Pandoc filter</a>.</p>
+<p>This feature provides the capability to manipulate the line-by-line structure that Pandoc sees when it goes through your document with the filter language of your choice.</p>
+<p>To use the JavaScript version of the Pandoc filter, create a new Node package project by creating a new folder and filtering file.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">mkdir</span><span> pandoc-filter
+</span><span style="color:#f07178;">cd</span><span> pandoc-filter
+</span><span style="color:#ffb454;">touch </span><span style="color:#c2d94c;">&quot;filter.js&quot;
+</span></code></pre>
+<p>Install the npm module for Pandoc manipulation, "pandoc-filter"</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npm</span><span> install pandoc-filter
+</span></code></pre>
+<p>Place the following into a "filter.js" file</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// &quot;filter.js&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// File operation
+</span><span style="color:#ff7733;">const </span><span>fs </span><span style="color:#f29668;">= </span><span style="color:#f07178;">require</span><span>(</span><span style="color:#c2d94c;">&quot;fs&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Pandoc CLI filter
+</span><span style="color:#ff7733;">const </span><span>pandoc </span><span style="color:#f29668;">= </span><span style="color:#f07178;">require</span><span>(</span><span style="color:#c2d94c;">&quot;pandoc-filter&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Define a logger which outputs to a file for easier debugging
+</span><span style="color:#ff7733;">const </span><span>outputLogger </span><span style="color:#f29668;">= new </span><span style="color:#59c2ff;">console</span><span style="color:#f29668;">.</span><span style="color:#59c2ff;">Console</span><span>(fs</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">createWriteStream</span><span>(</span><span style="color:#c2d94c;">&quot;./output.log&quot;</span><span>))</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// This function will evaluate each of the lines which gets read
+</span><span style="font-style:italic;color:#5c6773;">// from the supplied input file
+</span><span style="color:#ff7733;">function </span><span style="color:#ffb454;">action</span><span>(</span><span style="color:#f29718;">key</span><span>) {
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Log to &quot;output.log&quot; for debugging
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// outputLogger.log(key);
+</span><span>  </span><span style="color:#ff7733;">switch </span><span>(key</span><span style="color:#f29668;">.</span><span>t) {
+</span><span>    </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;Header&quot;</span><span>:
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">header</span><span>(key)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;Str&quot;</span><span>:
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">str</span><span>(key)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;Code&quot;</span><span>:
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">code</span><span>(key)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;RawBlock&quot;</span><span>:
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">rawBlock</span><span>(</span><span style="color:#f29668;">...</span><span>key</span><span style="color:#f29668;">.</span><span>c)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;CodeBlock&quot;</span><span>:
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">codeblock</span><span>(</span><span style="color:#f29668;">...</span><span>key</span><span style="color:#f29668;">.</span><span>c)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;Para&quot;</span><span>:
+</span><span>      </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">para</span><span>(key</span><span style="color:#f29668;">.</span><span>c)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>}
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">/* Other action functions go here */
+</span><span>
+</span><span style="color:#ff7733;">function </span><span style="color:#ffb454;">header</span><span>(</span><span style="color:#f29718;">content</span><span>) {
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// &lt; Put your transformation code here &gt;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Return a RawBlock or RawInline for control over the output
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// return pandoc.RawBlock(&quot;tex&quot;, newContent);
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// return pandoc.RawInline(&quot;tex&quot;, `\\kode{${transformedContent}}`);
+</span><span>}
+</span><span>
+</span><span>pandoc</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">stdio</span><span>(action)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Execute the above with</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">pandoc</span><span> /path/to/my_markdown.md</span><span style="color:#f29718;"> --filter</span><span> /path/to/pandoc-filter/filter.js</span><span style="color:#f29718;"> -o</span><span> my_converted.tex</span><span style="color:#f29718;"> --verbose
+</span></code></pre>
+<h4 id="explanation">Explanation</h4>
+<p>The "pandoc.stdio" function gets executed as Pandoc steps through your input file calling on the "action" function. The "action" function is a switch statement function used to check for the document structure type on a specific line or block of text. The switch statement in the "action" function outlines the more common structure types Pandoc will typically encounter in a markdown file. The complete list of "block" and "inline" structures that can be match is found
+<a href="https://hackage.haskell.org/package/pandoc-types-1.20/docs/Text-Pandoc-Definition.html#t:MetaValue">here</a>.</p>
+<p>You provide the function to call to modify the final output of the Pandoc document.</p>
+<p>The output of manipulation functions should return either a "pandoc.RawInline" or "pandoc.RawBlock" with the new content in it.</p>
+<p>If you uncommented out the log output lines, the logged values of the Pandoc AST will go into "output.log" in the same folder as where you executed the Pandoc command and the output log will look like the following</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>{
+</span><span>  t: &#39;Para&#39;,
+</span><span>  c: [
+</span><span>    { t: &#39;Str&#39;, c: &#39;some&#39; },
+</span><span>    { t: &#39;Space&#39; },
+</span><span>    { t: &#39;Str&#39;, c: &#39;cool&#39; },
+</span><span>    { t: &#39;Space&#39; },
+</span><span>    { t: &#39;Str&#39;, c: &#39;text&#39; },
+</span><span>    { t: &#39;Space&#39; },
+</span><span>    { t: &#39;Str&#39;, c: &#39;for&#39; },
+</span><span>    { t: &#39;Space&#39; },
+</span><span>    { t: &#39;Str&#39;, c: &#39;you&#39; },
+</span><span>    { t: &#39;Space&#39; },
+</span><span>    { t: &#39;Str&#39;, c: &#39;reader&#39; }
+</span><span>  ]
+</span><span>}
+</span><span>{ t: &#39;Str&#39;, c: &#39;some&#39; }
+</span><span>{ t: &#39;Space&#39; }
+</span><span>{ t: &#39;Str&#39;, c: &#39;cool&#39; }
+</span><span>{ t: &#39;Space&#39; }
+</span><span>{ t: &#39;Str&#39;, c: &#39;text&#39; }
+</span><span>{ t: &#39;Space&#39; }
+</span><span>{ t: &#39;Str&#39;, c: &#39;for&#39; }
+</span><span>{ t: &#39;Space&#39; }
+</span><span>{ t: &#39;Str&#39;, c: &#39;you&#39; }
+</span><span>{ t: &#39;Space&#39; }
+</span><span>{ t: &#39;Str&#39;, c: &#39;reader&#39; }
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    RxJS - Key Combination Detection
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    RxJS - Key Combination Detection
+</h2>
+
+    
+        
+            
+    
+    03&#x2F;27&#x2F;2021, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/rxjs/">
+                            #RxJS
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="hot-keys">Hot Keys</h3>
+<p>A hot key combination such as "ctrl + shift + alt + a" could be used to trigger a behavior in a web application such as the opening of a dialog or panel. It also provides a convenient shortcut when an action is often repeated in a workflow. There are certainly many libraries out there designated for such a <a href="https://www.npmjs.com/search?q=hotkey">task</a>, but if you are already using RxJS, it is flexible enough that this functionality can be replicated without using an additional library.</p>
+<span id="continue-reading"></span>
+<p>Starting from general key press detection</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">// Undesirable key repeat events from non-modifier keys
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>{ fromEvent } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;rxjs&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ filter } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;rxjs/operators&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>keyboardDown$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fromEvent</span><span>(document</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;keydown&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>keyboardDown$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(event</span><span style="color:#f29668;">.</span><span>code)</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>The code above is able to detect held down keys such as the "ctrl", "shift", "alt", "capslock", "os" without repeats, but all the other keys on the keyboard will trigger multiple times when held down.</p>
+<p>We wish to know the key that is held down, but only care that it was done before and is still being held, as the repeat events will not be of something of interest because it is considered noise in the case of a key holding combination.</p>
+<p>There is a property in the key event which informs us of whether that the key was held down after the first keydown event for a key. We will choose to only concern ourselves with the initial key press of the held down key.</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ff7733;">import </span><span>{ fromEvent } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;rxjs&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ filter } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;rxjs/operators&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>keyboardDown$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fromEvent</span><span>(document</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;keydown&#39;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>  .pipe(filter(event </span><span style="color:#f29668;">=&gt; !</span><span>event</span><span style="color:#f29668;">.</span><span>repeat))</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>keyboardDown$
+</span><span>  </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>(</span><span style="color:#f29718;">event </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(event</span><span style="color:#f29668;">.</span><span>code)</span><span style="color:#bfbab0cc;">;
+</span><span>  })</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Now to discern the modifier keys of our choosing, a long-lived history of the keys pressed is required, and the use of Subjects will be suited for this task.</p>
+<p>For simplicity's sake, only the left side of the keyboard's modifier keys will be used to demonstrate the key combination.</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ff7733;">import </span><span>{ fromEvent</span><span style="color:#bfbab0cc;">, </span><span>merge</span><span style="color:#bfbab0cc;">, </span><span>Subject } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;rxjs&quot;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ filter</span><span style="color:#bfbab0cc;">, </span><span>scan</span><span style="color:#bfbab0cc;">, </span><span>map } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;rxjs/operators&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>keyboardDown$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fromEvent</span><span>(document</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;keydown&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span style="color:#f29668;">!</span><span>event</span><span style="color:#f29668;">.</span><span>repeat)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>keyboardUp$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fromEvent</span><span>(document</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;keyup&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span style="color:#f29668;">!</span><span>event</span><span style="color:#f29668;">.</span><span>repeat)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Track the keys for holding
+</span><span style="color:#ff7733;">const </span><span>ctlLeftDown$ </span><span style="color:#f29668;">= </span><span>keyboardDown$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;ControlLeft&quot;</span><span>)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>shiftLeftDown$ </span><span style="color:#f29668;">= </span><span>keyboardDown$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;ShiftLeft&quot;</span><span>)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>altLeftDown$ </span><span style="color:#f29668;">= </span><span>keyboardDown$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;AltLeft&quot;</span><span>)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>aDown$ </span><span style="color:#f29668;">= </span><span>keyboardDown$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;KeyA&quot;</span><span>))</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Track the keys for releasing
+</span><span style="color:#ff7733;">const </span><span>ctlLeftUp$ </span><span style="color:#f29668;">= </span><span>keyboardUp$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;ControlLeft&quot;</span><span>)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>shiftLeftUp$ </span><span style="color:#f29668;">= </span><span>keyboardUp$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;ShiftLeft&quot;</span><span>)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>altLeftUp$ </span><span style="color:#f29668;">= </span><span>keyboardUp$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>  </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;AltLeft&quot;</span><span>)
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>aUp$ </span><span style="color:#f29668;">= </span><span>keyboardUp$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">event</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>event</span><span style="color:#f29668;">.</span><span>code </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&quot;KeyA&quot;</span><span>))</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>keyGroupDown </span><span style="color:#f29668;">= </span><span>[shiftLeftDown$</span><span style="color:#bfbab0cc;">, </span><span>ctlLeftDown$</span><span style="color:#bfbab0cc;">, </span><span>altLeftDown$</span><span style="color:#bfbab0cc;">, </span><span>aDown$]</span><span style="color:#bfbab0cc;">,
+</span><span>  keyGroupDownLen </span><span style="color:#f29668;">= </span><span>keyGroupDown</span><span style="color:#f29668;">.</span><span>length</span><span style="color:#bfbab0cc;">,
+</span><span>  keyGroupUp </span><span style="color:#f29668;">= </span><span>[shiftLeftUp$</span><span style="color:#bfbab0cc;">, </span><span>ctlLeftUp$</span><span style="color:#bfbab0cc;">, </span><span>altLeftUp$</span><span style="color:#bfbab0cc;">, </span><span>aUp$]</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Subjects will be the record keepers of the held down key combination group
+</span><span style="color:#ff7733;">const </span><span>add$ </span><span style="color:#f29668;">= new </span><span style="color:#59c2ff;">Subject</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>  clear$ </span><span style="color:#f29668;">= new </span><span style="color:#59c2ff;">Subject</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>  remove$ </span><span style="color:#f29668;">= new </span><span style="color:#59c2ff;">Subject</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span style="color:#ffb454;">add </span><span style="color:#f29668;">= </span><span>(</span><span style="color:#f29718;">value</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="color:#ff7733;">return </span><span>(</span><span style="color:#f29718;">state</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>    </span><span style="color:#ff7733;">return </span><span>state</span><span style="color:#f29668;">.</span><span style="color:#f07178;">add</span><span>(value)</span><span style="color:#bfbab0cc;">;
+</span><span>  }</span><span style="color:#bfbab0cc;">;
+</span><span>}</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span style="color:#ffb454;">remove </span><span style="color:#f29668;">= </span><span>(</span><span style="color:#f29718;">value</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="color:#ff7733;">return </span><span>(</span><span style="color:#f29718;">state</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>    state</span><span style="color:#f29668;">.</span><span style="color:#f07178;">delete</span><span>(value)</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">return </span><span>state</span><span style="color:#bfbab0cc;">;
+</span><span>  }</span><span style="color:#bfbab0cc;">;
+</span><span>}</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span style="color:#ffb454;">clear </span><span style="color:#f29668;">= </span><span>() </span><span style="color:#ff7733;">=&gt; </span><span>() </span><span style="color:#ff7733;">=&gt; </span><span style="color:#f29668;">new </span><span style="color:#59c2ff;">Set</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>keyUpAndDowns$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">merge</span><span>(
+</span><span>  add$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">map</span><span>(add))</span><span style="color:#bfbab0cc;">,
+</span><span>  clear$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">map</span><span>(clear))</span><span style="color:#bfbab0cc;">,
+</span><span>  remove$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">map</span><span>(remove))
+</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">scan</span><span>((</span><span style="color:#f29718;">state</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">innerFn</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span style="color:#ffb454;">innerFn</span><span>(state)</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">new </span><span style="color:#59c2ff;">Set</span><span>()))</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>keyUpAndDowns$
+</span><span>  </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(
+</span><span>    </span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">keyCombo</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>      </span><span style="color:#ff7733;">return </span><span>keyCombo</span><span style="color:#f29668;">.</span><span>size </span><span style="color:#f29668;">=== </span><span>keyGroupDownLen</span><span style="color:#bfbab0cc;">;
+</span><span>    })
+</span><span>  )
+</span><span>  </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>((</span><span style="color:#f29718;">keyCombo</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&quot;Key combination detected, keyCombo)</span><span style="color:#ff3333;">;
+</span><span>  })</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ffb454;">merge</span><span>(</span><span style="color:#f29668;">...</span><span>keyGroupDown)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>((</span><span style="color:#f29718;">res</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  add$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">next</span><span>(res</span><span style="color:#f29668;">.</span><span>code)</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ffb454;">merge</span><span>(</span><span style="color:#f29668;">...</span><span>keyGroupUp)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>((</span><span style="color:#f29718;">res</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  remove$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">next</span><span>(res</span><span style="color:#f29668;">.</span><span>code)</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>A Set is used to track the unique keydown interactions because a subset of the key combination can be held and pressed multiple times before the full key combination can be logged in its entirety. Take for example, pressing "ctrl + shift + alt", "ctrl + shift + alt" before finally pressing "ctrl + shift + alt + a", but we only care about the last set of keys.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

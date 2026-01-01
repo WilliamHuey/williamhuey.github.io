@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Pyside - Draggable Collapsible Panels
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Pyside - Draggable Collapsible Panels
+</h2>
+
+    
+        
+            
+    
+    07&#x2F;01&#x2F;2025, Tue
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #python
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/pyside/">
+                            #pyside
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="reorder-containers-that-can-expand-and-collapse">Reorder Containers that can Expand and Collapse</h3>
+<p>To further expand upon prior discussion of collapsible panels from previous posts</p>
+<p><a href="https://williamhuey.github.io/posts/superqt-distributing-qcollapsible-containers/">Superqt - Distributing QCollapsible Containers</a></p>
+<p><a href="https://williamhuey.github.io/posts/pyqt-collapsible-sections/">PyQT - Collapsible Sections</a></p>
+<p>In the previous article, the panels were referred to as containers, but in this
+article they will be referred to as panels instead. The term container might be confused with the element that houses all the panels.</p>
+<p>We will want to improve our panels beyond being only collapsible by adding
+draggable/sortable capabilities.</p>
+<h3 id="demo-of-behavior">Demo of Behavior</h3>
+<video controls="" name="media">
+    <source src="/images/posts/draggable-and-collapsible-panels.webm" alt="pyside draggable collapsible containers">
+</video>
+<span id="continue-reading"></span>
+<p>The following will be implemented without using third-party libraries.</p>
+<p>We will begin by introducing three classes that will help divide our logic into the different behaviors for the panels.</p>
+<h4 id="panelcontainer">PanelContainer</h4>
+<p>This class will create the container that houses all the panels and will
+maintain most of the methods required to handle the dragging and reordering
+of the panels. Most of the logic for panel dragging and dropping will be
+located in this class because they of a higher level concern where it needs to
+track changes and information across the different panels.</p>
+<h4 id="collapsiblepanel">CollapsiblePanel</h4>
+<p>This will help represent a single panel element. This class will only need
+to manage the expanding and collapsible of itself when the header area
+is clicked.</p>
+<h4 id="draggablecollapsiblepanel">DraggableCollapsiblePanel</h4>
+<p>Although most responsibility is located in the <code>PanelContainer</code> for detecting
+the drag events, we will need to create this class to record the start
+of the mouse move event. This will be the initiator for the record of the drag event. In addition, this will extend the <code>CollapsiblePanel</code> class with
+the draggable functionality.</p>
+<p>To get an overall sense of how these classes are used, we can look at the final
+instantiations when we bring up our application.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;__main__&quot;</span><span>:
+</span><span>    app </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QApplication</span><span>([])
+</span><span>
+</span><span>    container </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">PanelContainer</span><span>()
+</span><span>    </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(</span><span style="color:#f29718;">5</span><span>):
+</span><span>        panel </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">DraggableCollapsiblePanel</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Panel </span><span>{i</span><span style="color:#f29668;">+</span><span style="color:#f29718;">1</span><span>}</span><span style="color:#c2d94c;">&quot;</span><span>)
+</span><span>        content_layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>()
+</span><span>        content_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QLabel</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Text in Panel </span><span>{i</span><span style="color:#f29668;">+</span><span style="color:#f29718;">1</span><span>}</span><span style="color:#c2d94c;">&quot;</span><span>))
+</span><span>        panel</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setContentLayout</span><span>(content_layout)
+</span><span>        container</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addPanel</span><span>(panel)
+</span><span>
+</span><span>    container</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>    app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>()
+</span></code></pre>
+<p>We will start by looking at the <code>CollapsiblePanel</code>. The <code>CollapsiblePanel</code> class makes use of a QToolButton possesses the text title to indicate
+the click region of the panel to toggle the show and hide display of the contents of the panel.</p>
+<p>The contents of the panel is a QFrame container. We have to set the height
+of this element to be zero since it has a default height.
+In addition to the contents being visible to suggest the state of the
+panel, we also have a triangle marker on the left of the ToolButton text
+that points to the right when the panel is collapsed and one that points
+downward when the panel is opened.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">CollapsiblePanel</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">title</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">parent</span><span style="color:#f29668;">=</span><span style="color:#f29718;">None</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(parent)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The panel is composed of a ToolButton and a QFrame
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QToolButton</span><span>(</span><span style="color:#f29718;">text</span><span style="color:#f29668;">=</span><span>title</span><span style="color:#bfbab0cc;">,
+</span><span>           </span><span style="color:#f29718;">checkable</span><span style="color:#f29668;">=</span><span style="color:#f29718;">True</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">checked</span><span style="color:#f29668;">=</span><span style="color:#f29718;">False</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(</span><span style="color:#c2d94c;">&quot;QToolButton { border: none; }&quot;</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setToolButtonStyle</span><span>(
+</span><span>            Qt</span><span style="color:#f29668;">.</span><span>ToolButtonStyle</span><span style="color:#f29668;">.</span><span>ToolButtonTextBesideIcon
+</span><span>        )
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The toggle indicator triangle is initially in the &#39;closed&#39; state
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setArrowType</span><span>(Qt</span><span style="color:#f29668;">.</span><span>ArrowType</span><span style="color:#f29668;">.</span><span>RightArrow)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span>clicked</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">connect</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>on_toggle)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QFrame</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Content should be initially hidden
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setFixedHeight</span><span>(</span><span style="color:#f29718;">0</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Content layout and spacing for the panel
+</span><span>        main_layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setContentsMargins</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span>)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSpacing</span><span>(</span><span style="color:#f29718;">0</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setLayout</span><span>(main_layout)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">setContentLayout</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">layout</span><span>):
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setLayout</span><span>(layout)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">on_toggle</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The toggle indicator triangle changes based on the
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># expanded or collapsed state
+</span><span>        checked </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">isChecked</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setArrowType</span><span>(
+</span><span>            Qt</span><span style="color:#f29668;">.</span><span>ArrowType</span><span style="color:#f29668;">.</span><span>DownArrow </span><span style="color:#ff7733;">if </span><span>checked </span><span style="color:#ff7733;">else </span><span>Qt</span><span style="color:#f29668;">.</span><span>ArrowType</span><span style="color:#f29668;">.</span><span>RightArrow
+</span><span>        )
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setMaximumHeight</span><span>(</span><span style="color:#f29718;">16777215 </span><span style="color:#ff7733;">if </span><span>checked </span><span style="color:#ff7733;">else </span><span style="color:#f29718;">0</span><span>)
+</span></code></pre>
+<p>Next, the drag behavior needs to be implemented. This is a shorter class
+because most of the dragging and index tracking will be situated in the PanelContainer class.
+The <code>DraggableCollapsiblePanel</code> class only has the <code>mouseMoveEvent</code>
+to start the tracking of the drag event.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">DraggableCollapsiblePanel</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">CollapsiblePanel</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">mouseMoveEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        </span><span style="color:#ff7733;">if </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">buttons</span><span>() </span><span style="color:#f29668;">== </span><span>Qt</span><span style="color:#f29668;">.</span><span>MouseButton</span><span style="color:#f29668;">.</span><span>LeftButton:
+</span><span>            drag </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QDrag</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>            mime </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QMimeData</span><span>()
+</span><span>            drag</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setMimeData</span><span>(mime)
+</span><span>            drag</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>(Qt</span><span style="color:#f29668;">.</span><span>DropAction</span><span style="color:#f29668;">.</span><span>MoveAction)
+</span></code></pre>
+<p>The <code>PanelContainer</code> class below will add in all the logic necessary for
+the drag behavior of the panels.
+It is responsible for adding the panels into the layout as well as tracking
+which panel were dragged along with the anticipated drop locations.</p>
+<p>Within this class, there is a 'drop' index marker which is visual helper element
+that shows where the drop location of the panel is going to go.</p>
+<p>There is also a 'stretch spacer' that added to the group of panels to
+maintain the extra space on the bottom of all the panels, if this was not
+included, the panels would be evenly distributed with space between each panel.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">PanelContainer</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setAcceptDrops</span><span>(</span><span style="color:#f29718;">True</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setContentsMargins</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSpacing</span><span>(</span><span style="color:#f29718;">0</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add drop indicator, but not to layout yet
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setFixedHeight</span><span>(</span><span style="color:#f29718;">2</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator </span><span style="color:#bfbab0cc;">\
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(</span><span style="color:#c2d94c;">&quot;background-color: #15c467; opacity: 0.5&quot;</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">hide</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add stretchable spacer at bottom
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addStretch</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Give the window a larger size for visibility
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">resize</span><span>(</span><span style="color:#f29718;">500</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">400</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">addPanel</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">panel</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Always insert before the stretch spacer,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># which is always the last item
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>panel)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dragEnterEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Disregard the stretch spacer
+</span><span>        panel_count </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1
+</span><span>
+</span><span>        dragged_item </span><span style="color:#f29668;">= </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">source</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Have to iterate through the list of element
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># to get the current element&#39;s index
+</span><span>        collapsible_items </span><span style="color:#f29668;">= </span><span>[]
+</span><span>        </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(panel_count):
+</span><span>            item </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">itemAt</span><span>(i)
+</span><span>            w </span><span style="color:#f29668;">= </span><span>item</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widget</span><span>()
+</span><span>
+</span><span>            </span><span style="color:#ff7733;">if </span><span style="color:#f07178;">isinstance</span><span>(w</span><span style="color:#bfbab0cc;">, </span><span>DraggableCollapsiblePanel):
+</span><span>                collapsible_items</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">append</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">itemAt</span><span>(i)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widget</span><span>())
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track the index when the drag event starts
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index </span><span style="color:#f29668;">= </span><span>collapsible_items </span><span style="color:#bfbab0cc;">\
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">index</span><span>(dragged_item)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dragMoveEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        pos </span><span style="color:#f29668;">= </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">position</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">y</span><span>()
+</span><span>        insert_index </span><span style="color:#f29668;">= </span><span style="color:#f29718;">None
+</span><span>        last_panel_bottom </span><span style="color:#f29668;">= </span><span style="color:#f29718;">0
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Only consider widgets before the stretch spacer
+</span><span>        panel_count </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track the drop indicator
+</span><span>        found </span><span style="color:#f29668;">= </span><span style="color:#f29718;">False
+</span><span>        </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(panel_count):
+</span><span>            item </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">itemAt</span><span>(i)
+</span><span>            w </span><span style="color:#f29668;">= </span><span>item</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widget</span><span>()
+</span><span>            </span><span style="color:#ff7733;">if </span><span style="color:#f07178;">isinstance</span><span>(w</span><span style="color:#bfbab0cc;">, </span><span>DraggableCollapsiblePanel):
+</span><span>                y </span><span style="color:#f29668;">= </span><span>w</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">y</span><span>()
+</span><span>                h </span><span style="color:#f29668;">= </span><span>w</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">height</span><span>()
+</span><span>                </span><span style="color:#ff7733;">if </span><span>pos </span><span style="color:#f29668;">&lt; </span><span>y </span><span style="color:#f29668;">+ </span><span>h </span><span style="color:#f29668;">// </span><span style="color:#f29718;">2</span><span>:
+</span><span>                    </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setGeometry</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span>y</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span>)
+</span><span>                    </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>                    insert_index </span><span style="color:#f29668;">= </span><span>i
+</span><span>                    found </span><span style="color:#f29668;">= </span><span style="color:#f29718;">True
+</span><span>                    </span><span style="color:#ff7733;">break
+</span><span>                last_panel_bottom </span><span style="color:#f29668;">= </span><span>y </span><span style="color:#f29668;">+ </span><span>h
+</span><span>
+</span><span>        </span><span style="color:#ff7733;">if </span><span style="color:#f29668;">not </span><span>found:
+</span><span>
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># If not before any panel, show drop indicator
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># after the last panel, but above the stretch spacer
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setGeometry</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span>last_panel_bottom</span><span style="color:#bfbab0cc;">,
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span>)
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>            insert_index </span><span style="color:#f29668;">= </span><span>panel_count
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Record for dropEvent
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index </span><span style="color:#f29668;">= </span><span>insert_index  
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dragLeaveEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Hide the drop indicator when the drop event has completed
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">hide</span><span>()
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dropEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        widget </span><span style="color:#f29668;">= </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">source</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">removeWidget</span><span>(widget)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Use the insert index determined in dragMoveEvent
+</span><span>        insert_index </span><span style="color:#f29668;">= </span><span style="color:#f07178;">getattr</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;_drop_insert_index&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span>)
+</span><span>
+</span><span>        diff_in_index_drag </span><span style="color:#f29668;">= </span><span style="color:#f07178;">abs</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index 
+</span><span>            </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index)
+</span><span>
+</span><span>        dragged_in_same_spot </span><span style="color:#f29668;">= </span><span>(
+</span><span>            (diff_in_index_drag </span><span style="color:#f29668;">&lt;= </span><span style="color:#f29718;">1</span><span>)
+</span><span>            </span><span style="color:#f29668;">and </span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index </span><span style="color:#f29668;">&gt; </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index)
+</span><span>        ) </span><span style="color:#f29668;">or </span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index </span><span style="color:#f29668;">== </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index)
+</span><span>
+</span><span>        bottom_to_top_drag </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index </span><span style="color:#f29668;">&gt; </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Different drag location index drop location must be adjusted
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># on on the initial starting element location
+</span><span>        </span><span style="color:#ff7733;">if </span><span>(dragged_in_same_spot):
+</span><span>            </span><span style="color:#ff7733;">if </span><span>(diff_in_index_drag </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>):
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>            </span><span style="color:#ff7733;">else</span><span>:
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>        </span><span style="color:#ff7733;">else</span><span>:
+</span><span>            </span><span style="color:#ff7733;">if </span><span>bottom_to_top_drag:
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>            </span><span style="color:#ff7733;">else</span><span>:
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">hide</span><span>()
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span></code></pre>
+<p>The completed example is shown below</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>(
+</span><span>    QWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QVBoxLayout</span><span style="color:#bfbab0cc;">,
+</span><span>    QToolButton</span><span style="color:#bfbab0cc;">,
+</span><span>    QLabel</span><span style="color:#bfbab0cc;">,
+</span><span>    QFrame</span><span style="color:#bfbab0cc;">,
+</span><span>    QApplication</span><span style="color:#bfbab0cc;">,
+</span><span>    QSizePolicy
+</span><span>)
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtCore </span><span style="color:#ff7733;">import </span><span>Qt</span><span style="color:#bfbab0cc;">, </span><span>QMimeData
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtGui </span><span style="color:#ff7733;">import </span><span>QDrag
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">PanelContainer</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setAcceptDrops</span><span>(</span><span style="color:#f29718;">True</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setContentsMargins</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSpacing</span><span>(</span><span style="color:#f29718;">0</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add drop indicator, but not to layout yet
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setFixedHeight</span><span>(</span><span style="color:#f29718;">2</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator </span><span style="color:#bfbab0cc;">\
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(</span><span style="color:#c2d94c;">&quot;background-color: #15c467; opacity: 0.5&quot;</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">hide</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add stretchable spacer at bottom
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addStretch</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Give the window a larger size for visibility
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">resize</span><span>(</span><span style="color:#f29718;">500</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">400</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">addPanel</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">panel</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Always insert before the stretch spacer,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># which is always the last item
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>panel)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dragEnterEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Disregard the stretch spacer
+</span><span>        panel_count </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1
+</span><span>
+</span><span>        dragged_item </span><span style="color:#f29668;">= </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">source</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Have to iterate through the list of element
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># to get the current element&#39;s index
+</span><span>        collapsible_items </span><span style="color:#f29668;">= </span><span>[]
+</span><span>        </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(panel_count):
+</span><span>            item </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">itemAt</span><span>(i)
+</span><span>            w </span><span style="color:#f29668;">= </span><span>item</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widget</span><span>()
+</span><span>
+</span><span>            </span><span style="color:#ff7733;">if </span><span style="color:#f07178;">isinstance</span><span>(w</span><span style="color:#bfbab0cc;">, </span><span>DraggableCollapsiblePanel):
+</span><span>                collapsible_items</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">append</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">itemAt</span><span>(i)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widget</span><span>())
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track the index when the drag event starts
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index </span><span style="color:#f29668;">= </span><span>collapsible_items </span><span style="color:#bfbab0cc;">\
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">index</span><span>(dragged_item)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dragMoveEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        pos </span><span style="color:#f29668;">= </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">position</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">y</span><span>()
+</span><span>        insert_index </span><span style="color:#f29668;">= </span><span style="color:#f29718;">None
+</span><span>        last_panel_bottom </span><span style="color:#f29668;">= </span><span style="color:#f29718;">0
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Only consider widgets before the stretch spacer
+</span><span>        panel_count </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track the drop indicator
+</span><span>        found </span><span style="color:#f29668;">= </span><span style="color:#f29718;">False
+</span><span>        </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(panel_count):
+</span><span>            item </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">itemAt</span><span>(i)
+</span><span>            w </span><span style="color:#f29668;">= </span><span>item</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widget</span><span>()
+</span><span>            </span><span style="color:#ff7733;">if </span><span style="color:#f07178;">isinstance</span><span>(w</span><span style="color:#bfbab0cc;">, </span><span>DraggableCollapsiblePanel):
+</span><span>                y </span><span style="color:#f29668;">= </span><span>w</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">y</span><span>()
+</span><span>                h </span><span style="color:#f29668;">= </span><span>w</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">height</span><span>()
+</span><span>                </span><span style="color:#ff7733;">if </span><span>pos </span><span style="color:#f29668;">&lt; </span><span>y </span><span style="color:#f29668;">+ </span><span>h </span><span style="color:#f29668;">// </span><span style="color:#f29718;">2</span><span>:
+</span><span>                    </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setGeometry</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span>y</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span>)
+</span><span>                    </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>                    insert_index </span><span style="color:#f29668;">= </span><span>i
+</span><span>                    found </span><span style="color:#f29668;">= </span><span style="color:#f29718;">True
+</span><span>                    </span><span style="color:#ff7733;">break
+</span><span>                last_panel_bottom </span><span style="color:#f29668;">= </span><span>y </span><span style="color:#f29668;">+ </span><span>h
+</span><span>
+</span><span>        </span><span style="color:#ff7733;">if </span><span style="color:#f29668;">not </span><span>found:
+</span><span>
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># If not before any panel, show drop indicator
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># after the last panel, but above the stretch spacer
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setGeometry</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span>last_panel_bottom</span><span style="color:#bfbab0cc;">,
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span>)
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>            insert_index </span><span style="color:#f29668;">= </span><span>panel_count
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Record for dropEvent
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index </span><span style="color:#f29668;">= </span><span>insert_index  
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dragLeaveEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Hide the drop indicator when the drop event has completed
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">hide</span><span>()
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">dropEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        widget </span><span style="color:#f29668;">= </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">source</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">removeWidget</span><span>(widget)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Use the insert index determined in dragMoveEvent
+</span><span>        insert_index </span><span style="color:#f29668;">= </span><span style="color:#f07178;">getattr</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;_drop_insert_index&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">count</span><span>() </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span>)
+</span><span>
+</span><span>        diff_in_index_drag </span><span style="color:#f29668;">= </span><span style="color:#f07178;">abs</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index 
+</span><span>            </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index)
+</span><span>
+</span><span>        dragged_in_same_spot </span><span style="color:#f29668;">= </span><span>(
+</span><span>            (diff_in_index_drag </span><span style="color:#f29668;">&lt;= </span><span style="color:#f29718;">1</span><span>)
+</span><span>            </span><span style="color:#f29668;">and </span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index </span><span style="color:#f29668;">&gt; </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index)
+</span><span>        ) </span><span style="color:#f29668;">or </span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index </span><span style="color:#f29668;">== </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index)
+</span><span>
+</span><span>        bottom_to_top_drag </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>dragged_item_index </span><span style="color:#f29668;">&gt; </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>_drop_insert_index
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Different drag location index drop location must be adjusted
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># on on the initial starting element location
+</span><span>        </span><span style="color:#ff7733;">if </span><span>(dragged_in_same_spot):
+</span><span>            </span><span style="color:#ff7733;">if </span><span>(diff_in_index_drag </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>):
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>            </span><span style="color:#ff7733;">else</span><span>:
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>        </span><span style="color:#ff7733;">else</span><span>:
+</span><span>            </span><span style="color:#ff7733;">if </span><span>bottom_to_top_drag:
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>            </span><span style="color:#ff7733;">else</span><span>:
+</span><span>                </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">insertWidget</span><span>(insert_index </span><span style="color:#f29668;">- </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>widget)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>drop_indicator</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">hide</span><span>()
+</span><span>        event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">accept</span><span>()
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">CollapsiblePanel</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">title</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">parent</span><span style="color:#f29668;">=</span><span style="color:#f29718;">None</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(parent)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The panel is composed of a ToolButton and a QFrame
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QToolButton</span><span>(</span><span style="color:#f29718;">text</span><span style="color:#f29668;">=</span><span>title</span><span style="color:#bfbab0cc;">,
+</span><span>           </span><span style="color:#f29718;">checkable</span><span style="color:#f29668;">=</span><span style="color:#f29718;">True</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">checked</span><span style="color:#f29668;">=</span><span style="color:#f29718;">False</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(
+</span><span>            </span><span style="color:#c2d94c;">&quot;&quot;&quot;
+</span><span style="color:#c2d94c;">            QToolButton {
+</span><span style="color:#c2d94c;">                border-top: 1px solid #8e8d8e;
+</span><span style="color:#c2d94c;">                border-bottom: 1px solid #8e8d8e;
+</span><span style="color:#c2d94c;">                width: 100%;
+</span><span style="color:#c2d94c;">            }
+</span><span style="color:#c2d94c;">        &quot;&quot;&quot;
+</span><span>        )
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setToolButtonStyle</span><span>(
+</span><span>            Qt</span><span style="color:#f29668;">.</span><span>ToolButtonStyle</span><span style="color:#f29668;">.</span><span>ToolButtonTextBesideIcon
+</span><span>        )
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The toggle indicator triangle is initially in the &#39;closed&#39; state
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setArrowType</span><span>(Qt</span><span style="color:#f29668;">.</span><span>ArrowType</span><span style="color:#f29668;">.</span><span>RightArrow)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span>clicked</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">connect</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>on_toggle)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Make the toolbutton use the full width of the window
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSizePolicy</span><span>(
+</span><span>            QSizePolicy</span><span style="color:#f29668;">.</span><span>Policy</span><span style="color:#f29668;">.</span><span>Expanding</span><span style="color:#bfbab0cc;">, </span><span>QSizePolicy</span><span style="color:#f29668;">.</span><span>Policy</span><span style="color:#f29668;">.</span><span>Fixed
+</span><span>        )
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QFrame</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Content should be initially hidden
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setFixedHeight</span><span>(</span><span style="color:#f29718;">0</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Content layout and spacing for the panel
+</span><span>        main_layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setContentsMargins</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span>)
+</span><span>        main_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSpacing</span><span>(</span><span style="color:#f29718;">0</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setLayout</span><span>(main_layout)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">setContentLayout</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">layout</span><span>):
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setLayout</span><span>(layout)
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">on_toggle</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The toggle indicator triangle changes based on the
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># expanded or collapsed state
+</span><span>        checked </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">isChecked</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>toggle_button</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setArrowType</span><span>(
+</span><span>            Qt</span><span style="color:#f29668;">.</span><span>ArrowType</span><span style="color:#f29668;">.</span><span>DownArrow </span><span style="color:#ff7733;">if </span><span>checked </span><span style="color:#ff7733;">else </span><span>Qt</span><span style="color:#f29668;">.</span><span>ArrowType</span><span style="color:#f29668;">.</span><span>RightArrow
+</span><span>        )
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>content_area</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setMaximumHeight</span><span>(</span><span style="color:#f29718;">16777215 </span><span style="color:#ff7733;">if </span><span>checked </span><span style="color:#ff7733;">else </span><span style="color:#f29718;">0</span><span>)
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">DraggableCollapsiblePanel</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">CollapsiblePanel</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">mouseMoveEvent</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">event</span><span>):
+</span><span>        </span><span style="color:#ff7733;">if </span><span>event</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">buttons</span><span>() </span><span style="color:#f29668;">== </span><span>Qt</span><span style="color:#f29668;">.</span><span>MouseButton</span><span style="color:#f29668;">.</span><span>LeftButton:
+</span><span>            drag </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QDrag</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>            mime </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QMimeData</span><span>()
+</span><span>            drag</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setMimeData</span><span>(mime)
+</span><span>            drag</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>(Qt</span><span style="color:#f29668;">.</span><span>DropAction</span><span style="color:#f29668;">.</span><span>MoveAction)
+</span><span>
+</span><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;__main__&quot;</span><span>:
+</span><span>    app </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QApplication</span><span>([])
+</span><span>
+</span><span>    container </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">PanelContainer</span><span>()
+</span><span>    </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(</span><span style="color:#f29718;">5</span><span>):
+</span><span>        panel </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">DraggableCollapsiblePanel</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Panel </span><span>{i</span><span style="color:#f29668;">+</span><span style="color:#f29718;">1</span><span>}</span><span style="color:#c2d94c;">&quot;</span><span>)
+</span><span>        content_layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>()
+</span><span>        content_layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QLabel</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Text in Panel </span><span>{i</span><span style="color:#f29668;">+</span><span style="color:#f29718;">1</span><span>}</span><span style="color:#c2d94c;">&quot;</span><span>))
+</span><span>        panel</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setContentLayout</span><span>(content_layout)
+</span><span>        container</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addPanel</span><span>(panel)
+</span><span>
+</span><span>    container</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>    app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>()
+</span><span>
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

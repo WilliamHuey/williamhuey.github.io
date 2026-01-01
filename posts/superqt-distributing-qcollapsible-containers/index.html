@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Superqt - Distributing QCollapsible Containers
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Superqt - Distributing QCollapsible Containers
+</h2>
+
+    
+        
+            
+    
+    12&#x2F;21&#x2F;2023, Thu
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #python
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/pyqt/">
+                            #pyqt
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="spacing-display-issues">Spacing Display Issues</h3>
+<p>By itself, the QCollapsible element placed in a QVBoxLayout or QHBoxLayout
+will not offer an out-of-the-box solution for a refined display of distributing containers or the containers contents predictably.</p>
+<span id="continue-reading"></span><h4 id="problems">Problems</h4>
+<ol>
+<li>QCollapsible grows taller than the current's window size when expanding a container that has a lot of content.</li>
+</ol>
+<video controls="" name="media">
+    <source src="/images/posts/exceeds-original-window-height.webm" alt="demo of qcollapsible container exceeding original window height">
+</video>
+<ol start="2">
+<li>The QCollapsible containers become evenly distributed when the window is sized vertically. The vertical shifting of content is disorientating. This might make sense in a mobile type of application, but not well suited for a desktop application.</li>
+</ol>
+<video controls="" name="media">
+    <source src="/images/posts/unwanted-qcollapsible-container-distribution.webm" alt="demo of qcollapsible containers with unwanted vertical space distribution">
+</video>
+<p>To remedy these problems, you need to place the QCollapsible containers in a QScrollArea to solve the first problem. Then the QVBoxLayout or QHBoxLayout layouts needs a call to the <code>addStretch</code> method which acts as a buffer to fill in the empty space to prevent the container space redistribution.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">import </span><span>sys
+</span><span style="color:#ff7733;">from </span><span>PyQt6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>(QWidget</span><span style="color:#bfbab0cc;">, </span><span>QScrollArea</span><span style="color:#bfbab0cc;">, </span><span>QVBoxLayout</span><span style="color:#bfbab0cc;">, </span><span>QMainWindow</span><span style="color:#bfbab0cc;">, </span><span>QApplication</span><span style="color:#bfbab0cc;">, </span><span>QLabel</span><span style="color:#bfbab0cc;">, </span><span>QPushButton)
+</span><span style="color:#ff7733;">from </span><span>superqt </span><span style="color:#ff7733;">import </span><span>QCollapsible
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">MainWindow</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QMainWindow</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">initUI</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">initUI</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create layout and widgets
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>scroll </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QScrollArea</span><span>()  
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>widget </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QWidget</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>vbox </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>()
+</span><span>
+</span><span>        collapsible </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QCollapsible</span><span>(</span><span style="color:#c2d94c;">&quot;Advanced analysis&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">collapsedIcon</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;►&quot;</span><span>)
+</span><span>        collapsible2 </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QCollapsible</span><span>(</span><span style="color:#c2d94c;">&quot;Some other analysis&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">collapsedIcon</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;►&quot;</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add contents to the collapsible containers
+</span><span>        collapsible</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QLabel</span><span>(</span><span style="color:#c2d94c;">&quot;This is the inside of the collapsible frame&quot;</span><span>))
+</span><span>        </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(</span><span style="color:#f29718;">10</span><span>):
+</span><span>            collapsible</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QPushButton</span><span>(</span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;Content button </span><span>{i </span><span style="color:#f29668;">+ </span><span style="color:#f29718;">1</span><span>}</span><span style="color:#c2d94c;">&quot;</span><span>))
+</span><span>
+</span><span>        collapsible2</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QLabel</span><span>(</span><span style="color:#c2d94c;">&quot;Another note&quot;</span><span>))
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add collapsible containers to the layout
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>vbox</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(collapsible)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>vbox</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(collapsible2)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Prevent the collapsible containers from distributing space evenly
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>vbox</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addStretch</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Scrollarea settings
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>scroll</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setWidgetResizable</span><span>(</span><span style="color:#f29718;">True</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>scroll</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>widget)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>vbox)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setCentralWidget</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>scroll)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Initially resize window for better visibility
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setGeometry</span><span>(</span><span style="color:#f29718;">600</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">100</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">500</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">200</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>
+</span><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&#39;__main__&#39;</span><span>:
+</span><span>    app </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QApplication</span><span>([])
+</span><span>    mainWindow </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">MainWindow</span><span>()
+</span><span>    sys</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exit</span><span>(app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>())
+</span><span>
+</span></code></pre>
+<p>Improved display results</p>
+<video controls="" name="media">
+    <source src="/images/posts/refined-qcollapsible-containers.webm" alt="demo of refined qcollapsible containers display">
+</video>
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

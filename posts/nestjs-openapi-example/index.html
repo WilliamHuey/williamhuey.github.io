@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Nestjs - OpenApi Example
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Nestjs - OpenApi Example
+</h2>
+
+    
+        
+            
+    
+    05&#x2F;19&#x2F;2021, Wed
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/api/">
+                            #api
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="documenting-apis">Documenting Apis</h3>
+<p><a href="https://nestjs.com/">Nestjs</a> provides a more opinionated way in expressing structure when developing a backend for your Node.js application, and this prescribed way of doing things coupled with the usage of TypeScript allows for better maintainable code.</p>
+<p>As stated in their project <a href="https://github.com/nestjs/nest#philosophy">README.md</a>:</p>
+<blockquote>
+<p>Nest aims to provide an application architecture out of the box which allows for effortless creation of highly testable, scalable, loosely coupled and easily maintainable applications. The architecture is heavily inspired by Angular.</p>
+</blockquote>
+<span id="continue-reading"></span>
+<p>It is a bit ironic that the front end framework, Angular, was not well-received due to its break of compatibility with Angularjs and also being hampered by competition from other simpler front end frameworks. Yet, Nestjs's core ideals of structuring code into modules and using dependency injection has been successfully implemented, garnering wide adoption.</p>
+<p><a href="https://en.wikipedia.org/wiki/OpenAPI_Specification">OpenApi</a>, which was formerly known as Swagger, is a specification standard for describing JSON REST Apis. OpenApi uses a single YAML or JSON file to describe the entirety of an API, so all route resources are detailed in the file. This OpenApi file is usually parsed and a documentation site is generated from it.</p>
+<p>Generally, the server code is annotated with structured comments which then a CLI tool is run to process the code to generate the OpenApi file.</p>
+<p>With some background information on Nestjs and OpenApi, we can move onto the example of using OpenApi with Nestjs.</p>
+<p>Create a folder for the Nestjs project</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">mkdir</span><span> nestjs-open-api
+</span></code></pre>
+<p>Navigate into the directory</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#f07178;">cd</span><span> nestjs-open-api
+</span></code></pre>
+<p>Install the Nestjs CLI locally so the <code>npx</code> can be used later on as to avoid
+a global Nestjs install.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npm</span><span> i @nestjs/cli
+</span></code></pre>
+<p>Generate a new project folder inside our 'nestjs-open-api' folder, as this folder
+will be the one where the OpenApi example will reside in.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npx</span><span> nest new my-nest-project
+</span><span style="color:#f07178;">cd</span><span> my-nest-project
+</span></code></pre>
+<p>Install additional dependencies because the default Nestjs install does not include the OpenApi modules</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Other required dependencies since the default Nestjs
+</span><span style="font-style:italic;color:#5c6773;"># install does not include them
+</span><span style="color:#ffb454;">npm</span><span> i</span><span style="color:#f29718;"> --save</span><span> @nestjs/core @nestjs/common rxjs reflect-metadata
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># OpenApi modules
+</span><span style="color:#ffb454;">npm</span><span> i</span><span style="color:#f29718;"> --save</span><span> @nestjs/swagger swagger-ui-express class-validator
+</span></code></pre>
+<p>With the project files in place, it is time to generate a resource for the OpenApi example, since a URL route corresponds to a resource. Nestjs comes with a useful scaffolding tool which we can use:</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">nest</span><span> g resource users
+</span></code></pre>
+<p>In the above, we have generated a couple of <code>Users</code> URL routes, which will allow for
+creating, reading, updating and deleting users.</p>
+<p>Now the bootstrap configuration of the Nestjs application will need to register
+the OpenApi modules to properly render the documentation page.</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ff7733;">import </span><span>{ NestFactory } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@nestjs/core&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ SwaggerModule</span><span style="color:#bfbab0cc;">, </span><span>DocumentBuilder } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@nestjs/swagger&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ AppModule } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;./app.module&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">async function </span><span style="color:#ffb454;">bootstrap</span><span>() {
+</span><span>  </span><span style="color:#ff7733;">const </span><span>app </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">await </span><span>NestFactory</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">create</span><span>(AppModule)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">const </span><span>config </span><span style="color:#f29668;">= new </span><span style="color:#59c2ff;">DocumentBuilder</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setTitle</span><span>(</span><span style="color:#c2d94c;">&#39;Users example&#39;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setDescription</span><span>(</span><span style="color:#c2d94c;">&#39;The users API description&#39;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setVersion</span><span>(</span><span style="color:#c2d94c;">&#39;1.0&#39;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addTag</span><span>(</span><span style="color:#c2d94c;">&#39;users&#39;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">build</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">const </span><span>document </span><span style="color:#f29668;">= </span><span>SwaggerModule</span><span style="color:#f29668;">.</span><span style="color:#f07178;">createDocument</span><span>(app</span><span style="color:#bfbab0cc;">, </span><span>config)</span><span style="color:#bfbab0cc;">;
+</span><span>  SwaggerModule</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setup</span><span>(</span><span style="color:#c2d94c;">&#39;api&#39;</span><span style="color:#bfbab0cc;">, </span><span>app</span><span style="color:#bfbab0cc;">, </span><span>document)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">await </span><span>app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">listen</span><span>(</span><span style="color:#f29718;">3000</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span style="color:#ffb454;">bootstrap</span><span>()</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Run the development server by</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npm</span><span> start
+</span></code></pre>
+<p>You will be able to navigate to the following URL to preview the documentation in the browser</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>// Swagger documentation url
+</span><span>http://localhost:3000/api/
+</span></code></pre>
+<p>If you were to interact with the API on the OpenApi page, the response for the API requests will return hard coded strings. These are placeholder routes which need to be updated with Users information.</p>
+<p>Stop the server and proceed to update the generated files.</p>
+<p>The "user.entity.ts" file will be the location of interest because the code annotation must be placed here for the page to generate the OpenApi documentation.
+For our user resource object, we are going to have a "name", "age", and "gender" for this example's sake.</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">// src/users/entities/user.entity.ts
+</span><span style="color:#ff7733;">import </span><span>{ ApiProperty } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@nestjs/swagger&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">User </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">/**
+</span><span style="font-style:italic;color:#5c6773;">     * The name of the User
+</span><span style="font-style:italic;color:#5c6773;">     * </span><span style="font-style:italic;color:#ff7733;">@example </span><span style="font-style:italic;color:#5c6773;">Bob
+</span><span style="font-style:italic;color:#5c6773;">     */
+</span><span>    name</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">string</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    @</span><span style="color:#ffb454;">ApiProperty</span><span>({ example</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span>description</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;The age of the person&#39; </span><span>})
+</span><span>    age</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">number</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    @</span><span style="color:#ffb454;">ApiProperty</span><span>({
+</span><span>        example</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Male&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        description</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;The gender of the person&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>    })
+</span><span>    gender</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">string</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span></code></pre>
+<p>The <a href="https://en.wikipedia.org/wiki/Data_transfer_object">DTO</a>, which will be the shape for the data during transport, will need annotations to be defined for matching up to what is described in the "user.entity.ts".</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">//src/users/dto/create-user.dto.ts
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>{ IsInt</span><span style="color:#bfbab0cc;">, </span><span>IsString } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;class-validator&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">CreateUserDto </span><span>{
+</span><span>    @</span><span style="color:#ffb454;">IsString</span><span>()
+</span><span>    </span><span style="color:#ff7733;">readonly </span><span>name</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">string</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    @</span><span style="color:#ffb454;">IsInt</span><span>()
+</span><span>    </span><span style="color:#ff7733;">readonly </span><span>age</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">number</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    @</span><span style="color:#ffb454;">IsString</span><span>()
+</span><span>    </span><span style="color:#ff7733;">readonly </span><span>gender</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">string</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>The Users service will provide the methods for processing the user data.
+Normally, a proper database will be configured to store and retrieve data in a production
+application, but for our example, striving for simplicity, will lead us to use
+in-memory JavaScript objects for persistence. The data will only last for as long as the development server is kept running.</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">//src/users/users.service.ts
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>{ Injectable } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@nestjs/common&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ CreateUserDto } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;./dto/create-user.dto&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ UpdateUserDto } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;./dto/update-user.dto&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ User } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;./entities/user.entity&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>@</span><span style="color:#ffb454;">Injectable</span><span>()
+</span><span style="color:#ff7733;">export class </span><span style="color:#59c2ff;">UsersService </span><span>{
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">private </span><span>users</span><span style="color:#f29668;">: </span><span style="color:#59c2ff;">User</span><span>[] </span><span style="color:#f29668;">= </span><span>[]</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Add the user
+</span><span>  </span><span style="color:#ffb454;">create</span><span>(</span><span style="color:#f29718;">user</span><span style="color:#f29668;">: </span><span style="color:#59c2ff;">CreateUserDto</span><span>) {
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users</span><span style="color:#f29668;">.</span><span style="color:#f07178;">push</span><span>(user)</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">return </span><span>user</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Find all users
+</span><span>  </span><span style="color:#ffb454;">findAll</span><span>() {
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Find a specific user
+</span><span>  </span><span style="color:#ffb454;">findOne</span><span>(</span><span style="color:#f29718;">id</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">number</span><span>) {
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users[id]</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Update an user
+</span><span>  </span><span style="color:#ffb454;">update</span><span>(</span><span style="color:#f29718;">id</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">number</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">updateUser</span><span style="color:#f29668;">: </span><span style="color:#59c2ff;">UpdateUserDto</span><span>) {
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">Object</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">assign</span><span>(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users[id]</span><span style="color:#bfbab0cc;">, </span><span>updateUser)</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Remove the user
+</span><span>  </span><span style="color:#ffb454;">remove</span><span>(</span><span style="color:#f29718;">id</span><span style="color:#f29668;">: </span><span style="font-style:italic;color:#39bae6;">number</span><span>) {
+</span><span>    </span><span style="color:#ff7733;">const </span><span>newRemovedUserSet </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users
+</span><span>      </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">filter</span><span>((</span><span style="color:#f29718;">v</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">i</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#ff7733;">if </span><span>(i </span><span style="color:#f29668;">!== </span><span>id) </span><span style="color:#ff7733;">return </span><span>v</span><span style="color:#bfbab0cc;">;
+</span><span>      })</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users </span><span style="color:#f29668;">= </span><span>newRemovedUserSet</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>users</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>Restart the development server and go to the OpenApi documentation page and try adding a new user using the <code>POST</code> method with the following data in the Request Body to store a single user for interaction:</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>{
+</span><span>    &quot;name&quot;: &quot;Bob&quot;,
+</span><span>    &quot;age&quot;: 30,
+</span><span>    &quot;gender&quot;: &quot;male&quot;
+</span><span>}
+</span></code></pre>
+<p>Then you will be able to read the data with the <code>GET</code> method along with updating (<code>PUT</code>) and deleting (<code>DELETE</code>) of the user resource.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

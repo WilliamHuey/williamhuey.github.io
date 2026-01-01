@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Visual Studio Code Extensions - Variable-print Plugin
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Visual Studio Code Extensions - Variable-print Plugin
+</h2>
+
+    
+        
+            
+    
+    01&#x2F;01&#x2F;2025, Wed
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/editor/">
+                            #editor
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="one-plugin-for-multiple-programming-languages">One Plugin for Multiple Programming Languages</h3>
+<p>To quickly look at the output of a variable, you can use the print or console statement in your programming language of choice. Most of the language packages you add with the vscode extensions do not have a shortcut hotkey combination to quickly print or log out a variable. A good majority of the extensions also
+caters to the more common programming languages such as JavaScript or Python.</p>
+<p>It would be most beneficial to have a general logger where you can activate the statement with a use of a shortcut key combination if you tend to work with multiple languages. There are a couple of general print loggers on the vscode extension marketplace, but the <a href="https://marketplace.visualstudio.com/items?itemName=nicheface.variable-print">variable-print</a> plugin stood out in that it was the one that offered the option of adding new languages to support custom print statements.</p>
+<span id="continue-reading"></span>
+<p>The default hotkey combination was</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>ctrl+alt+p
+</span></code></pre>
+<p>but you will need to test out shortcut combination to see if it works. It tends
+to be the case that the default hotkey combination doesn't work because it is highly likely have another plugin or shortcut has already taken this.</p>
+<p>For my setup, I changed it to</p>
+<pre  tabindex="0" data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>ctrl+shift+alt+p
+</span></code></pre>
+<p>In your <code>settings.json</code> file, add the following block to modify the output.
+The following block is taken from the default configuration, but you can also
+define print output formats for new languages if you don't find it in the keys of this JSON block.</p>
+<p>This is how my configuration looks like:</p>
+<pre  tabindex="0" data-lang="json" style="background-color:#0f1419;color:#bfbab0;" class="language-json "><code class="language-json" data-lang="json"><span style="color:#c2d94c;">&quot;variable-print.customPrintStatements&quot;</span><span>: {
+</span><span>    </span><span style="color:#c2d94c;">&quot;r&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;print($v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;rust&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;println!(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; {}</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">, &amp;$v);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;go&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;fmt.Printf(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; %#v</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">,$v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;h|c|cpp&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;printf(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; %s</span><span style="color:#95e6cb;">\\</span><span style="color:#c2d94c;">n</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">, $v);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;javascript|typescript&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;console.log($v);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;python&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;print(f</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">$v</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">, $v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;java&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;System.out.println($v);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;ruby&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;puts </span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; #{$v}</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;php&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;var_dump($v);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;lua&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;print(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt;(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">,type($v),</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">)</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">,$v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;kotlin&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;println(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; </span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">+$v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;csharp&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;Console.WriteLine(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; {0}</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">, $v);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;swift&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;print(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; </span><span style="color:#95e6cb;">\\</span><span style="color:#c2d94c;">($v)</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;dart&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;print(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $$v -&gt; $v ${$$v.runtimeType}</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">);&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;perl&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;say </span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; $$v</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">;&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;julia&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;println(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt;</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">, $v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;haskell&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;putStrLn(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt;</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;"> ++ $v)&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;zig&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;std.debug.print(</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">row: $row - col: $col $v -&gt; {}</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">, .{$v});&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;v&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;print($v)&quot;
+</span><span>}
+</span></code></pre>
+<p>Note that you can also define multiple languages in the same key separated by the pipe character if you know that they share the same print statement format.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Pubsub Lists
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Pubsub Lists
+</h2>
+
+    
+        
+            
+    
+    05&#x2F;01&#x2F;2014, Thu
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/jquery/">
+                            #jQuery
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="publish-and-subscribe">Publish and Subscribe</h3>
+<p>One way of emitting events is by using trigger on a jQuery element.</p>
+<span id="continue-reading"></span><pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Event Emitting from Element
+</span><span style="color:#ffb454;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#my-element-id&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">trigger</span><span>(</span><span style="color:#c2d94c;">&quot;my-beautiful-event&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>This is okay if we only wanted to trigger an event from a specific element, but what happens if we want a generic way of doing things, such as without referring to an element when triggering?</p>
+<p>The way to do this is to use <a href="https://api.jquery.com/jQuery.Callbacks/">jQuery.Callbacks()</a> to create a pubsub system.</p>
+<p>An instance of jQuery.Callbacks accumulates functions, and runs one functions after another when the "fire" method is call upon. The property of jQuery.Callbacks that is of interest in the pubsub system, is the ability to fire(call) the functions when needed, whereas the ability to accumulate multiple functions is not as critical to the pubsub system.</p>
+<p>To demonstrate pubsub, our example will have three select lists where each subscribes and publishes to one another.</p>
+<p>The code from the jQuery Api page will be used</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Pubsub
+</span><span style="font-style:italic;color:#5c6773;">// Adapted from jQuery api page (only variable renames)
+</span><span style="font-style:italic;color:#5c6773;">// https://api.jquery.com/jQuery.Callbacks/
+</span><span style="color:#ff7733;">var </span><span>classGroups </span><span style="color:#f29668;">= </span><span>{}</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">var </span><span style="color:#ffb454;">pubsubNameSpace </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">function </span><span>(</span><span style="color:#f29718;">id</span><span>) {
+</span><span>  </span><span style="color:#ff7733;">var </span><span>callbacks</span><span style="color:#bfbab0cc;">,
+</span><span>    classGroup </span><span style="color:#f29668;">= </span><span>id </span><span style="color:#f29668;">&amp;&amp; </span><span>classGroups[id]</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">if </span><span>(</span><span style="color:#f29668;">!</span><span>classGroup) {
+</span><span>    callbacks </span><span style="color:#f29668;">= </span><span>$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Callbacks</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>    classGroup </span><span style="color:#f29668;">= </span><span>{
+</span><span>      publish</span><span style="color:#bfbab0cc;">: </span><span>callbacks</span><span style="color:#f29668;">.</span><span>fire</span><span style="color:#bfbab0cc;">,
+</span><span>      subscribe</span><span style="color:#bfbab0cc;">: </span><span>callbacks</span><span style="color:#f29668;">.</span><span>add</span><span style="color:#bfbab0cc;">,
+</span><span>      unsubscribe</span><span style="color:#bfbab0cc;">: </span><span>callbacks</span><span style="color:#f29668;">.</span><span>remove</span><span style="color:#bfbab0cc;">,
+</span><span>    }</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">if </span><span>(id) {
+</span><span>      classGroups[id] </span><span style="color:#f29668;">= </span><span>classGroup</span><span style="color:#bfbab0cc;">;
+</span><span>    }
+</span><span>  }
+</span><span>  </span><span style="color:#ff7733;">return </span><span>classGroup</span><span style="color:#bfbab0cc;">;
+</span><span>}</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>The main point of this code is that 'pubsubNameSpace' will create a namespace for a string that is passed in as 'id'. The 'id' is a key in the 'classGroups' object. The 'classGroup' is an object that is the return value of 'pubsubNameSpace' which has a 'publish', 'subscribe', and 'unsubscribe' key that refer to the jQuery Callbacks methods.</p>
+<p>Once we have this code, the following can be called like so</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Pubsub Usage
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Create a namespace
+</span><span style="color:#ff7733;">var </span><span>ns </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">pubsubNameSpace</span><span>(</span><span style="color:#c2d94c;">&quot;my-creative-namespace-name&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Subscribe to the Namespace
+</span><span>ns</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>(myFunction)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Publish within the Namespace
+</span><span>ns</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">publish</span><span>({
+</span><span>  data</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;just-a-string&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Subscribe&#39;s function
+</span><span style="color:#ff7733;">function </span><span style="color:#ffb454;">myFunction</span><span>() {
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="font-style:italic;color:#39bae6;">arguments</span><span>[</span><span style="color:#f29718;">0</span><span>])</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>When publishing, one can pass in any data, but with the subscribe call, a function must be use as a funnel for the data that has been published.</p>
+<p>To start the example, the initial variable declarations:</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Select List New Namespace
+</span><span>
+</span><span style="color:#ff7733;">var </span><span>$select </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">$</span><span>(</span><span style="color:#c2d94c;">&quot;select.classy&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>  className </span><span style="color:#f29668;">= </span><span>$select</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">prop</span><span>(</span><span style="color:#c2d94c;">&quot;class&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>  ns </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">pubsubNameSpace</span><span>(className)</span><span style="color:#bfbab0cc;">,
+</span><span>  $info </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#info&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>The class name of the select lists is used as the name space for the pubsub. The '$info' is the div for displaying messages.</p>
+<p>The main logic for publishing and subscribing for the select lists.</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Select Lists Pubsub
+</span><span>
+</span><span style="color:#ff7733;">var </span><span>id </span><span style="color:#f29668;">= -</span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">;
+</span><span>$select</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">each</span><span>(</span><span style="color:#ff7733;">function </span><span>() {
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// To id each select list
+</span><span>  id</span><span style="color:#f29668;">++</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">var </span><span>$this </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">$</span><span>(</span><span style="font-style:italic;color:#39bae6;">this</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  $this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span>(</span><span style="color:#c2d94c;">&quot;id&quot;</span><span style="color:#bfbab0cc;">, </span><span>id)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Reset each list
+</span><span>  $this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">prop</span><span>(</span><span style="color:#c2d94c;">&quot;selectedIndex&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">0</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Listen to the selection changes for each list
+</span><span>  $this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">on</span><span>(</span><span style="color:#c2d94c;">&quot;change&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>    </span><span style="color:#ff7733;">var </span><span>$selected </span><span style="color:#f29668;">= </span><span>$this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">children</span><span>(</span><span style="color:#c2d94c;">&quot;option:selected&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Tell all members of the same class of change
+</span><span>    ns</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">publish</span><span>({
+</span><span>      selected</span><span style="color:#bfbab0cc;">: </span><span>$selected</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">text</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>      id</span><span style="color:#bfbab0cc;">: </span><span>$this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span>(</span><span style="color:#c2d94c;">&quot;id&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>    })</span><span style="color:#bfbab0cc;">;
+</span><span>  })</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Listen for changes within the same class
+</span><span>  ns</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>($</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">proxy</span><span>(explain</span><span style="color:#bfbab0cc;">, </span><span>$this))</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Iterate through each select list and associate them with an id. Attach a 'change' event handler to each list and within it, publish the selected value with the select list id. Also subscribe to messages from the same class.</p>
+<p>Now finally for the subscribe function</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Logging Function
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Log info for subscribe function
+</span><span style="color:#ff7733;">var </span><span style="color:#ffb454;">explain </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>  </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span>(</span><span style="color:#c2d94c;">&quot;id&quot;</span><span>) </span><span style="color:#f29668;">!== </span><span style="font-style:italic;color:#39bae6;">arguments</span><span>[</span><span style="color:#f29718;">0</span><span>]</span><span style="color:#f29668;">.</span><span>id) {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Display the info in div
+</span><span>    </span><span style="color:#ff7733;">var </span><span>msg </span><span style="color:#f29668;">=
+</span><span>      </span><span style="color:#c2d94c;">&quot;List &quot; </span><span style="color:#f29668;">+
+</span><span>      </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span>(</span><span style="color:#c2d94c;">&quot;id&quot;</span><span>) </span><span style="color:#f29668;">+
+</span><span>      </span><span style="color:#c2d94c;">&quot; heard from List &quot; </span><span style="color:#f29668;">+
+</span><span>      </span><span style="font-style:italic;color:#39bae6;">arguments</span><span>[</span><span style="color:#f29718;">0</span><span>]</span><span style="color:#f29668;">.</span><span>id </span><span style="color:#f29668;">+
+</span><span>      </span><span style="color:#c2d94c;">&quot;. The value selected was &quot; </span><span style="color:#f29668;">+
+</span><span>      </span><span style="color:#c2d94c;">&#39;&quot;&#39; </span><span style="color:#f29668;">+
+</span><span>      </span><span style="font-style:italic;color:#39bae6;">arguments</span><span>[</span><span style="color:#f29718;">0</span><span>]</span><span style="color:#f29668;">.</span><span>selected </span><span style="color:#f29668;">+
+</span><span>      </span><span style="color:#c2d94c;">&#39;&quot;&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>    $info</span><span style="color:#f29668;">.</span><span style="color:#f07178;">prepend</span><span>(</span><span style="color:#c2d94c;">&quot;&lt;p&gt;&quot; </span><span style="color:#f29668;">+ </span><span>msg </span><span style="color:#f29668;">+ </span><span style="color:#c2d94c;">&quot;&lt;/p&gt;&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>}</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Note that there needs to be a check for whether the published data id is the same as the current list element's id to ensure that our list does not listen to its own published message. This is because all select lists listens subscribe to the same class namespace.</p>
+<p><a href="http://jsbin.com/yexiseke/1">Online Demo</a> | <a href="/archives/2014-05-01-pubsub-lists.zip">Offline Demo</a></p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

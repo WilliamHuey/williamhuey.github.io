@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Incus - Linux Containers
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Incus - Linux Containers
+</h2>
+
+    
+        
+            
+    
+    08&#x2F;02&#x2F;2025, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/containers/">
+                            #containers
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="alternative-to-distrobox">Alternative to Distrobox</h3>
+<p>The desire for isolated and on-demand development environments can be met with
+Distrobox, however it isn't well suited for development in terms of flexibility.</p>
+<p>One shortcoming with that <a href="https://williamhuey.github.io/posts/incus-linux-containers/github.com/89luca89/distrobox">Distrobox</a> is that it doesn't offer the option to specify the location drive for containers. This option is handled by the container software that is used with Distrobox. While Docker
+does offer a way to specify a way to use containers in another drive, Distrobox didn't quite work well with Docker when the storage location of containers was changed in the Docker from my experience.</p>
+<p>Since Distrobox is wrapping the functionality of either Docker or Podman, which means that it lives with the limitations of Docker or Podman. There is also the great likelihood that some features can't be mapped perfectly.</p>
+<p>To address this issue, one would want to use a more full-fledge solution such as <a href="https://linuxcontainers.org/incus/">Incus</a>.
+With Incus, you no longer have to install a container application such as Podman or Docker with Distrobox for environment isolation.</p>
+<span id="continue-reading"></span><h4 id="system-containers">System Containers</h4>
+<p>Incus has multi-container management in mind such as <a href="https://linuxcontainers.org/incus/docs/main/explanation/clustering/">clustering</a>.
+This leads to the need to also manage containers in multiple locations which
+would mean Incus should have the option to specify the creation of containers that are located in different <a href="https://linuxcontainers.org/incus/docs/main/howto/storage_pools/#examples">drive locations</a>.</p>
+<p>Incus also many other properties that makes it easier to manage containers. Incus offers systems container which is one level over docker's <a href="https://linuxcontainers.org/incus/docs/main/explanation/containers_and_vms/#application-containers-vs-system-containers">application containers</a>. Docker containers can also be run inside an Incus container.</p>
+<p>Incus also provides actual <a href="https://linuxcontainers.org/incus/docs/main/explanation/containers_and_vms/#virtual-machines-vs-system-containers">VM containers</a> for even greater levels of isolation
+which Distrobox does not offer.</p>
+<h4 id="backup-and-restoration">Backup and Restoration</h4>
+<p>Backing up and restoring your containers are also critical features that
+are not taken as an afterthought because Incus has dedicated snapshotting and restoration functionality.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Save snapshot
+</span><span style="color:#ffb454;">incus</span><span> snapshot create </span><span style="color:#f29668;">&lt;</span><span>instance_name</span><span style="color:#f29668;">&gt; &lt;</span><span>snapshot_name</span><span style="color:#f29668;">&gt;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Restore snapshot
+</span><span style="color:#ffb454;">incus</span><span> snapshot restore </span><span style="color:#f29668;">&lt;</span><span>instance_name</span><span style="color:#f29668;">&gt; &lt;</span><span>snapshot_name</span><span style="color:#f29668;">&gt;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Delete snapshot
+</span><span style="color:#ffb454;">incus</span><span> snapshot delete </span><span style="color:#f29668;">&lt;</span><span>container</span><span style="color:#f29668;">&gt; &lt;</span><span>snapshot_name</span><span style="color:#f29668;">&gt;
+</span></code></pre>
+<p>Another benefit of Incus snapshots is that you can delete earlier snapshots without affecting the later snapshots, which is something not supported in <a href="https://docs.docker.com/search/?q=delete%20commit">Docker</a>.</p>
+<p>Another additional back up functionality aside from the snapshot feature listed above is provided by tar snapshots.
+When you back up your container with this command, you can use this feature to save the image to other file systems other than Linux file system types (NTFS)</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">incus</span><span> export </span><span style="color:#f29668;">&lt;</span><span>instance_name</span><span style="color:#f29668;">&gt;</span><span> /path/to/backupfile.tar.gz
+</span></code></pre>
+<h4 id="isolation-and-sharing-data">Isolation and Sharing Data</h4>
+<p>A Distrobox container shares the home path as the host's home path, but this level of integration might be problematic down the line. With Incus, by default, you get home directory isolation, but if you wish to share files between the host and container, you can use either the pull or push commands.</p>
+<pre  tabindex="0" data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Retrieving a file from the container to the host
+</span><span style="color:#ffb454;">incus</span><span> file pull </span><span style="color:#f29668;">&lt;</span><span>instance_name</span><span style="color:#f29668;">&gt;</span><span>/etc/hosts .
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Sending a file from host to the container
+</span><span style="color:#ffb454;">incus</span><span> file push</span><span style="color:#f29718;"> -r</span><span> host/path </span><span style="color:#f29668;">&lt;</span><span>instance_name</span><span style="color:#f29668;">&gt;</span><span>/file/path
+</span></code></pre>
+<h4 id="conclusion">Conclusion</h4>
+<p>Incus as a container management tools has all the basic features that you would expect for convenient set up, use and maintenance of your containers because it has all the features you normally use in Distrobox while offering more functionality.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

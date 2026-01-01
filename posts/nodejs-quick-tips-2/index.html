@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Nodejs - Quick Tips #2
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Nodejs - Quick Tips #2
+</h2>
+
+    
+        
+            
+    
+    04&#x2F;17&#x2F;2016, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                            #NodeJs
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="process-exit-and-time-elapse">Process Exit and Time Elapse</h3>
+<p>When performing a long-running operation in the terminal, such as file generation, a user would like to know how long the task has run.</p>
+<span id="continue-reading"></span>
+<p>A simple way to determine how much time has elapsed in general will be to listen to 'exit' event on the process object. This can be combined with the 'hrtime' method on the process object to provide a detailed time interval.</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Using Built-In Nodejs Functions for Timing
+</span><span>
+</span><span style="color:#ff7733;">let </span><span>time </span><span style="color:#f29668;">= </span><span>process</span><span style="color:#f29668;">.</span><span style="color:#f07178;">hrtime</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>process</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">on</span><span>(</span><span style="color:#c2d94c;">&quot;exit&quot;</span><span style="color:#bfbab0cc;">, </span><span>() </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="color:#ff7733;">let </span><span>timeDiff </span><span style="color:#f29668;">= </span><span>process</span><span style="color:#f29668;">.</span><span style="color:#f07178;">hrtime</span><span>(time)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(
+</span><span>    </span><span style="color:#c2d94c;">&quot;Time elapsed for file(s) and folder(s) generation: %d nanoseconds&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    timeDiff[</span><span style="color:#f29718;">0</span><span>] </span><span style="color:#f29668;">* </span><span style="color:#f29718;">1e9 </span><span style="color:#f29668;">+ </span><span>timeDiff[</span><span style="color:#f29718;">1</span><span>]
+</span><span>  )</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<h3 id="babel-webpack-eslint-boilerplate">Babel Webpack Eslint Boilerplate</h3>
+<p>The JavaScript community has embraced ES2015 as the go-to JavaScript version to do modern web development. There are many Gulp and Babel boilerplates out there, but I found out that it is not as reliable as the Webpack and Babel combination because the Gulp watch tasks did not always pick up file changes for me.</p>
+<p>Here is a simple config for creating a starter ES2015 JavaScript project.</p>
+<pre  tabindex="0" data-lang="json" style="background-color:#0f1419;color:#bfbab0;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;name&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;my-great-module&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;version&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;1.0.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;description&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;main&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;index.js&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;scripts&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;start&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;node_modules/webpack/bin/webpack.js --watch&quot;
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;author&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;license&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;ISC&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;dependencies&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.5.2&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-core&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.7.2&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-eslint&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.0.2&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-loader&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.2.4&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-plugin-syntax-async-functions&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.5.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-plugin-transform-runtime&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.6.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-preset-es2015&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.6.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;babel-preset-stage-3&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^6.5.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eslint&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^2.8.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eslint-config-standard&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^5.1.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eslint-loader&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^1.3.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eslint-plugin-babel&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^3.2.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eslint-plugin-promise&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^1.1.0&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eslint-plugin-standard&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^1.3.2&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;webpack&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;^1.12.14&quot;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>Async functions are actually a ES2016 feature, but they are a really useful functionality, so useful that I included it into the boilerplate.</p>
+<p>Webpack is a module bundler and loader, but it can also perform file transformations for us. Webpack in our case, will be used to transpile ES2015 and for linting.</p>
+<p>Webpack is configured with a webpack.config.js file:</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// webpack.config.js
+</span><span>
+</span><span style="color:#ff7733;">var </span><span>path </span><span style="color:#f29668;">= </span><span style="color:#f07178;">require</span><span>(</span><span style="color:#c2d94c;">&quot;path&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#39bae6;">module</span><span style="color:#f29668;">.</span><span style="font-style:italic;color:#39bae6;">exports </span><span style="color:#f29668;">= </span><span>{
+</span><span>  entry</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;./the-main-input-file.js&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  output</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    path</span><span style="color:#bfbab0cc;">: </span><span>path</span><span style="color:#f29668;">.</span><span style="color:#f07178;">join</span><span>(__dirname</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;/dist/&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>    filename</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;my-output-file.js&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  module</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    preLoaders</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      { test</span><span style="color:#bfbab0cc;">: </span><span style="color:#95e6cb;">/\.js</span><span style="color:#ff7733;">$</span><span style="color:#95e6cb;">/</span><span style="color:#bfbab0cc;">, </span><span>loader</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;eslint-loader&quot;</span><span style="color:#bfbab0cc;">, </span><span>exclude</span><span style="color:#bfbab0cc;">: </span><span style="color:#95e6cb;">/node_modules/ </span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    loaders</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      {
+</span><span>        test</span><span style="color:#bfbab0cc;">: </span><span style="color:#95e6cb;">/\.js</span><span style="color:#ff7733;">$</span><span style="color:#95e6cb;">/</span><span style="color:#bfbab0cc;">,
+</span><span>        exclude</span><span style="color:#bfbab0cc;">: </span><span style="color:#95e6cb;">/node_modules/</span><span style="color:#bfbab0cc;">,
+</span><span>        loader</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;babel-loader&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>      }</span><span style="color:#bfbab0cc;">,
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  resolve</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    extensions</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;.config.js&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;.js&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  eslint</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    configFile</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;./.eslintrc.json&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  babel</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    presets</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&quot;es2015&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;stage-3&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>}</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>By default, Webpack intends to have an entry point file which serves as a manifest file for all your JavaScript files to be transformed to a single output file.</p>
+<p>Now a .babelrc is required to configure how Babel is to transpile ES2015 JavaScript:</p>
+<pre  tabindex="0" data-lang="json" style="background-color:#0f1419;color:#bfbab0;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;presets&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&quot;stage-3&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;es2015&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;plugins&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&quot;transform-runtime&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;syntax-async-functions&quot;</span><span>]
+</span><span>}
+</span></code></pre>
+<p>A stage-3 preset is needed for the async function feature in ES2016.</p>
+<p>Lastly, for the eslintrc.json file, this will provide the rules for linting JavaScript:</p>
+<pre  tabindex="0" data-lang="json" style="background-color:#0f1419;color:#bfbab0;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;parser&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;babel-eslint&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;parserOptions&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;ecmaVersion&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">7</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;sourceType&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;module&quot;
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;plugins&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&quot;babel&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;root&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;ecmaFeatures&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;arrowFunctions&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;binaryLiterals&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;blockBindings&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;classes&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;defaultParams&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;destructuring&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;forOf&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;generators&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;modules&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;objectLiteralComputedProperties&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;objectLiteralDuplicateProperties&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;objectLiteralShorthandMethods&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;objectLiteralShorthandProperties&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;octalLiterals&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;regexUFlag&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;regexYFlag&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;spread&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;superInFunctions&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;templateStrings&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;unicodeCodePointEscapes&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;globalReturn&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;rules&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;strict&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-var&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;comma-dangle&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;never&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-cond-assign&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;always&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-console&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-debugger&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-alert&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-constant-condition&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-dupe-keys&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-duplicate-case&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-empty&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-ex-assign&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-extra-boolean-cast&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-extra-semi&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-func-assign&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-inner-declarations&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-invalid-regexp&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-irregular-whitespace&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-obj-calls&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;quote-props&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-sparse-arrays&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-unreachable&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;use-isnan&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;block-scoped-var&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;quotes&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;single&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-shadow&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-shadow-restricted-names&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-unused-vars&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;vars&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;local&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>        </span><span style="color:#c2d94c;">&quot;args&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;after-used&quot;
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-use-before-define&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;consistent-return&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;complexity&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">7</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;curly&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;multi-line&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;default-case&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;dot-notation&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;allowKeywords&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eqeqeq&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;guard-for-in&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-caller&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-else-return&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-eq-null&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-eval&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-extend-native&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-extra-bind&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-fallthrough&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-floating-decimal&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-implied-eval&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-lone-blocks&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-loop-func&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-multi-str&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-native-reassign&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-new&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-new-func&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-new-wrappers&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-octal&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-octal-escape&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-param-reassign&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-proto&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-redeclare&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-return-assign&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-script-url&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-self-compare&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-sequences&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-throw-literal&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-with&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;radix&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;vars-on-top&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;wrap-iife&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;any&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;yoda&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;indent&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;brace-style&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      </span><span style="color:#c2d94c;">&quot;1tbs&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;allowSingleLine&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;quotes&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;single&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;avoid-escape&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;camelcase&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;properties&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;never&quot;
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;comma-spacing&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;before&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">false</span><span style="color:#bfbab0cc;">,
+</span><span>        </span><span style="color:#c2d94c;">&quot;after&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;comma-style&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;last&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;eol-last&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;key-spacing&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;beforeColon&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">false</span><span style="color:#bfbab0cc;">,
+</span><span>        </span><span style="color:#c2d94c;">&quot;afterColon&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;new-cap&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;newIsCap&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-multiple-empty-lines&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;max&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-nested-ternary&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-new-object&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-spaced-func&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-trailing-spaces&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-extra-parens&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;no-underscore-dangle&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;one-var&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;never&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;padded-blocks&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;semi&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;always&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;semi-spacing&quot;</span><span style="color:#bfbab0cc;">: </span><span>[
+</span><span>      </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>      {
+</span><span>        </span><span style="color:#c2d94c;">&quot;before&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">false</span><span style="color:#bfbab0cc;">,
+</span><span>        </span><span style="color:#c2d94c;">&quot;after&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">true
+</span><span>      }
+</span><span>    ]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;keyword-spacing&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;space-before-blocks&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;space-before-function-paren&quot;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;never&quot;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;space-infix-ops&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;keyword-spacing&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;spaced-comment&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">0
+</span><span>  }
+</span><span>}
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

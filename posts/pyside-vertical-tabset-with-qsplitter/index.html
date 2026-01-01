@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Pyside - Vertical Tabset with QSplitter
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Pyside - Vertical Tabset with QSplitter
+</h2>
+
+    
+        
+            
+    
+    06&#x2F;01&#x2F;2025, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #python
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/pyside/">
+                            #pyside
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="icon-sidebar-as-tabs">Icon Sidebar as Tabs</h3>
+<p>A common UI paradigm for grouping access of different functionalities to
+different portions of a GUI application is use a tabset with tabs that are
+situated in either the left or vertical portion of the screen.</p>
+<img src="/images/posts/pyside-vertical-tabset-with-qsplitter.png" alt="pyside vertical tabset with qsplitter">
+<span id="continue-reading"></span>
+<p>Here is code for a basic tab vertical tabset orientated on the left side.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">import </span><span>sys
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>(
+</span><span>    QApplication</span><span style="color:#bfbab0cc;">,
+</span><span>    QTabWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QHBoxLayout</span><span style="color:#bfbab0cc;">,
+</span><span>    QLabel</span><span style="color:#bfbab0cc;">,
+</span><span>    QTextEdit</span><span style="color:#bfbab0cc;">,
+</span><span>    QSplitter
+</span><span>)
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtGui </span><span style="color:#ff7733;">import </span><span>QIcon
+</span><span style="color:#ff7733;">from </span><span>PySide6 </span><span style="color:#ff7733;">import </span><span>QtWidgets</span><span style="color:#bfbab0cc;">, </span><span>QtGui
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtCore </span><span style="color:#ff7733;">import </span><span>QSize</span><span style="color:#bfbab0cc;">, </span><span>Qt
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Window</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Tabset - Tabs and tab Contents
+</span><span>        tab_widget </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QTabWidget</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The tabs of the tabset is going to be in vertical layout,
+</span><span>        tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setTabPosition</span><span>(QTabWidget</span><span style="color:#f29668;">.</span><span>TabPosition</span><span style="color:#f29668;">.</span><span>West)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget </span><span style="color:#f29668;">= </span><span>tab_widget
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Get the current palette color for inactive tabs
+</span><span>        app </span><span style="color:#f29668;">= </span><span>QtWidgets</span><span style="color:#f29668;">.</span><span>QApplication</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">instance</span><span>()
+</span><span>        palette </span><span style="color:#f29668;">= </span><span>app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">palette</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Inactive background color
+</span><span>        base_color </span><span style="color:#f29668;">= </span><span>palette</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">color</span><span>(QtGui</span><span style="color:#f29668;">.</span><span>QPalette</span><span style="color:#f29668;">.</span><span>Base)
+</span><span>        bg_rgb_color </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;rgb(</span><span>{base_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">red</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{base_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">green</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{base_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">blue</span><span>()}</span><span style="color:#c2d94c;">)&quot;
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Inactive border color
+</span><span>        shadow_color </span><span style="color:#f29668;">= </span><span>palette</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">shadow</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">color</span><span>()
+</span><span>        shadow_rgb_color </span><span style="color:#f29668;">= </span><span>(
+</span><span>            </span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;rgb(</span><span>{shadow_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">red</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{shadow_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">green</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{shadow_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">blue</span><span>()}</span><span style="color:#c2d94c;">)&quot;
+</span><span>        )
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add stylesheet for high-contrast active tab
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(
+</span><span>            </span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;&quot;&quot;
+</span><span style="color:#c2d94c;">            QTabBar::tab </span><span style="color:#95e6cb;">{{
+</span><span style="color:#c2d94c;">                background: </span><span>{bg_rgb_color}</span><span style="color:#c2d94c;">;
+</span><span style="color:#c2d94c;">                padding: 0px 8px 10px 8px;
+</span><span style="color:#c2d94c;">                border: 1px solid transparent;
+</span><span style="color:#c2d94c;">                border-color: </span><span>{shadow_rgb_color}</span><span style="color:#c2d94c;">;
+</span><span style="color:#c2d94c;">                margin: 0px;
+</span><span style="color:#c2d94c;">                border-radius: 2px;
+</span><span style="color:#c2d94c;">                border-right: none;
+</span><span style="color:#c2d94c;">                border-bottom-right-radius: 0px;
+</span><span style="color:#c2d94c;">                border-top-right-radius: 0px;
+</span><span style="color:#c2d94c;">            </span><span style="color:#95e6cb;">}}
+</span><span style="color:#c2d94c;">
+</span><span style="color:#c2d94c;">            QTabBar::tab:selected, QTabBar::tab:focus </span><span style="color:#95e6cb;">{{
+</span><span style="color:#c2d94c;">                background:
+</span><span style="color:#c2d94c;">                    qlineargradient(x1:0, y1:0, x2:1, y2:0,
+</span><span style="color:#c2d94c;">                        stop:0 #00c416, stop:1 #00ffb2);
+</span><span style="color:#c2d94c;">                border: 1px solid #222;
+</span><span style="color:#c2d94c;">                border-right: none;
+</span><span style="color:#c2d94c;">            </span><span style="color:#95e6cb;">}}
+</span><span style="color:#c2d94c;">        &quot;&quot;&quot;
+</span><span>        )
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Tabset data which includes the icon name and tab contents
+</span><span>        tab_info </span><span style="color:#f29668;">= </span><span>[
+</span><span>            {</span><span style="color:#c2d94c;">&quot;icon&quot;</span><span style="color:#bfbab0cc;">: </span><span>QIcon</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">fromTheme</span><span>(</span><span style="color:#c2d94c;">&quot;document-open&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>             </span><span style="color:#c2d94c;">&quot;text&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;First tab contents&quot;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>            {</span><span style="color:#c2d94c;">&quot;icon&quot;</span><span style="color:#bfbab0cc;">: </span><span>QIcon</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">fromTheme</span><span>(</span><span style="color:#c2d94c;">&quot;document-new&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>             </span><span style="color:#c2d94c;">&quot;text&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;Second tab contents&quot;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>        ]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track all splitters to update the widths of the left
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># and right panels based on shared global width values
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters </span><span style="color:#f29668;">= </span><span>[]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create tabs and tab contents from above data
+</span><span>        </span><span style="color:#ff7733;">for </span><span>tab </span><span style="color:#ff7733;">in </span><span>tab_info:
+</span><span>            icon </span><span style="color:#f29668;">= </span><span>tab[</span><span style="color:#c2d94c;">&quot;icon&quot;</span><span>]
+</span><span>            text </span><span style="color:#f29668;">= </span><span>tab[</span><span style="color:#c2d94c;">&quot;text&quot;</span><span>]
+</span><span>
+</span><span>            tab </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QWidget</span><span>()
+</span><span>            layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QHBoxLayout</span><span>(tab)
+</span><span>            splitter </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QSplitter</span><span>(Qt</span><span style="color:#f29668;">.</span><span>Orientation</span><span style="color:#f29668;">.</span><span>Horizontal)
+</span><span>
+</span><span>            label </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QLabel</span><span>(text)
+</span><span>            label</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setWordWrap</span><span>(</span><span style="color:#f29718;">True</span><span>)
+</span><span>
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># Include a qsplitter as the tab contents,
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># which replicated the traditional resizable/collapsible
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># left panel view
+</span><span>            splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(label)
+</span><span>            splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QTextEdit</span><span>())
+</span><span>            layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(splitter)
+</span><span>
+</span><span>            tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addTab</span><span>(tab</span><span style="color:#bfbab0cc;">, </span><span>icon</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span>)
+</span><span>
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">append</span><span>(splitter)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Increase the tab icon size for better visibility
+</span><span>        tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setIconSize</span><span>(</span><span style="color:#ffb454;">QSize</span><span>(</span><span style="color:#f29718;">30</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">30</span><span>))
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Provide default width values for the splitter widths
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># for consisttency
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width </span><span style="color:#f29668;">= </span><span style="color:#f29718;">200
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width </span><span style="color:#f29668;">= </span><span style="color:#f29718;">300
+</span><span>
+</span><span>        layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QHBoxLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(tab_widget)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">resize</span><span>(</span><span style="color:#f29718;">800</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">600</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Move window to bottom right of the screen
+</span><span>        screen_geometry </span><span style="color:#f29668;">= </span><span>app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">primaryScreen</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">geometry</span><span>()
+</span><span>        x </span><span style="color:#f29668;">= </span><span>screen_geometry</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">right</span><span>() </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()
+</span><span>        y </span><span style="color:#f29668;">= </span><span>screen_geometry</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">bottom</span><span>() </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">height</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">move</span><span>(x</span><span style="color:#bfbab0cc;">, </span><span>y)
+</span><span>
+</span><span>
+</span><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;__main__&quot;</span><span>:
+</span><span>    app </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QApplication</span><span>(sys</span><span style="color:#f29668;">.</span><span>argv)
+</span><span>    window </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">Window</span><span>()
+</span><span>    window</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>    sys</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exit</span><span>(app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>())
+</span><span>
+</span></code></pre>
+<p>For a vertical tabset, we use a horizontal QHBoxLayout layout. The tabs stay on the left side while the tab's content is on the right.
+Usually, the left tabs have a group of functionalities nested underneath each tab and this is expressed through have a "middle" panel that groups the sub categories of features that belong to the left tab.
+In the screenshot, you can see the middle panel as the area which has the
+text of "First tab contents".
+This middle panel can also further subdivide content using such things as collapsible containers, or it could simply be a listing of another widget or UI element type.
+The middle panel is resizable to make room for the contents on the right
+of the middle panel. This area will be the viewing of
+the actual content. The middle and right panels are created using the QSplitter
+widget, and we want to make sure that the middle panel's width is the
+same as we navigate between the tabs.</p>
+<p>Currently, this basic example does not exhibit the behavior of
+syncing the widths of the middle panel, but we will want to achieve this to
+create the illusion that the middle panel is the same layout in the lifetime
+of using this application.
+The general rule is to track the middle panel when the QSplitter resize handle
+was dragged which registers the width change. This width value will ultimately get replicated to all the other tabs' middle panel.</p>
+<p>The two functions below serve the primary function of tracking the width of the middle panel and updating the widths of the middle panel of the newly switched tab.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">import </span><span>sys
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>(
+</span><span>    QApplication</span><span style="color:#bfbab0cc;">,
+</span><span>    QTabWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QHBoxLayout</span><span style="color:#bfbab0cc;">,
+</span><span>    QLabel</span><span style="color:#bfbab0cc;">,
+</span><span>    QTextEdit</span><span style="color:#bfbab0cc;">,
+</span><span>    QSplitter
+</span><span>)
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtGui </span><span style="color:#ff7733;">import </span><span>QIcon
+</span><span style="color:#ff7733;">from </span><span>PySide6 </span><span style="color:#ff7733;">import </span><span>QtWidgets</span><span style="color:#bfbab0cc;">, </span><span>QtGui
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtCore </span><span style="color:#ff7733;">import </span><span>QSize</span><span style="color:#bfbab0cc;">, </span><span>Qt</span><span style="color:#bfbab0cc;">, </span><span>QTimer
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Window</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Record the width of the splitter left and right panel widths
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># on tab changes
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">on_tab_change</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">index</span><span>):
+</span><span>        current_splitter </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters[index]
+</span><span>        current_splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSizes</span><span>([
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width])
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Update stored widths when any splitter is moved
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">on_splitter_moved</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">splitter</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">_pos</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">_index</span><span>):
+</span><span>        widths </span><span style="color:#f29668;">= </span><span>splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">sizes</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width </span><span style="color:#f29668;">= </span><span>widths[</span><span style="color:#f29718;">0</span><span>]
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width </span><span style="color:#f29668;">= </span><span>widths[</span><span style="color:#f29718;">1</span><span>]
+</span><span>
+</span></code></pre>
+<p>It might appear that the methods from above is all we need, but it is also required to record the middle panel width on initial application window load.</p>
+<p>We need to track the initial width because the middle panel on the initial tab might not have been resized before switching to another tab. If the user switches to the second tab in this scenario, the width of the middle panel   most likely wouldn't align to the first initial tab.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Move window to bottom right of the screen
+</span><span>        screen_geometry </span><span style="color:#f29668;">= </span><span>app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">primaryScreen</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">geometry</span><span>()
+</span><span>        x </span><span style="color:#f29668;">= </span><span>screen_geometry</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">right</span><span>() </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()
+</span><span>        y </span><span style="color:#f29668;">= </span><span>screen_geometry</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">bottom</span><span>() </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">height</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">move</span><span>(x</span><span style="color:#bfbab0cc;">, </span><span>y)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Set initial splitter sizes after all the elements are on display,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># such that the first tab activated other than the initially
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># active tab&#39;s qsplitter width will be given a width value more
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># quickly to prevent a lag in the left panel width set
+</span><span>        QTimer</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">singleShot</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>set_initial_splitter_sizes)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Set sizes for the initially visible tab&#39;s splitter
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">set_initial_splitter_sizes</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        current_index </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">currentIndex</span><span>()
+</span><span>        current_splitter </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters[current_index]
+</span><span>        current_splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSizes</span><span>([
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width])
+</span><span>
+</span></code></pre>
+<p>The completed example is shown below</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">import </span><span>sys
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>(
+</span><span>    QApplication</span><span style="color:#bfbab0cc;">,
+</span><span>    QTabWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QWidget</span><span style="color:#bfbab0cc;">,
+</span><span>    QHBoxLayout</span><span style="color:#bfbab0cc;">,
+</span><span>    QLabel</span><span style="color:#bfbab0cc;">,
+</span><span>    QTextEdit</span><span style="color:#bfbab0cc;">,
+</span><span>    QSplitter
+</span><span>)
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtGui </span><span style="color:#ff7733;">import </span><span>QIcon
+</span><span style="color:#ff7733;">from </span><span>PySide6 </span><span style="color:#ff7733;">import </span><span>QtWidgets</span><span style="color:#bfbab0cc;">, </span><span>QtGui
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtCore </span><span style="color:#ff7733;">import </span><span>QSize</span><span style="color:#bfbab0cc;">, </span><span>Qt</span><span style="color:#bfbab0cc;">, </span><span>QTimer
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Window</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Tabset - Tabs and tab Contents
+</span><span>        tab_widget </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QTabWidget</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># The tabs of the tabset is going to be in vertical layout,
+</span><span>        tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setTabPosition</span><span>(QTabWidget</span><span style="color:#f29668;">.</span><span>TabPosition</span><span style="color:#f29668;">.</span><span>West)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget </span><span style="color:#f29668;">= </span><span>tab_widget
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Get the current palette color for inactive tabs
+</span><span>        app </span><span style="color:#f29668;">= </span><span>QtWidgets</span><span style="color:#f29668;">.</span><span>QApplication</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">instance</span><span>()
+</span><span>        palette </span><span style="color:#f29668;">= </span><span>app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">palette</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Inactive background color
+</span><span>        base_color </span><span style="color:#f29668;">= </span><span>palette</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">color</span><span>(QtGui</span><span style="color:#f29668;">.</span><span>QPalette</span><span style="color:#f29668;">.</span><span>Base)
+</span><span>        bg_rgb_color </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;rgb(</span><span>{base_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">red</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{base_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">green</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{base_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">blue</span><span>()}</span><span style="color:#c2d94c;">)&quot;
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Inactive border color
+</span><span>        shadow_color </span><span style="color:#f29668;">= </span><span>palette</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">shadow</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">color</span><span>()
+</span><span>        shadow_rgb_color </span><span style="color:#f29668;">= </span><span>(
+</span><span>            </span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;rgb(</span><span>{shadow_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">red</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{shadow_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">green</span><span>()}</span><span style="color:#c2d94c;">, </span><span>{shadow_color</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">blue</span><span>()}</span><span style="color:#c2d94c;">)&quot;
+</span><span>        )
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add stylesheet for high-contrast active tab
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(
+</span><span>            </span><span style="color:#ff7733;">f</span><span style="color:#c2d94c;">&quot;&quot;&quot;
+</span><span style="color:#c2d94c;">            QTabBar::tab </span><span style="color:#95e6cb;">{{
+</span><span style="color:#c2d94c;">                background: </span><span>{bg_rgb_color}</span><span style="color:#c2d94c;">;
+</span><span style="color:#c2d94c;">                padding: 0px 8px 10px 8px;
+</span><span style="color:#c2d94c;">                border: 1px solid transparent;
+</span><span style="color:#c2d94c;">                border-color: </span><span>{shadow_rgb_color}</span><span style="color:#c2d94c;">;
+</span><span style="color:#c2d94c;">                margin: 0px;
+</span><span style="color:#c2d94c;">                border-radius: 2px;
+</span><span style="color:#c2d94c;">                border-right: none;
+</span><span style="color:#c2d94c;">                border-bottom-right-radius: 0px;
+</span><span style="color:#c2d94c;">                border-top-right-radius: 0px;
+</span><span style="color:#c2d94c;">            </span><span style="color:#95e6cb;">}}
+</span><span style="color:#c2d94c;">
+</span><span style="color:#c2d94c;">            QTabBar::tab:selected, QTabBar::tab:focus </span><span style="color:#95e6cb;">{{
+</span><span style="color:#c2d94c;">                background:
+</span><span style="color:#c2d94c;">                    qlineargradient(x1:0, y1:0, x2:1, y2:0,
+</span><span style="color:#c2d94c;">                        stop:0 #00c416, stop:1 #00ffb2);
+</span><span style="color:#c2d94c;">                border: 1px solid #222;
+</span><span style="color:#c2d94c;">                border-right: none;
+</span><span style="color:#c2d94c;">            </span><span style="color:#95e6cb;">}}
+</span><span style="color:#c2d94c;">        &quot;&quot;&quot;
+</span><span>        )
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Tabset data which includes the icon name and tab contents
+</span><span>        tab_info </span><span style="color:#f29668;">= </span><span>[
+</span><span>            {</span><span style="color:#c2d94c;">&quot;icon&quot;</span><span style="color:#bfbab0cc;">: </span><span>QIcon</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">fromTheme</span><span>(</span><span style="color:#c2d94c;">&quot;document-open&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>             </span><span style="color:#c2d94c;">&quot;text&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;First tab contents&quot;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>            {</span><span style="color:#c2d94c;">&quot;icon&quot;</span><span style="color:#bfbab0cc;">: </span><span>QIcon</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">fromTheme</span><span>(</span><span style="color:#c2d94c;">&quot;document-new&quot;</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>             </span><span style="color:#c2d94c;">&quot;text&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;Second tab contents&quot;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>        ]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track all splitters to update the widths of the left
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># and right panels based on shared global width values
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters </span><span style="color:#f29668;">= </span><span>[]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create tabs and tab contents from above data
+</span><span>        </span><span style="color:#ff7733;">for </span><span>tab </span><span style="color:#ff7733;">in </span><span>tab_info:
+</span><span>            icon </span><span style="color:#f29668;">= </span><span>tab[</span><span style="color:#c2d94c;">&quot;icon&quot;</span><span>]
+</span><span>            text </span><span style="color:#f29668;">= </span><span>tab[</span><span style="color:#c2d94c;">&quot;text&quot;</span><span>]
+</span><span>
+</span><span>            tab </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QWidget</span><span>()
+</span><span>            layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QHBoxLayout</span><span>(tab)
+</span><span>            splitter </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QSplitter</span><span>(Qt</span><span style="color:#f29668;">.</span><span>Orientation</span><span style="color:#f29668;">.</span><span>Horizontal)
+</span><span>
+</span><span>            label </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QLabel</span><span>(text)
+</span><span>            label</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setWordWrap</span><span>(</span><span style="color:#f29718;">True</span><span>)
+</span><span>
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># Include a qsplitter as the tab contents,
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># which replicated the traditional resizable/collapsible
+</span><span>            </span><span style="font-style:italic;color:#5c6773;"># left panel view
+</span><span>            splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(label)
+</span><span>            splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(</span><span style="color:#ffb454;">QTextEdit</span><span>())
+</span><span>            splitter</span><span style="color:#f29668;">.</span><span>splitterMoved</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">connect</span><span>(
+</span><span>                </span><span style="color:#ff7733;">lambda </span><span style="color:#f29718;">pos</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">index</span><span style="color:#bfbab0cc;">,
+</span><span>                </span><span style="color:#f29718;">s</span><span style="color:#f29668;">=</span><span>splitter: </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">on_splitter_moved</span><span>(s</span><span style="color:#bfbab0cc;">, </span><span>pos</span><span style="color:#bfbab0cc;">, </span><span>index)
+</span><span>            )
+</span><span>            layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(splitter)
+</span><span>
+</span><span>            tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addTab</span><span>(tab</span><span style="color:#bfbab0cc;">, </span><span>icon</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span>)
+</span><span>
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">append</span><span>(splitter)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Increase the tab icon size for better visibility
+</span><span>        tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setIconSize</span><span>(</span><span style="color:#ffb454;">QSize</span><span>(</span><span style="color:#f29718;">30</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">30</span><span>))
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Track tab changes to adjust the widths of splitters
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget</span><span style="color:#f29668;">.</span><span>currentChanged</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">connect</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>on_tab_change)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Provide default width values for the splitter widths
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># for consisttency
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width </span><span style="color:#f29668;">= </span><span style="color:#f29718;">200
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width </span><span style="color:#f29668;">= </span><span style="color:#f29718;">300
+</span><span>
+</span><span>        layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QHBoxLayout</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>        layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(tab_widget)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">resize</span><span>(</span><span style="color:#f29718;">800</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">600</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Move window to bottom right of the screen
+</span><span>        screen_geometry </span><span style="color:#f29668;">= </span><span>app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">primaryScreen</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">geometry</span><span>()
+</span><span>        x </span><span style="color:#f29668;">= </span><span>screen_geometry</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">right</span><span>() </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">width</span><span>()
+</span><span>        y </span><span style="color:#f29668;">= </span><span>screen_geometry</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">bottom</span><span>() </span><span style="color:#f29668;">- </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">height</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">move</span><span>(x</span><span style="color:#bfbab0cc;">, </span><span>y)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Set initial splitter sizes after all the elements are on display,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># such that the first tab activated other than the initially
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># active tab&#39;s qsplitter width will be given a width value more
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># quickly to prevent a lag in the left panel width set
+</span><span>        QTimer</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">singleShot</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>set_initial_splitter_sizes)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Set sizes for the initially visible tab&#39;s splitter
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">set_initial_splitter_sizes</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        current_index </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>tab_widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">currentIndex</span><span>()
+</span><span>        current_splitter </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters[current_index]
+</span><span>        current_splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSizes</span><span>([
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width])
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Record the width of the splitter left and right panel widths
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># on tab changes
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">on_tab_change</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">index</span><span>):
+</span><span>        current_splitter </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>splitters[index]
+</span><span>        current_splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setSizes</span><span>([
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width])
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Update stored widths when any splitter is moved
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">on_splitter_moved</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">splitter</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">_pos</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">_index</span><span>):
+</span><span>        widths </span><span style="color:#f29668;">= </span><span>splitter</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">sizes</span><span>()
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>left_splitter_width </span><span style="color:#f29668;">= </span><span>widths[</span><span style="color:#f29718;">0</span><span>]
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>right_splitter_width </span><span style="color:#f29668;">= </span><span>widths[</span><span style="color:#f29718;">1</span><span>]
+</span><span>
+</span><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;__main__&quot;</span><span>:
+</span><span>    app </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QApplication</span><span>(sys</span><span style="color:#f29668;">.</span><span>argv)
+</span><span>    window </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">Window</span><span>()
+</span><span>    window</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>    sys</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exit</span><span>(app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>())
+</span><span>
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

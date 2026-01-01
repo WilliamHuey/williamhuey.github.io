@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                <div id="content" class="section post-section">
+                    <h2 id="title">
+                        Posts
+                    </h2>
+                    <div class="posts">
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;gitignore-exclusions-for-ignore&#x2F;">
+                                gitignore - Exclusions for Ignore
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    11&#x2F;21&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="avoid-ignoring-folders-that-has-files-within-them-to-ignore">Avoid Ignoring Folders that has Files Within them to Ignore</h3>
+<p>Supposedly, there is a need to ignore generated content within a folder called "temp":</p>
+<pre data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span># .gitignore
+</span><span>
+</span><span>test/temp/*
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/git/">
+                                        #git
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;gitignore-exclusions-for-ignore&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;typescript-string-enum-for-checking-value-type&#x2F;">
+                                TypeScript - String Enum for Checking Value Type
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    11&#x2F;14&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="ramda-s-type-check">Ramda's Type Check</h3>
+<p>Ramda's type checking returns a string, but in order for this to be useful, one needs to know if the returned value matches your intended assertion.</p>
+<pre data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>({})</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Object&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(</span><span style="color:#f29718;">1</span><span>)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Number&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(</span><span style="color:#f29718;">false</span><span>)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Boolean&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(</span><span style="color:#c2d94c;">&#39;s&#39;</span><span>)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;String&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(</span><span style="color:#f29718;">null</span><span>)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Null&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>([])</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Array&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(</span><span style="color:#95e6cb;">/</span><span style="color:#f29718;">[A-z]</span><span style="color:#95e6cb;">/</span><span>)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;RegExp&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(() </span><span style="color:#ff7733;">=&gt; </span><span>{})</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Function&quot;
+</span><span>R</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">type</span><span>(</span><span style="color:#f29718;">undefined</span><span>)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">//=&gt; &quot;Undefined&quot;
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/typescript/">
+                                        #typescript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;typescript-string-enum-for-checking-value-type&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-memory-intensive-promise-operations&#x2F;">
+                                Nodejs - Memory Intensive Promise Operations
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    11&#x2F;07&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="backpressure-for-promises">Backpressure for Promises</h3>
+<p>When dealing with promises, the processing of long-running tasks is the commonly encountered scenario. However, some long-running task might also be performing memory intensive operations. To deal with running multiple operations at once, it is important to place a limit on the number of promises allowed to run at the same time as to not exhaust the Nodejs JavaScript heap.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-memory-intensive-promise-operations&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-quick-pick-2&#x2F;">
+                                Nodejs - Quick Picks #2
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    10&#x2F;31&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="cjstoesm"><a href="https://www.npmjs.com/package/cjstoesm">Cjstoesm</a></h3>
+<p>Automate the process of converting over JavaScript files in the cjs format to the newer ESM format with the command line.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-quick-pick-2&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;visual-studio-code-extensions-quick-picks-4&#x2F;">
+                                Visual Studio Code Extensions - Quick Picks #4
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    10&#x2F;24&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="gremlins-tracker-for-visual-studio-code"><a href="https://marketplace.visualstudio.com/items?itemName=nhoizey.gremlins">Gremlins Tracker for Visual Studio Code</a></h3>
+<p>Invisible characters that are non-standard in certain file types may cause unexpected problems. This plugin will highlight these whitespace characters in your files.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/editor/">
+                                        #editor
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;visual-studio-code-extensions-quick-picks-4&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;snowpack-font-url-in-css&#x2F;">
+                                Snowpack - Font URLs in CSS
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    10&#x2F;17&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="problem-with-url-resolution">Problem with URL Resolution</h3>
+<p>Up to Snowpack version 3.8.8, there is an issue with how Snowpack resolves path references inside CSS files. This often creates a problem when importing font files as mentioned on this <a href="https://github.com/snowpackjs/snowpack/discussions/1573">page</a>.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;snowpack-font-url-in-css&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-executing-pandoc-command-for-latex&#x2F;">
+                                Nodejs - Executing Pandoc Command for LaTeX
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    10&#x2F;10&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="ensuring-consistent-execution-path">Ensuring Consistent Execution Path</h3>
+<p>In this example, a script might refer to a file, index.tex, which is referenced by Pandoc to convert a file located within a folder:</p>
+<pre data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>/contents
+</span><span>  index.tex
+</span></code></pre>
+<pre data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ffb454;">spawn</span><span>(</span><span style="color:#c2d94c;">&#39;pandoc&#39;</span><span style="color:#bfbab0cc;">, </span><span>[
+</span><span>  </span><span style="color:#c2d94c;">&#39;/the/full/path/to/contents/index.tex&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&#39;-o&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&#39;/the/full/path/to/output/index.html&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&#39;-s&#39;
+</span><span>])</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/latex/">
+                                        #latex
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/pandoc/">
+                                        #pandoc
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-executing-pandoc-command-for-latex&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <nav class="pagination">
+                            <div class="pagination-links">
+                                
+                                <a class="pagination-link previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;9&#x2F;">‹ Previous</a>
+                                
+                                
+                                <a class="pagination-link next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;11&#x2F;">Next ›</a>
+                                
+                            </div>
+                            
+                            <div class="pagination-pages">
+                                Page 10 of 23
+                            </div>
+                            
+                        </nav>
+                    </div>
+                </div>
+            
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

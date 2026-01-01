@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    PySide6 and Matplotlib - Simple Line Plot
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    PySide6 and Matplotlib - Simple Line Plot
+</h2>
+
+    
+        
+            
+    
+    12&#x2F;01&#x2F;2022, Thu
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #python
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="fill-a-window-with-a-graph">Fill a Window with a Graph</h3>
+<p>The <a href="https://pypi.org/project/PySide6/">PySide6</a> library offers Python bindings for <a href="https://doc.qt.io/qt-6/index.html">Qt</a> which is a C++ cross-platform UI library. Qt has been in development for a long time and this will give a stable and mature platform for developing desktop applications.
+PySide enables one to leverage all the packages from the Python community while using QT. The Python graphing library, <a href="https://matplotlib.org/stable/gallery/user_interfaces/embedding_in_qt_sgskip.html">Matplotlib</a>, becomes a naturally pairing with the QT library because Matplotlib provides integration options.</p>
+<span id="continue-reading"></span>
+<p>To show how Matplotlib can be used with PySide, the below example will demonstrate a plot that scales to the full width and height of a desktop window.
+We start off by importing the PySide and Matplotlib dependencies along with the
+native packages to generate data for our graph.</p>
+<p>The <code>__init__</code> function will define a couple of properties to provide the desktop values for window size and title while the <code>PlotCanvas</code> function will be defined later to set up the Matplotlib graph details.</p>
+<p>The Qt <code>QVBoxLayout</code> is defined for storing the graph canvas to scale inside the window.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">import </span><span>sys
+</span><span style="color:#ff7733;">import </span><span>random
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># PySide dependency
+</span><span style="color:#ff7733;">from </span><span>PySide6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>QApplication</span><span style="color:#bfbab0cc;">, </span><span>QWidget</span><span style="color:#bfbab0cc;">, </span><span>QVBoxLayout
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Matplotlib dependencies
+</span><span style="color:#ff7733;">from </span><span>matplotlib</span><span style="color:#f29668;">.</span><span>backends</span><span style="color:#f29668;">.</span><span>backend_qtagg </span><span style="color:#ff7733;">import </span><span>FigureCanvas
+</span><span style="color:#ff7733;">from </span><span>matplotlib</span><span style="color:#f29668;">.</span><span>figure </span><span style="color:#ff7733;">import </span><span>Figure
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">App</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QWidget</span><span>):
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">parent</span><span style="color:#f29668;">=</span><span style="color:#f29718;">None</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>(App</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(parent)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Set properties of the window
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">resize</span><span>(</span><span style="color:#f29718;">600</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">490</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>title </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&#39;The Window Title&#39;
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setWindowTitle</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>title)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create the matplotlib canvas
+</span><span>        canvas </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">PlotCanvas</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Add the plot canvas to the horizontal box layout
+</span><span>        layout </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QVBoxLayout</span><span>()
+</span><span>        layout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(canvas)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setLayout</span><span>(layout)
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># ...
+</span></code></pre>
+<p>Now the <code>PlotCanvas</code> function creates the graph canvas and figure before setting the properties for the graph. Most of the manipulation of the graph
+involves calling on functions on the <code>self.axes</code> object.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">PlotCanvas</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">FigureCanvas</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">parent</span><span style="color:#f29668;">=</span><span style="color:#f29718;">None</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">dpi</span><span style="color:#f29668;">=</span><span style="color:#f29718;">100</span><span>):
+</span><span>        </span><span style="color:#f07178;">super</span><span>(PlotCanvas</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#ffb454;">Figure</span><span>()) 
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setParent</span><span>(parent)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create the figure and figure canvas
+</span><span>        fig </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">Figure</span><span>(</span><span style="color:#f29718;">dpi</span><span style="color:#f29668;">=</span><span>dpi)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>figure </span><span style="color:#f29668;">= </span><span>fig
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>canvas </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">FigureCanvas</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>figure)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes </span><span style="color:#f29668;">= </span><span>fig</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">add_subplot</span><span>()
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create data for the graph
+</span><span>        data </span><span style="color:#f29668;">= </span><span>[random</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">random</span><span>() </span><span style="color:#ff7733;">for </span><span>i </span><span style="color:#ff7733;">in </span><span style="color:#f07178;">range</span><span>(</span><span style="color:#f29718;">25</span><span>)]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Line style
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">plot</span><span>(data</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">linestyle</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&#39;dashed&#39;</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Graph title text
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">set_title</span><span>(</span><span style="color:#c2d94c;">&#39;The Graph Title&#39;</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Axes labels text
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">set_ylabel</span><span>(</span><span style="color:#c2d94c;">&#39;Y Label&#39;</span><span>)
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">set_xlabel</span><span>(</span><span style="color:#c2d94c;">&#39;X Label&#39;</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># X-axis color change
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span>xaxis</span><span style="color:#f29668;">.</span><span>label</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">set_color</span><span>(</span><span style="color:#c2d94c;">&#39;blue&#39;</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Set the x-axis ticks and labels
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span>xaxis</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">set_tick_params</span><span>(</span><span style="color:#f29718;">colors</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&#39;red&#39;</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Set y-axis label line color
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>axes</span><span style="color:#f29668;">.</span><span>spines[</span><span style="color:#c2d94c;">&#39;left&#39;</span><span>]</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">set_color</span><span>(</span><span style="color:#c2d94c;">&#39;orange&#39;</span><span>)
+</span><span>        
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">draw</span><span>()
+</span><span>
+</span><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&#39;__main__&#39;</span><span>:
+</span><span>    app </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">QApplication</span><span>(sys</span><span style="color:#f29668;">.</span><span>argv)
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># Additional styling for the widget which houses
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># the chart
+</span><span>    app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">setStyleSheet</span><span>(</span><span style="color:#c2d94c;">&quot;&quot;&quot;
+</span><span style="color:#c2d94c;">      QWidget {
+</span><span style="color:#c2d94c;">        background-color: &quot;green&quot;;
+</span><span style="color:#c2d94c;">        padding: 20px;
+</span><span style="color:#c2d94c;">      }
+</span><span style="color:#c2d94c;">    &quot;&quot;&quot;</span><span>)
+</span><span>
+</span><span>    widget </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">App</span><span>()
+</span><span>    widget</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>    sys</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exit</span><span>(app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>())
+</span><span>
+</span></code></pre>
+<p>The outcome of all this will result in the graph below.</p>
+<video controls="" name="media">
+  <source src="/images/posts/pyside-matplotlib-simple-graph-qwidget-resize.webm" type="video/webm">
+</video>
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

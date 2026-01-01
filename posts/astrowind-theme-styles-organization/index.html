@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Astro Theme - Astrowind Styles Organization
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Astro Theme - Astrowind Styles Organization
+</h2>
+
+    
+        
+            
+    
+    07&#x2F;20&#x2F;2024, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/css/">
+                            #CSS
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="moving-css-variables-into-tailwind-css">Moving Css Variables into tailwind.css</h3>
+<p>The original <a href="https://github.com/onwidget/astrowind">Astrowind theme</a> has a <code>CustomStyles.astro</code> file that stores color variables and font asset resources, but this theme also uses tailwind.
+To make the shared content more localized, the css variables should be stored
+in the <code>tailwind.css</code> file because then the color variables will then be usable in the <code>tailwind.config.cjs</code> file.</p>
+<p>Intuitively, the initial thought would be to also store the font assets in the tailwind.css, but the fonts used are downloaded with <a href="https://fontsource.org/">fontsource</a>, which uses the <code>import</code> to load the fonts in a JavaScript file. This means that the fonts are better suited to be imported into
+the <code>CustomStyles.astro</code> file because astro files can handle JavaScript.</p>
+<span id="continue-reading"></span>
+<p>The following below examples show how the organization should look</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">// tailwind.config.js
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>defaultTheme </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;tailwindcss/defaultTheme&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>typographyPlugin </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;@tailwindcss/typography&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">export default </span><span>{
+</span><span>  content</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&#39;./src/**/*.{astro,html,js,jsx,json,md,mdx,svelte,ts,tsx,vue}&#39;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>  theme</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    extend</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>      colors</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>        primary</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-primary)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        secondary</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-secondary)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        accent</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-accent)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        default</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-text-default)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        muted</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-text-muted)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        cardinal</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-cardinal)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        </span><span style="color:#c2d94c;">&#39;color-supernova&#39;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;var(--aw-color-supernova)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>        supernova</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;rgb(var(--aw-color-supernova) / &lt;alpha-value&gt;)&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>      }</span><span style="color:#bfbab0cc;">,
+</span><span>      fontFamily</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>        </span><span style="color:#c2d94c;">&#39;navine&#39;</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&#39;NavineDemo-SemiCondensed&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;sans-serif&#39;</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>        sans</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&#39;var(--aw-font-sans, ui-sans-serif)&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">...</span><span>defaultTheme</span><span style="color:#f29668;">.</span><span>fontFamily</span><span style="color:#f29668;">.</span><span>sans]</span><span style="color:#bfbab0cc;">,
+</span><span>        serif</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&#39;var(--aw-font-serif, ui-serif)&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">...</span><span>defaultTheme</span><span style="color:#f29668;">.</span><span>fontFamily</span><span style="color:#f29668;">.</span><span>serif]</span><span style="color:#bfbab0cc;">,
+</span><span>        heading</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">&#39;var(--aw-font-heading, ui-sans-serif)&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">...</span><span>defaultTheme</span><span style="color:#f29668;">.</span><span>fontFamily</span><span style="color:#f29668;">.</span><span>sans]</span><span style="color:#bfbab0cc;">,
+</span><span>      }</span><span style="color:#bfbab0cc;">,
+</span><span>    }</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  plugins</span><span style="color:#bfbab0cc;">: </span><span>[typographyPlugin]</span><span style="color:#bfbab0cc;">,
+</span><span>  darkMode</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;class&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>}</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#f29668;">---
+</span><span style="font-style:italic;color:#5c6773;">// CustomStyles.astro
+</span><span>
+</span><span style="color:#ff7733;">import </span><span style="color:#c2d94c;">&#39;@fontsource/arvo&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#f29668;">---
+</span><span>
+</span><span style="color:#f29668;">&lt;</span><span>style </span><span style="color:#59c2ff;">is</span><span style="color:#bfbab0cc;">:</span><span>inline</span><span style="color:#f29668;">&gt;
+</span><span>  :root {
+</span><span>    </span><span style="color:#f29668;">--</span><span>aw</span><span style="color:#f29668;">-</span><span>font</span><span style="color:#f29668;">-</span><span style="color:#59c2ff;">sans</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;NavineDemo-SemiCondensed&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f29668;">--</span><span>aw</span><span style="color:#f29668;">-</span><span>font</span><span style="color:#f29668;">-</span><span style="color:#59c2ff;">serif</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Arvo&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f29668;">--</span><span>aw</span><span style="color:#f29668;">-</span><span>font</span><span style="color:#f29668;">-</span><span style="color:#59c2ff;">heading</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;NavineDemo-SemiCondensed&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#f29668;">.</span><span>dark {
+</span><span>    </span><span style="color:#f29668;">--</span><span>aw</span><span style="color:#f29668;">-</span><span>font</span><span style="color:#f29668;">-</span><span style="color:#59c2ff;">sans</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;NavineDemo-SemiCondensed&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f29668;">--</span><span>aw</span><span style="color:#f29668;">-</span><span>font</span><span style="color:#f29668;">-</span><span style="color:#59c2ff;">serif</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Arvo&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f29668;">--</span><span>aw</span><span style="color:#f29668;">-</span><span>font</span><span style="color:#f29668;">-</span><span style="color:#59c2ff;">heading</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;NavineDemo-SemiCondensed&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span style="color:#f29668;">&lt;/</span><span>style</span><span style="color:#f29668;">&gt;
+</span></code></pre>
+<pre  tabindex="0" data-lang="css" style="background-color:#0f1419;color:#bfbab0;" class="language-css "><code class="language-css" data-lang="css"><span style="font-style:italic;color:#5c6773;">/* tailwind.css */
+</span><span>
+</span><span>@tailwind </span><span style="color:#59c2ff;">base</span><span>;
+</span><span>@tailwind components;
+</span><span>@tailwind utilities;
+</span><span>
+</span><span>:root {
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-primary</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">1 97 239</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-secondary</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">1 84 207</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-accent</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">109 40 217</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-text-heading</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">0 0 0</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-text-default</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">16 16 16</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-text-muted</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">16 16 16</span><span> / </span><span style="color:#f29718;">66</span><span style="color:#ff7733;">%</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-supernova</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">255 204 0</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-cardinal</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">209</span><span style="color:#bfbab0cc;">,</span><span style="color:#f29718;">33</span><span style="color:#bfbab0cc;">,</span><span style="color:#f29718;">56</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-bg-supernova</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">var</span><span>(</span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-supernova</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-bg-page</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">var</span><span>(</span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-supernova</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">--</span><span style="font-style:italic;color:#39bae6;">aw-color-bg-page-dark</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">rgb</span><span>(</span><span style="color:#f29718;">3 6 32</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">@font-face </span><span>{
+</span><span>  </span><span style="color:#39bae6;">font-family</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;NavineDemo-SemiCondensed&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#39bae6;">src</span><span style="color:#bfbab0cc;">: </span><span style="color:#f07178;">url</span><span>(</span><span style="color:#c2d94c;">&#39;../font/NavineDemo-SemiCondensed.woff2&#39;</span><span>) </span><span style="color:#f07178;">format</span><span>(</span><span style="color:#c2d94c;">&#39;woff2&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span>...
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

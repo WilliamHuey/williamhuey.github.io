@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                <div id="content" class="section post-section">
+                    <h2 id="title">
+                        Posts
+                    </h2>
+                    <div class="posts">
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;lit-element-constrain-global-styles-in-a-web-component&#x2F;">
+                                Lit Element - Constrain Global Styles in a Web Component
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    03&#x2F;19&#x2F;2022, Sat
+
+                                </div>
+                                <h3 id="linking-stylesheet-in-the-template">Linking Stylesheet in the Template</h3>
+<p>To use even a basic css library will cause some styles to be applied globally to the entire page, but you wish to localize the styling to just the web component which you are defining.</p>
+<p>Importing the third party css library in the static style definition will not bring in the styles.</p>
+<pre data-lang="typescript" style="background-color:#0f1419;color:#bfbab0;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span>static styles </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">css</span><span style="color:#c2d94c;">`
+</span><span style="color:#c2d94c;">
+</span><span style="color:#c2d94c;">// This won&#39;t work
+</span><span style="color:#c2d94c;">@import &#39;bulma/css/bulma.css&#39;;
+</span><span style="color:#c2d94c;">
+</span><span style="color:#c2d94c;">...
+</span><span style="color:#c2d94c;">`
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;lit-element-constrain-global-styles-in-a-web-component&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;git-cherry-pick-pick-custom-commit-message&#x2F;">
+                                Git - Cherry Picking Changes but Avoid Taking the Exact Commit Log
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    03&#x2F;10&#x2F;2022, Thu
+
+                                </div>
+                                <h3 id="customize-the-cherry-picked-commit-message">Customize the cherry-picked Commit Message</h3>
+<p>You are working on a branch focusing on a certain feature, but you end up adding in commit messages that are not presentable enough to be applied to your <code>main</code> branch. To fix this problem, you can rebase to squash the commits and then cherry-pick the changes onto the <code>main</code> branch.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/git/">
+                                        #git
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;git-cherry-pick-pick-custom-commit-message&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;lit-element-attribute-change&#x2F;">
+                                Lit Element - After Attribute Change
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    02&#x2F;27&#x2F;2022, Sun
+
+                                </div>
+                                <h3 id="wait-for-dom-change-before-taking-action">Wait for DOM Change before Taking Action</h3>
+<p>Assume that we have a button which sets up with a click event listener to call upon a toggling of state to display an associated container:</p>
+<pre data-lang="typescript" style="background-color:#0f1419;color:#bfbab0;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span style="color:#ff7733;">import </span><span>{ LitElement</span><span style="color:#bfbab0cc;">, </span><span>html } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&quot;lit-element&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">MyElement </span><span style="color:#ff7733;">extends </span><span style="text-decoration:underline;color:#59c2ff;">LitElement </span><span>{
+</span><span>
+</span><span>  </span><span style="color:#ffb454;">render</span><span>() {
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="color:#ffb454;">html</span><span style="color:#c2d94c;">`
+</span><span style="color:#c2d94c;">      &lt;button @click=&quot;${</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>_handleClick</span><span style="color:#c2d94c;">}&quot;&gt;click&lt;/button&gt;
+</span><span style="color:#c2d94c;">      &lt;div id=&quot;container&quot; class=${</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span>open </span><span style="color:#f29668;">? </span><span style="color:#c2d94c;">&#39;expanded&#39; </span><span style="color:#f29668;">: </span><span style="color:#c2d94c;">&#39;collapsed&#39;}&gt;
+</span><span style="color:#c2d94c;">        The contents.
+</span><span style="color:#c2d94c;">      &lt;/div&gt;
+</span><span style="color:#c2d94c;">    `</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#ffb454;">_handleClick</span><span>() {
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">_toggleContainer</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">//...
+</span><span>}
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">//...
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;lit-element-attribute-change&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;emotion-css-with-linaria&#x2F;">
+                                Emotion Css with Linaria
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    02&#x2F;17&#x2F;2022, Thu
+
+                                </div>
+                                <h3 id="share-global-styles-on-compile-and-runtime">Share Global Styles on Compile and Runtime</h3>
+<p>Linaria is able to achieve zero-runtime css-in-js because it compiles the js to css before the local dev server startup, however one might wish to share and modify styles used by Linaria during development.</p>
+<p>Since one can't use Linaria when the dev server is running for client css-in-js, the base styles will need to be handed over to another css-in-js library for modification.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/css/">
+                                        #css
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;emotion-css-with-linaria&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;redefined-a-web-component&#x2F;">
+                                Redefined a Web Component
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    02&#x2F;05&#x2F;2022, Sat
+
+                                </div>
+                                <h3 id="hmr-with-web-components">HMR with Web Components</h3>
+<p>Say that you are using HMR in conjunction with web components for your layouts, you would expect a change in the component's JavaScript logic to trigger the HMR code to re-register the component.</p>
+<p>However, there isn't a way to redefine a web component once it has already been defined and registered onto the page, an error will be thrown if you tried to redefine the web component again.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;redefined-a-web-component&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;snowpack-hmr-compare-old-and-new-value&#x2F;">
+                                Snowpack - HMR - Compare Old and New Value
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;29&#x2F;2022, Sat
+
+                                </div>
+                                <h3 id="export-value-for-comparison">Export Value for Comparison</h3>
+<p>HMR is a convenient tool to have when one wishes to perform updates to a page without fully reloading the whole page. When using Snowpack's HMR, one can compare a variable's value prior to it being changed.</p>
+<p>This feature might come in handy when you want to perform resets after a set amount of time has passed for a user session, but there also might be a requirement to restore certain pieces of old information back into a new session.
+For example, in a privacy-sensitive form area, a notice can come up in area that does not require a full refresh as a top status bar after a time-out period.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;snowpack-hmr-compare-old-and-new-value&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;snowpack-dev-server-compile-css-on-server-start&#x2F;">
+                                Snowpack - Dev Server - Compile Css on Server Start
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;22&#x2F;2022, Sat
+
+                                </div>
+                                <h3 id="linaria-cli">Linaria CLI</h3>
+<p>CSS-in-Js styles are quite modular given their ability to be associated with components, but it is also helpful to have the option to compile some styles ahead of time for a html page to use. This behavior is desired if there are common global styles that referenced by all pages. Having minimum styles on the page in a css file also helps to prevent the flash of unstyled content.</p>
+<p>In the following example, <a href="https://github.com/callstack/linaria">Linaria</a> will be shown as the CSS-in-Js of choice since this library supports compilation during build.</p>
+<p>Create a new project and install the project dependencies:</p>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">npm</span><span> install snowpack @snowpack/plugin-run-script @linaria/cli @linaria/shaker
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/css/">
+                                        #css
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;snowpack-dev-server-compile-css-on-server-start&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <nav class="pagination">
+                            <div class="pagination-links">
+                                
+                                <a class="pagination-link previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;7&#x2F;">‹ Previous</a>
+                                
+                                
+                                <a class="pagination-link next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;9&#x2F;">Next ›</a>
+                                
+                            </div>
+                            
+                            <div class="pagination-pages">
+                                Page 8 of 23
+                            </div>
+                            
+                        </nav>
+                    </div>
+                </div>
+            
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

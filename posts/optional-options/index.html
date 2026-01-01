@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Optional Options
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Optional Options
+</h2>
+
+    
+        
+            
+    
+    09&#x2F;12&#x2F;2013, Thu
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/jquery/">
+                            #jQuery
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="common-object-format">Common Object Format</h3>
+<p>Most JQuery plugins will use the common format of customizing by providing a plain object to the plugin handler. This is well suited for plugins that provide a widget to your page where a callback might not be needed.</p>
+<span id="continue-reading"></span><pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Options Object for Plugin
+</span><span style="color:#ffb454;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#my-element&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">widgetLike</span><span>({
+</span><span>  firstOption</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;setHigh&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>  secondOption</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">false</span><span style="color:#bfbab0cc;">,
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<h3 id="callback-format">Callback Format</h3>
+<p>However, there might be times when the plugin does not need options, or a callback is desired when a certain event happens. This format of plugin is very similar to the native JQuery event handlers.</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Callback for the Plugin
+</span><span style="color:#ffb454;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#my-element&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">alertWhenClickedTwice</span><span>(</span><span style="color:#ff7733;">function </span><span>() {
+</span><span>  </span><span style="color:#ffb454;">alert</span><span>(</span><span style="color:#c2d94c;">&quot;Be like the native Jquery event handler&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<h3 id="hybrid-format">Hybrid Format</h3>
+<p>There are even occasions where a combination of the above two formats might be needed for some degree of customizing over a plain callback.</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Callback with Options
+</span><span style="color:#ffb454;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#my-element&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">optionsWithCallback</span><span>(
+</span><span>  {
+</span><span>    firstOption</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;setHigh&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    secondOption</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29718;">false</span><span style="color:#bfbab0cc;">,
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>    </span><span style="color:#ffb454;">alert</span><span>(</span><span style="color:#c2d94c;">&quot;Be like the native Jquery event handler&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Below is a modified version of the <a href="http://jqueryboilerplate.com/">JQuery Boilerplate</a>.</p>
+<p>In order for the callback function to work, the event must be triggered within the plugin itself. Look inside Plugin.prototype.init() for details.</p>
+<pre  tabindex="0" data-lang="js" style="background-color:#0f1419;color:#bfbab0;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Boilerplate - Optional Option
+</span><span>(</span><span style="color:#ff7733;">function </span><span>(</span><span style="color:#f29718;">$</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">window</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">document</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">undefined</span><span>) {
+</span><span>  </span><span style="color:#ff7733;">var </span><span>pluginName </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;optionsAreOptional&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    defaults</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">var </span><span style="color:#ffb454;">PluginWrapper </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">function </span><span>(</span><span style="color:#f29718;">element</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">pluginInfo</span><span>) {
+</span><span>    </span><span style="color:#ff7733;">var </span><span style="color:#ffb454;">Plugin </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>      </span><span style="color:#ff7733;">function </span><span style="color:#ffb454;">checkArgs</span><span>(</span><span style="color:#f29718;">index</span><span>) {
+</span><span>        </span><span style="color:#ff7733;">switch </span><span>(pluginInfo[index]) {
+</span><span>          </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;object&quot;</span><span>:
+</span><span>            </span><span style="font-style:italic;color:#5c6773;">// Overwrite defaults if the args item is an object
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">Plugin</span><span style="color:#f29668;">.</span><span>options </span><span style="color:#f29668;">= </span><span>$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">extend</span><span>({}</span><span style="color:#bfbab0cc;">, </span><span>defaults</span><span style="color:#bfbab0cc;">, </span><span>pluginInfo</span><span style="color:#f29668;">.</span><span>args[index])</span><span style="color:#bfbab0cc;">;
+</span><span>            </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>          </span><span style="color:#ff7733;">case </span><span style="color:#c2d94c;">&quot;function&quot;</span><span>:
+</span><span>            </span><span style="font-style:italic;color:#5c6773;">// Store the index of where the function location in args
+</span><span>            pluginInfo</span><span style="color:#f29668;">.</span><span>functionIndex </span><span style="color:#f29668;">= </span><span>index</span><span style="color:#bfbab0cc;">;
+</span><span>            </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>        }
+</span><span>      }
+</span><span>      </span><span style="font-style:italic;color:#5c6773;">// Check what type of arguments are supplied to
+</span><span>      </span><span style="font-style:italic;color:#5c6773;">// the first and second parameters
+</span><span>      </span><span style="color:#ff7733;">switch </span><span>(pluginInfo</span><span style="color:#f29668;">.</span><span>argsLen) {
+</span><span>        </span><span style="color:#ff7733;">case </span><span style="color:#f29718;">1</span><span>:
+</span><span>          </span><span style="color:#ffb454;">checkArgs</span><span>(</span><span style="color:#f29718;">0</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>          </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="color:#ff7733;">case </span><span style="color:#f29718;">2</span><span>:
+</span><span>          </span><span style="color:#ffb454;">checkArgs</span><span>(</span><span style="color:#f29718;">0</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>          </span><span style="color:#ffb454;">checkArgs</span><span>(</span><span style="color:#f29718;">1</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>          </span><span style="font-style:italic;color:#5c6773;">// Should not have the same parameter types
+</span><span>          </span><span style="color:#ff7733;">if </span><span>(pluginInfo[</span><span style="color:#f29718;">0</span><span>] </span><span style="color:#f29668;">=== </span><span>pluginInfo[</span><span style="color:#f29718;">1</span><span>]) {
+</span><span>            </span><span style="color:#ff7733;">throw </span><span>[
+</span><span>              </span><span style="color:#c2d94c;">&quot;Can not have the first two parameters of the same type of &quot;</span><span style="color:#bfbab0cc;">,
+</span><span>              </span><span style="color:#c2d94c;">&#39;&quot;&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>              pluginInfo[</span><span style="color:#f29718;">0</span><span>]</span><span style="color:#bfbab0cc;">,
+</span><span>              </span><span style="color:#c2d94c;">&#39;&quot;&#39;</span><span style="color:#bfbab0cc;">,
+</span><span>            ]</span><span style="color:#f29668;">.</span><span style="color:#f07178;">join</span><span>(</span><span style="color:#c2d94c;">&quot;&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>          }
+</span><span>          </span><span style="color:#ff7733;">break</span><span style="color:#bfbab0cc;">;
+</span><span>      }
+</span><span>    }</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Plugin</span><span style="color:#f29668;">.</span><span>prototype </span><span style="color:#f29668;">= </span><span>{
+</span><span>      </span><span style="color:#ffb454;">init</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">function </span><span>(</span><span style="color:#f29718;">pluginInfo</span><span>) {
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Do Stuff
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">stuff</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="color:#ff7733;">var </span><span>$el </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">$</span><span>(element)</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Attaching event listener
+</span><span>        $el</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">on</span><span>(</span><span style="color:#c2d94c;">&quot;optionsAreOptional&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#ff7733;">function </span><span>(</span><span style="color:#f29718;">evt</span><span>) {
+</span><span>          </span><span style="font-style:italic;color:#5c6773;">// Make sure a function exists before executing one
+</span><span>          </span><span style="color:#ff7733;">if </span><span>(</span><span style="color:#f29668;">typeof </span><span>pluginInfo</span><span style="color:#f29668;">.</span><span>functionIndex </span><span style="color:#f29668;">!== </span><span style="color:#c2d94c;">&quot;undefined&quot;</span><span>) {
+</span><span>            </span><span style="font-style:italic;color:#5c6773;">// Preserve the event and context
+</span><span>            pluginInfo</span><span style="color:#f29668;">.</span><span>args[pluginInfo</span><span style="color:#f29668;">.</span><span>functionIndex]</span><span style="color:#f29668;">.</span><span style="color:#f07178;">call</span><span>(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">, </span><span>evt)</span><span style="color:#bfbab0cc;">;
+</span><span>          }
+</span><span>        })</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Testing out the event listener
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Use this upon a certain condition being met
+</span><span>        $el</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">trigger</span><span>(</span><span style="color:#c2d94c;">&quot;optionsAreOptional&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Do more stuff here
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">doMoreStuff</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>      }</span><span style="color:#bfbab0cc;">,
+</span><span>      </span><span style="color:#ffb454;">stuff</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Stuff to be done
+</span><span>      }</span><span style="color:#bfbab0cc;">,
+</span><span>      </span><span style="color:#ffb454;">doMoreStuff</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Even more stuff to be done
+</span><span>      }</span><span style="color:#bfbab0cc;">,
+</span><span>      </span><span style="font-style:italic;color:#5c6773;">// Add more functions here
+</span><span>    }</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Initialize plugin
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Plugin</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Plugin</span><span style="color:#f29668;">.</span><span>prototype</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">init</span><span>(pluginInfo)</span><span style="color:#bfbab0cc;">;
+</span><span>  }</span><span style="color:#bfbab0cc;">;
+</span><span>  $</span><span style="color:#f29668;">.</span><span>fn[pluginName] </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>    </span><span style="color:#ff7733;">var </span><span>args </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">Array</span><span style="color:#f29668;">.</span><span>prototype</span><span style="color:#f29668;">.</span><span>slice</span><span style="color:#f29668;">.</span><span style="color:#f07178;">call</span><span>(</span><span style="font-style:italic;color:#39bae6;">arguments</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>      argsLen </span><span style="color:#f29668;">= </span><span>args</span><span style="color:#f29668;">.</span><span>length</span><span style="color:#bfbab0cc;">,
+</span><span>      pluginInfo </span><span style="color:#f29668;">= </span><span>{}</span><span style="color:#bfbab0cc;">;
+</span><span>    pluginInfo</span><span style="color:#f29668;">.</span><span>argsLen </span><span style="color:#f29668;">= </span><span>argsLen</span><span style="color:#bfbab0cc;">;
+</span><span>    pluginInfo</span><span style="color:#f29668;">.</span><span>args </span><span style="color:#f29668;">= </span><span>args</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">function </span><span style="color:#ffb454;">checkArgs</span><span>(</span><span style="color:#f29718;">theItem</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">index</span><span>) {
+</span><span>      </span><span style="color:#ff7733;">try </span><span>{
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Determine if item is a plain object
+</span><span>        </span><span style="color:#ff7733;">if </span><span>($</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">isPlainObject</span><span>(theItem)) {
+</span><span>          pluginInfo[index] </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;object&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>        }
+</span><span>      } </span><span style="color:#ff7733;">catch </span><span>(error) {
+</span><span>        </span><span style="color:#ff7733;">throw </span><span style="color:#c2d94c;">&quot;Not a proper object&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>      }
+</span><span>      </span><span style="color:#ff7733;">try </span><span>{
+</span><span>        </span><span style="color:#ff7733;">if </span><span>($</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">isFunction</span><span>(theItem)) {
+</span><span>          </span><span style="font-style:italic;color:#5c6773;">// Determine if item is a function
+</span><span>          pluginInfo[index] </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;function&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>        }
+</span><span>      } </span><span style="color:#ff7733;">catch </span><span>(error) {
+</span><span>        </span><span style="color:#ff7733;">throw </span><span style="color:#c2d94c;">&quot;Not a proper function.&quot;</span><span style="color:#bfbab0cc;">;
+</span><span>      }
+</span><span>    }
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">each</span><span>(</span><span style="color:#ff7733;">function </span><span>() {
+</span><span>      </span><span style="color:#ff7733;">if </span><span>(</span><span style="color:#f29668;">!</span><span>$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span>(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;plugin_&quot; </span><span style="color:#f29668;">+ </span><span>pluginName)) {
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Check for the number of arguments for plugin
+</span><span>        </span><span style="color:#ff7733;">for </span><span>(</span><span style="color:#ff7733;">var </span><span>i </span><span style="color:#f29668;">= </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">; </span><span>i </span><span style="color:#f29668;">&lt; </span><span>pluginInfo</span><span style="color:#f29668;">.</span><span>argsLen</span><span style="color:#bfbab0cc;">; </span><span>i</span><span style="color:#f29668;">++</span><span>) {
+</span><span>          </span><span style="color:#ffb454;">checkArgs</span><span>(pluginInfo</span><span style="color:#f29668;">.</span><span>args[i]</span><span style="color:#bfbab0cc;">, </span><span>i)</span><span style="color:#bfbab0cc;">;
+</span><span>        }
+</span><span>        $</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">data</span><span>(
+</span><span>          </span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">,
+</span><span>          </span><span style="color:#c2d94c;">&quot;plugin_&quot; </span><span style="color:#f29668;">+ </span><span>pluginName</span><span style="color:#bfbab0cc;">,
+</span><span>          </span><span style="color:#f29668;">new </span><span style="color:#59c2ff;">PluginWrapper</span><span>(</span><span style="font-style:italic;color:#39bae6;">this</span><span style="color:#bfbab0cc;">, </span><span>pluginInfo)
+</span><span>        )</span><span style="color:#bfbab0cc;">;
+</span><span>      }
+</span><span>    })</span><span style="color:#bfbab0cc;">;
+</span><span>  }</span><span style="color:#bfbab0cc;">;
+</span><span>})(jQuery</span><span style="color:#bfbab0cc;">, </span><span>window</span><span style="color:#bfbab0cc;">, </span><span>document)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<pre  tabindex="0" data-lang="html" style="background-color:#0f1419;color:#bfbab0;" class="language-html "><code class="language-html" data-lang="html"><span style="font-style:italic;color:#5c6773;">&lt;!-- Accompanying Html --&gt;
+</span><span>
+</span><span style="color:#39bae690;">&lt;!</span><span style="color:#ff7733;">DOCTYPE </span><span style="color:#f29718;">html</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">html</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">head</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;</span><span>Optional Options</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">meta </span><span style="color:#ffb454;">charset</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot; </span><span style="color:#39bae690;">/&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">script </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;jquery-1.10.2.min.js&quot;</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">script </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;JqueryBoilerPlateOptionalOptions.js&quot;</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">head</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">body</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#e6b673;">$</span><span>(</span><span style="font-style:italic;color:#39bae6;">document</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">ready</span><span>(</span><span style="color:#ff7733;">function </span><span>() {
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// 1) Options Only
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Only options provided to the plugin
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// This is what most JQuery plugin out there uses
+</span><span>        </span><span style="color:#e6b673;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#only-options&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">optionsAreOptional</span><span>({
+</span><span>          stuff</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;myThings&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>        })</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// 2) Function Only
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// This format is similar to the native JQuery event handler
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Use this if your plugin needs not to have any configuration options
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// In order for this to work, trigger the name of the plugin
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// ex. $(&#39;#only-function&#39;).trigger(&quot;optionsAreOptional&quot;)
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// inside your plugin to activate the event handler
+</span><span>        </span><span style="color:#e6b673;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#only-function&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">optionsAreOptional</span><span>(</span><span style="color:#ff7733;">function </span><span>() {
+</span><span>          </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&quot;Only a function&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>        })</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// 3) Options and Function
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Both option and function are provided for this one
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Use this if a little configuration is needed over the
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// second option
+</span><span>        </span><span style="color:#e6b673;">$</span><span>(</span><span style="color:#c2d94c;">&quot;#options-function&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">optionsAreOptional</span><span>(
+</span><span>          {
+</span><span>            moreStuff</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;moreOfMyThings&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>          }</span><span style="color:#bfbab0cc;">,
+</span><span>          </span><span style="color:#ff7733;">function </span><span>() {
+</span><span>            </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&quot;My callback.&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>          }
+</span><span>        )</span><span style="color:#bfbab0cc;">;
+</span><span>      })</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">script</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">h1</span><span style="color:#39bae690;">&gt;</span><span>The following headers have attached event listeners:</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">h1</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">h2 </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;only-options&quot;</span><span style="color:#39bae690;">&gt;</span><span>Only options provided for this header.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">h2</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">h2 </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;only-function&quot;</span><span style="color:#39bae690;">&gt;</span><span>A function attached to this header.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">h2</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">h2 </span><span style="color:#ffb454;">id</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;options-function&quot;</span><span style="color:#39bae690;">&gt;</span><span>This header has options and a function.</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">h2</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">body</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">html</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p><a href="http://jsbin.com/otIsuta/3/">Online Demo</a> | <a href="/archives/2013-09-12-optional-options.zip">Offline Demo</a></p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

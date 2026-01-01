@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                <div id="content" class="section post-section">
+                    <h2 id="title">
+                        Posts
+                    </h2>
+                    <div class="posts">
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-logical-operators&#x2F;">
+                                RxJS - Logical Operators
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;30&#x2F;2021, Sat
+
+                                </div>
+                                <h3 id="logical-evaluation">Logical Evaluation</h3>
+<p>In traditional JavaScript, one would use the logical operators "&amp;&amp;", "||", "!" when evaluating variables for the "and", "or", and "not" conditions respectively.
+Similarly, there are RxJS operators which looks like the ones found in JavaScript when you wish to treat observable like values that needs to be compared against one another.</p>
+<p>For the examples below, "true" in this sense refers to the observable have "truly" emitted a value and not have it base upon the actual underlying value within the observable.</p>
+<h4 id="and">AND</h4>
+<p>Use the "forkJoin" operator when every single observable must be activated for the subscription to run.</p>
+<pre data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">// When the observables will emit at least once in any order
+</span><span>
+</span><span style="color:#ff7733;">import </span><span>{ forkJoin</span><span style="color:#bfbab0cc;">, </span><span>of</span><span style="color:#bfbab0cc;">, </span><span>interval } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;rxjs&#39;</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">import </span><span>{ take } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;rxjs/operators&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>timer$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">interval</span><span>(</span><span style="color:#f29718;">1000</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">pipe</span><span>(</span><span style="color:#ffb454;">take</span><span>(</span><span style="color:#f29718;">1</span><span>))</span><span style="color:#bfbab0cc;">,
+</span><span>  truthfulness$ </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">of</span><span>(</span><span style="color:#f29718;">true</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ffb454;">forkJoin</span><span>([
+</span><span>  timer$</span><span style="color:#bfbab0cc;">,
+</span><span>  truthfulness$
+</span><span>])
+</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>(() </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&#39;All completed once&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>})</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span></code></pre>
+<p>Alternatively, you might be able to use "combineLatest" when you
+have long-lived observables. Tangentially, "concat" or "zip" will work if a strict order needs to be imposed for activation of observables in a series.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/rxjs/">
+                                        #RxJS
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-logical-operators&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-quick-tips-1&#x2F;">
+                                RxJS - Quick Tips #1
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;24&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="conditional-activation-of-an-observable">Conditional Activation of an Observable</h3>
+<p>Only make an observable run based on a ternary matching criteria.</p>
+<pre data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="font-style:italic;color:#5c6773;">// Third party modules
+</span><span style="color:#ff7733;">import </span><span>{ NEVER</span><span style="color:#bfbab0cc;">, </span><span>of } </span><span style="color:#ff7733;">from </span><span style="color:#c2d94c;">&#39;rxjs&#39;</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>evaluateToTrueCriteria </span><span style="color:#f29668;">= </span><span style="color:#f29718;">true</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// &#39;conditional$&#39; will not run &#39;subscribe&#39; when the ternary
+</span><span style="font-style:italic;color:#5c6773;">// evaluates to the false branch
+</span><span style="color:#ff7733;">const </span><span>conditional$ </span><span style="color:#f29668;">= </span><span>evaluateToTrueCriteria </span><span style="color:#f29668;">? </span><span style="color:#ffb454;">of</span><span>(</span><span style="color:#f29718;">true</span><span>) </span><span style="color:#f29668;">: </span><span>NEVER</span><span style="color:#bfbab0cc;">;
+</span><span>conditional$</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">subscribe</span><span>((</span><span style="color:#f29718;">res</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(res))</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/rxjs/">
+                                        #RxJS
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;rxjs-quick-tips-1&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pandoc-filter&#x2F;">
+                                Pandoc Filter
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;17&#x2F;2021, Sun
+
+                                </div>
+                                <h3 id="output-file-manipulation">Output file Manipulation</h3>
+<p>When working with a document format conversion, such as converting over a Markdown file to LaTeX,
+there will be occasions where you might want to manipulate the output when Pandoc is not able to completely infer the output that is desired.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/markdown/">
+                                        #markdown
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;pandoc-filter&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nx-angular-storybook-and-cypress-testing&#x2F;">
+                                NX - Angular Storybook and Cypress Testing
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;11&#x2F;2021, Mon
+
+                                </div>
+                                <h3 id="scaffolding-for-angular-and-storybook-with-cypress">Scaffolding for Angular and Storybook with Cypress</h3>
+<p>First, use npx to localize the install of NX (v11.0.20) and Angular CLI (v11.0.20).</p>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Create a nx workspace
+</span><span style="color:#ffb454;">npx</span><span> create-nx-workspace@latest
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/angular/">
+                                        #Angular
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nx-angular-storybook-and-cypress-testing&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;zola-config&#x2F;">
+                                Setting Up Zola
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    01&#x2F;07&#x2F;2021, Thu
+
+                                </div>
+                                <h3 id="static-site-generator-configuration">Static Site Generator Configuration</h3>
+<p>Zola is a decent static site generator written in Rust. This post will list some of my impressions and settings I made to get it customized to my liking to emulate the look and feel of my previous <a href="https://web.archive.org/web/20200212105912/https://williamhuey.github.io/">blog</a> design.</p>
+<h4 id="generating-a-new-project">Generating a new project</h4>
+<p>After using the init command, empty folders are generated, but it isn't quite clear on what needs to be modified. Running the server on the newly generated project yields a welcome page, but the physical page is not to be found in any folder.
+To get started quickly, I recommend that you use a <a href="https://www.getzola.org/themes/">theme</a> and then customize it to your needs.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/cms/">
+                                        #cms
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;zola-config&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;readme-reuse&#x2F;">
+                                README.md Reuse
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    12&#x2F;06&#x2F;2016, Tue
+
+                                </div>
+                                <h3 id="common-help-information">Common Help Information</h3>
+<p>All NPM and Github repos have README.md as the primary means of communicating the purpose of a specific module or project. In some situations, such as a CLI module, there is almost always a command to list help for the module’s use.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/markdown/">
+                                        #Markdown
+                                    </a>
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;readme-reuse&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-asynchronous-file-operations-with-try-catch&#x2F;">
+                                Nodejs - Asynchronous File Operations with Try-Catch
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    11&#x2F;27&#x2F;2016, Sun
+
+                                </div>
+                                <h3 id="handle-situation-when-file-does-not-exist-in-directory">Handle Situation When File Does Not Exist in Directory</h3>
+<p>Performing a file reading operation to check whether a file exists before operating might cause a race condition as stated in the Nodejs section on fs.stat:</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                                        #NodeJs
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;nodejs-asynchronous-file-operations-with-try-catch&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <nav class="pagination">
+                            <div class="pagination-links">
+                                
+                                <a class="pagination-link previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;15&#x2F;">‹ Previous</a>
+                                
+                                
+                                <a class="pagination-link next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;17&#x2F;">Next ›</a>
+                                
+                            </div>
+                            
+                            <div class="pagination-pages">
+                                Page 16 of 23
+                            </div>
+                            
+                        </nav>
+                    </div>
+                </div>
+            
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

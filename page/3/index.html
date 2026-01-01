@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+                <div id="content" class="section post-section">
+                    <h2 id="title">
+                        Posts
+                    </h2>
+                    <div class="posts">
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;quarto-revealjs&#x2F;">
+                                Quarto - Revealjs
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    11&#x2F;07&#x2F;2024, Thu
+
+                                </div>
+                                <h3 id="presentations-in-quarto">Presentations in Quarto</h3>
+<p>Not only is quarto good for document publishing needs, it can also be used as presentation tool. With quarto, you can leverage revealjs to display your charts and graphs.</p>
+<h4 id="columns">Columns</h4>
+<p>There might be a situation where you would want to present your graphs in two columns.
+This makes better use of the space in one slide to accommodate two figures.</p>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>:::: {.columns}
+</span><span>:::: {.column}
+</span><span>First column
+</span><span>::::
+</span><span>
+</span><span>:::: {.column}
+</span><span>Second Column
+</span><span>::::
+</span><span>::::
+</span></code></pre>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                                        #Python
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/quarto/">
+                                        #quarto
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;quarto-revealjs&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;quarto-svg-charts&#x2F;">
+                                Quarto - SVG Charts
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    10&#x2F;03&#x2F;2024, Thu
+
+                                </div>
+                                <h3 id="render-ggplot-in-r-as-svg-images">Render GGplot in R as SVG Images</h3>
+<p>When you enlarge the view of a qqplot chart, you would like to see a crisp zoomed in version of the chart. We will achieve this by using svg charts.</p>
+<p>For one to use svg charts in ggplot, it requires a download of another package called 'svglite'. However, R dependency manager doesn't quite install sub-dependencies for you, which makes it challenging to get all the dependencies you need for a project. To alleviate this issue, install renv to make managing R dependencies a less complicated ordeal.</p>
+<p>The following example assumes that you are on an Ubuntu machine.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                                        #Python
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/quarto/">
+                                        #quarto
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;quarto-svg-charts&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;quarto-in-docker-container&#x2F;">
+                                Quarto in Docker Container
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    09&#x2F;07&#x2F;2024, Sat
+
+                                </div>
+                                <h3 id="reproducible-quarto-environment">Reproducible Quarto Environment</h3>
+<p>Quarto a tool to help with technical and scientific publishing which incorporates programming languages and typesetting support in all-in-one solution. Since quarto relies on python and many other dependencies, it is safer to run Quarto in a docker container to avoid significant changes on your host machine. In addition, it will help with a repeat set up when you need to bring up the same environment again.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                                        #Python
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/quarto/">
+                                        #quarto
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;quarto-in-docker-container&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;astrowind-image-component&#x2F;">
+                                Astrowind - Image Component
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    08&#x2F;10&#x2F;2024, Sat
+
+                                </div>
+                                <h3 id="searching-for-images">Searching for Images</h3>
+<p>Astro comes with a default image component that you can use to
+load your images from the /src/assets folder.</p>
+<p>From the actual <a href="https://docs.astro.build/en/reference/api-reference/#image-">documentation page</a>,</p>
+<pre data-lang="markdown" style="background-color:#0f1419;color:#bfbab0;" class="language-markdown "><code class="language-markdown" data-lang="markdown"><span style="background-color:#bfbab010;font-weight:bold;color:#5c6773;">---
+</span><span>// import the Image component and the image
+</span><span>import { Image } from &#39;astro:assets&#39;;
+</span><span>import myImage from &quot;../assets/my_image.png&quot;; // Image is 1600x900
+</span><span style="font-weight:bold;color:#ff7733;">---
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">&lt;!-- `alt` is mandatory on the Image component --&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">Image </span><span style="color:#ffb454;">src</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">{myImage} </span><span style="color:#ffb454;">alt</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;A description of my image.&quot; </span><span style="color:#39bae690;">/&gt;
+</span></code></pre>
+<p>Using Astro's <code>Image</code> component is useful in that it helps you perform optimizations to your images on the final build. It is able to output to webp format as well as set the width and height for them to improve site layout performance.</p>
+<p>However, one of the downside of using the default component is that you have to load the images one by one. Astro also has a suggestion for <a href="https://docs.astro.build/en/recipes/dynamically-importing-images/">dynamic images</a> using <code>import.meta.glob</code>, but it still is not as dynamic as compared to that of Astro's <code>glob</code> method.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;astrowind-image-component&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;astrowind-theme-styles-organization&#x2F;">
+                                Astro Theme - Astrowind Styles Organization
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    07&#x2F;20&#x2F;2024, Sat
+
+                                </div>
+                                <h3 id="moving-css-variables-into-tailwind-css">Moving Css Variables into tailwind.css</h3>
+<p>The original <a href="https://github.com/onwidget/astrowind">Astrowind theme</a> has a <code>CustomStyles.astro</code> file that stores color variables and font asset resources, but this theme also uses tailwind.
+To make the shared content more localized, the css variables should be stored
+in the <code>tailwind.css</code> file because then the color variables will then be usable in the <code>tailwind.config.cjs</code> file.</p>
+<p>Intuitively, the initial thought would be to also store the font assets in the tailwind.css, but the fonts used are downloaded with <a href="https://fontsource.org/">fontsource</a>, which uses the <code>import</code> to load the fonts in a JavaScript file. This means that the fonts are better suited to be imported into
+the <code>CustomStyles.astro</code> file because astro files can handle JavaScript.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                                        #JavaScript
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                                <div class="post-taxonomies">
+                                    Tags:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/tags/css/">
+                                        #CSS
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;astrowind-theme-styles-organization&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;vscode-extension-write-to-file&#x2F;">
+                                Visual Studio Code Authoring Extension - Highlighted Text to File
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    06&#x2F;19&#x2F;2024, Wed
+
+                                </div>
+                                <h3 id="write-selected-text-to-the-contents-of-a-file">Write Selected Text to the Contents of a File</h3>
+<p>A common operation that a vscode extension might encounter is the need to write to an external file. The following example will show how this is performed using
+the <code>vscode.workspace.fs.writeFile</code> method.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/editor/">
+                                        #editor
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;vscode-extension-write-to-file&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <article class="post">
+                            <a class="post-header-link" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;batch-convert-xcf-to-jpg&#x2F;">
+                                Batch XCF to Jpg Conversion
+                            </a>
+                            <div class="post-summary">
+                                <div class="post-date">
+                                    
+    
+    05&#x2F;24&#x2F;2024, Fri
+
+                                </div>
+                                <h3 id="gimp-s-default-editing-format-to-jpg">Gimp's Default Editing Format to JPG</h3>
+<p>When saving multiple edited images into Gimp's native image editing format,
+there will be a need to export them to a readily used format such as JPG. By using the bash script written by <a href="https://billauer.co.il/blog/2009/07/gimp-xcf-jpg-jpeg-convert-bash-script/">Eli</a> you can achieve this task.</p>
+<p>However, his bash script requires you to place that file into the same directory
+as to where the xcf files are located for conversion, which can be improved
+if you wish to operate on multiple folders with xcf, it would be
+inconvenient to copy the script to all those folders.</p>
+<p>Modifying the script, we have the following file, "convert_xcf_to_jpg.sh", which can take an input and output directories to control where the conversion will take place without the restriction of leaving the script in the same directory as the xcf files.</p>
+                            </div>
+                            <div class="post-taxonomies-group">
+                                
+                                <div class="post-taxonomies">
+                                    Categories:
+                                    
+                                    <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                                        #shell
+                                    </a>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="read-more">
+                                <a href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;posts&#x2F;batch-convert-xcf-to-jpg&#x2F;">Read more...</a>
+                            </div>
+                        </article>
+                        
+                        <nav class="pagination">
+                            <div class="pagination-links">
+                                
+                                <a class="pagination-link previous" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;2&#x2F;">‹ Previous</a>
+                                
+                                
+                                <a class="pagination-link next" href="https:&#x2F;&#x2F;williamhuey.github.io&#x2F;page&#x2F;4&#x2F;">Next ›</a>
+                                
+                            </div>
+                            
+                            <div class="pagination-pages">
+                                Page 3 of 23
+                            </div>
+                            
+                        </nav>
+                    </div>
+                </div>
+            
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

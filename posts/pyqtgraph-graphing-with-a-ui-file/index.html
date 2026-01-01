@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    PyQtgraph - Graphing with a Ui File
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    PyQtgraph - Graphing with a Ui File
+</h2>
+
+    
+        
+            
+    
+    08&#x2F;12&#x2F;2023, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/python/">
+                            #python
+                        </a>
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                            #shell
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/cli-tools/">
+                            #cli-tools
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="pyqtgraph-graph-in-native-window">PyQtgraph Graph in Native Window</h3>
+<p>Dedicating a UI file to store the application layout will make for a more organized process when working with PyQt. The Python code will be cleaner if it focuses on creating the dynamic data that will be inserted into the ui file.</p>
+<p>To demonstrate this, create a <code>window.ui</code> file.</p>
+<pre  tabindex="0" data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;?</span><span style="color:#59c2ff;">xml </span><span style="color:#ffb454;">version</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;1.0&quot; </span><span style="color:#ffb454;">encoding</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;UTF-8&quot;</span><span style="color:#39bae690;">?&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">ui </span><span style="color:#ffb454;">version</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;4.0&quot;</span><span style="color:#39bae690;">&gt;
+</span><span> </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">class</span><span style="color:#39bae690;">&gt;</span><span>MainWindow</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">class</span><span style="color:#39bae690;">&gt;
+</span><span> </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">widget </span><span style="color:#ffb454;">class</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;QMainWindow&quot; </span><span style="color:#ffb454;">name</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;MainWindow&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">property </span><span style="color:#ffb454;">name</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;windowTitle&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>   </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">string</span><span style="color:#39bae690;">&gt;</span><span>MainWindow</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">string</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">property</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">widget </span><span style="color:#ffb454;">class</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;QWidget&quot; </span><span style="color:#ffb454;">name</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;centralwidget&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>     </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">layout </span><span style="color:#ffb454;">class</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;QVBoxLayout&quot; </span><span style="color:#ffb454;">name</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;verticalLayout&quot;</span><span style="color:#39bae690;">&gt;
+</span><span>     </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">layout</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">widget</span><span style="color:#39bae690;">&gt;
+</span><span> </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">widget</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">ui</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<span id="continue-reading"></span>
+<p>Now create a <code>main.py</code> file loading the graphing dependencies and <code>window.ui</code> file.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>PyQt6 </span><span style="color:#ff7733;">import </span><span>QtWidgets</span><span style="color:#bfbab0cc;">, </span><span>uic
+</span><span style="color:#ff7733;">from </span><span>PyQt6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>QMainWindow
+</span><span style="color:#ff7733;">import </span><span>pyqtgraph </span><span style="color:#ff7733;">as </span><span>pg
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Main</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QMainWindow</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        QMainWindow</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Load the UI file and make a variable reference
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># for later graph placement
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>ui </span><span style="color:#f29668;">= </span><span>uic</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">loadUi</span><span>(</span><span style="color:#c2d94c;">&quot;window.ui&quot;</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span></code></pre>
+<p>Create the PyQtgraph plot area and graph.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>PyQt6 </span><span style="color:#ff7733;">import </span><span>QtWidgets</span><span style="color:#bfbab0cc;">, </span><span>uic
+</span><span style="color:#ff7733;">from </span><span>PyQt6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>QMainWindow
+</span><span style="color:#ff7733;">import </span><span>pyqtgraph </span><span style="color:#ff7733;">as </span><span>pg
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Main</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QMainWindow</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        QMainWindow</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Load the UI file and make a variable reference
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># for later graph placement
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>ui </span><span style="color:#f29668;">= </span><span>uic</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">loadUi</span><span>(</span><span style="color:#c2d94c;">&quot;window.ui&quot;</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create the pyqtgraph plot area
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Bar Graph Configuration: https://pyqtgraph.readthedocs.io/en/latest/api_reference/graphicsItems/bargraphitem.html
+</span><span>        plot </span><span style="color:#f29668;">= </span><span>pg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">PlotWidget</span><span>()
+</span><span>        x1 </span><span style="color:#f29668;">= </span><span>[</span><span style="color:#f29718;">5</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">4</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">3</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">1</span><span>]
+</span><span>        y </span><span style="color:#f29668;">= </span><span>[</span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">3</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">4</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">5</span><span>]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create the bar graph
+</span><span>        bargraph </span><span style="color:#f29668;">= </span><span>pg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">BarGraphItem</span><span>(</span><span style="color:#f29718;">x0</span><span style="color:#f29668;">=</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">y</span><span style="color:#f29668;">=</span><span>y</span><span style="color:#bfbab0cc;">,</span><span style="color:#f29718;">width</span><span style="color:#f29668;">=</span><span>x1</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">height</span><span style="color:#f29668;">=</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">.</span><span style="color:#f29718;">7</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Place the bar graph into the plot area
+</span><span>        plot</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addItem</span><span>(bargraph)
+</span></code></pre>
+<p>Finally, reference the widget layout in the UI file and insert the PyQtgraph plot area into the layout.</p>
+<pre  tabindex="0" data-lang="python" style="background-color:#0f1419;color:#bfbab0;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>PyQt6 </span><span style="color:#ff7733;">import </span><span>QtWidgets</span><span style="color:#bfbab0cc;">, </span><span>uic
+</span><span style="color:#ff7733;">from </span><span>PyQt6</span><span style="color:#f29668;">.</span><span>QtWidgets </span><span style="color:#ff7733;">import </span><span>QMainWindow
+</span><span style="color:#ff7733;">import </span><span>pyqtgraph </span><span style="color:#ff7733;">as </span><span>pg
+</span><span>
+</span><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Main</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">QMainWindow</span><span>):
+</span><span>    </span><span style="color:#ff7733;">def </span><span style="color:#f07178;">__init__</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span><span>        QMainWindow</span><span style="color:#f29668;">.</span><span style="color:#f07178;">__init__</span><span>(</span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Load the UI file and make a variable reference
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># for later graph placement
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>ui </span><span style="color:#f29668;">= </span><span>uic</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">loadUi</span><span>(</span><span style="color:#c2d94c;">&quot;window.ui&quot;</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">self</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create the pyqtgraph plot area
+</span><span>        plot </span><span style="color:#f29668;">= </span><span>pg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">PlotWidget</span><span>()
+</span><span>        x1 </span><span style="color:#f29668;">= </span><span>[</span><span style="color:#f29718;">5</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">4</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">3</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">1</span><span>]
+</span><span>        y </span><span style="color:#f29668;">= </span><span>[</span><span style="color:#f29718;">1</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">2</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">3</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">4</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">5</span><span>]
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Create the bar graph
+</span><span>        bargraph </span><span style="color:#f29668;">= </span><span>pg</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">BarGraphItem</span><span>(</span><span style="color:#f29718;">x0</span><span style="color:#f29668;">=</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">y</span><span style="color:#f29668;">=</span><span>y</span><span style="color:#bfbab0cc;">,</span><span style="color:#f29718;">width</span><span style="color:#f29668;">=</span><span>x1</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">height</span><span style="color:#f29668;">=</span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">.</span><span style="color:#f29718;">7</span><span>)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Place the bar graph into the plot area
+</span><span>        plot</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addItem</span><span>(bargraph)
+</span><span>
+</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Programmatic insertion of graph into native window
+</span><span>        </span><span style="font-style:italic;color:#39bae6;">self</span><span style="color:#f29668;">.</span><span>ui</span><span style="color:#f29668;">.</span><span>verticalLayout</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">addWidget</span><span>(plot)
+</span><span>
+</span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">main</span><span>():
+</span><span>    app </span><span style="color:#f29668;">= </span><span>QtWidgets</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">QApplication</span><span>([])
+</span><span>    win </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">Main</span><span>()
+</span><span>    win</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">show</span><span>()
+</span><span>    app</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">exec</span><span>()
+</span><span>
+</span><span style="color:#ff7733;">if </span><span>__name__ </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&#39;__main__&#39;</span><span>:
+</span><span>    </span><span style="color:#ffb454;">main</span><span>()
+</span><span>    </span><span style="color:#ffb454;">exit</span><span>()
+</span><span>
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Unhighlight | William Huey</title>
+    <meta name="author" content="William Huey">
+    
+    <meta name="description" content="Blogging and Beyond">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Unhighlight">
+    <meta property="og:site_name" content="Williamful">
+
+    <link href="/favicon.ico?" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" href="/css/code/normalize.css" media="screen" type="text/css">
+    <link rel="stylesheet" href="/css/code/foundation.min.css" media="screen" type="text/css">
+    <link rel="stylesheet" href="/css/code/unhighlight.css" media="screen" type="text/css">
+    <script src="/js/vendor/jquery/jquery-1.10.2.min.js"></script>
+    <script src="/js/code/unhighlight/unHighlight.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Hide warning message if javascript is enabled
+            $('#warn-msg-no-js-enabled').hide();
+
+            $("input").unhighlight(function () {
+                alert("Unhighlight for input element.");
+            });
+            $("textarea").unhighlight(function () {
+                alert("Event came from the textarea.");
+            });
+            /*
+             //Could have use this code in place of the individual selectors
+             //if targeting both types of elements at the same time in one selector
+             $('textarea, input').unHighlight(function (evt) {
+             var element = evt.target;
+             alert('Text was completely unhighlighted from element, ' + element);
+             });
+             */
+        });
+    </script>
+
+</head>
+<body>
+ <div class="large-12 columns" id="warn-msg-no-js-enabled">
+  <div class="row">
+    <p>Warning, JavaScript is not enabled in your browser. Please enable JavaScript or else the examples will not work.</p>
+  </div>
+</div>
+<div class="row">
+  <div class="large-12 columns" id="top-row">
+    <ul class="large-4 columns">
+      <li class="large-6 columns top-li-1">
+        <ul class="top-ul-2">
+          <li>
+            <a href="../../" id="blog-link" class="top-img-link" aria-label="blog-link"></a>
+          </li>
+          <li>
+            <a href="../../" aria-label="blog-link">Blog</a>
+          </li>
+        </ul>
+      </li>
+      <li class="large-6 columns top-li-1">
+        <ul class="top-ul-2">
+          <li>
+            <a href="https://github.com/WilliamHuey/Unhighlight" id="github-logo-link" class="top-img-link" target="_blank" rel="external" aria-label="unhighlight-repository-link"></a>
+          </li>
+          <li>
+            <a href="https://github.com/WilliamHuey/Unhighlight" target="_blank" rel="external">Download</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+      <header>
+        <img src="/images/code/unhighlight/Logo.png" title="unhighlight-header unhighlight-logo" alt="unhighlight-logo">
+      </header>
+      <div class="row">
+          <div class="large-6 columns g">
+            <div class="row mc-rw">
+              <div class="mc-sw-1">
+                <div class="row">
+                  <div class="large-12 columns mc-h">
+                    <h3>
+                      What is Unhighlight?
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div class="mc-sw-2">
+                <div class="row">
+                  <div class="large-12 columns mc-w-sl">
+                    <p>Unhighlight is a JQuery plugin that provides an unhighlight (deselect) event for textarea and
+                      input form elements.</p>
+                    <p>The unhighlight event is triggered when text that was highlighted becomes deselected through
+                      mouse clicking, typing, or deleting within the input element.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="large-6 columns g">
+            <div class="row mc-rw">
+              <div class="mc-sw-1">
+                <div class="row">
+                  <div class="large-12 columns mc-h">
+                    <h3>
+                      Try It Out
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div class="mc-sw-2">
+                <div class="row">
+                  <div class="large-12 columns mc-w-sl">
+                    <div class="row">
+                      <div class="large-12 columns">
+                        <p>Input</p>
+                        <input type="text">
+                      </div>
+                      <div class="large-12 columns">
+                        <p>Textarea</p>
+                        <textarea rows="6"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+    </div>
+</div>
+<div class="row">
+  <div class="large-6 columns g">
+    <div class="row mc-rw">
+      <div class="mc-sw-1">
+        <div class="row">
+          <div class="large-12 columns mc-h">
+            <h3>
+              Code
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="mc-sw-2">
+        <div class="row">
+          <div class="large-12 columns mc-w-sl">
+<pre><span class="cd-1">//Attach to all input elements</span>
+<span class="cd-2">$</span>(“<span class="cd-3">input</span>“)
+.unhighlight(<span class="cd-4">function</span>() {
+<span class="cd-5">alert</span>(<span class="cd-6">“Unhighlight for input element.”</span>);
+});
+</pre>
+
+<pre><span class="cd-1">//Now for all textarea elements</span>
+<span class="cd-2">$</span>(“<span class="cd-3">textarea</span>“)
+.unhighlight(<span class="cd-4">function</span>() {
+<span class="cd-5">alert</span>(<span class="cd-6">“Event came from the textarea.”</span>);
+});
+</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="large-6 columns g">
+    <div class="row mc-rw">
+      <div class="mc-sw-1">
+        <div class="row">
+          <div class="large-12 columns mc-h">
+            <h3>
+              Notes
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="mc-sw-2">
+        <div class="row">
+          <div class="large-12 columns mc-w-sl">
+            <div class="row">
+              <div class="large-12 columns">
+                <ul>
+                  <li>
+                    <p>Chrome-based browsers and IE will automatically perform a deselection event for a textarea when
+                      refocusing on the textarea after losing focus on a textarea that previously had text
+                      selected. Supposedly, there is text ‘abc’, highlighted in a textarea. Focus is lost by
+                      pressing tab and then the textarea is refocused by pressing shift tab. The unhighlight event
+                      will trigger for the above browsers.</p>
+                  </li>
+                  <li>
+                    <p>Text must be completely unhighlighted for the unhighlight event to occur. Partial unhighlighting
+                      is not supported. For example, the text ‘123’ is selected in a textarea with the mouse
+                      still held down. The mouse moves to change the selection to ‘12’, but the unhighlight
+                      event will not trigger.</p>
+                  </li>
+                  <li>
+                    <p>If text was selected in an input or textarea element, focusing away from the element will not trigger
+                    the unhighlight event.</p>
+                  </li>
+                  <li>
+                    <p>Requires JQuery &gt;= 1.7 but should be on the &gt;= 1.10.x branch to support older IE.</p>
+                  </li>
+                  <li>
+                    <p>Tested with Opera &gt;= 12.16, Firefox 23, Chrome 29, IE &gt;= 6.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+

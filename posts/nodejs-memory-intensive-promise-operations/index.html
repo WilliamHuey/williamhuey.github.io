@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Nodejs - Memory Intensive Promise Operations
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Nodejs - Memory Intensive Promise Operations
+</h2>
+
+    
+        
+            
+    
+    11&#x2F;07&#x2F;2021, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                            #NodeJs
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="backpressure-for-promises">Backpressure for Promises</h3>
+<p>When dealing with promises, the processing of long-running tasks is the commonly encountered scenario. However, some long-running task might also be performing memory intensive operations. To deal with running multiple operations at once, it is important to place a limit on the number of promises allowed to run at the same time as to not exhaust the Nodejs JavaScript heap.</p>
+<span id="continue-reading"></span>
+<p>Most npm libraries out <a href="https://www.npmjs.com/search?q=promise%20limit">there</a> designed for limiting the promises executions, will offer an option to cap off the amount of running promises.</p>
+<p>However, this might not be the most reliable means of making sure that memory intensive tasks do not overtax Node because it is not certain how much memory compounding promise tasks might consume. To overcome this type of limitation, it is helpful to look at what Nodejs streams has to offer in terms of processing larger data sets in memory. Streams possess the ability to limit the amount data consume by implementing <a href="https://nodejs.org/en/docs/guides/backpressuring-in-streams/">backpressure</a>.</p>
+<p>Backpressure applies to Nodejs streams, but it would be helpful if this was made available to promises. The answer to this is made possible with the npm module, <a href="https://www.npmjs.com/package/streamie">streamie</a>.</p>
+<p>This library provides the ability to iterate over an array of items that gets process in return promises. Streamie is also capable of automatically handling backpressure to alleviate the burden of having to do so manually.</p>
+<p>The following example is taken from the streamie source repository showing the simple use case:</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ff7733;">const </span><span>{ source } </span><span style="color:#f29668;">= </span><span style="color:#f07178;">require</span><span>(</span><span style="color:#c2d94c;">&#39;streamie&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">const </span><span>items </span><span style="color:#f29668;">= </span><span>[
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;San Diego&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Los Angeles&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Denver&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;New York&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;St. Louis&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Zurich&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Barcelona&#39;</span><span>}</span><span style="color:#bfbab0cc;">,
+</span><span>  {location</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;Buenos Aires&#39;</span><span>}
+</span><span>]
+</span><span>
+</span><span style="color:#ffb454;">source</span><span>(items</span><span style="color:#bfbab0cc;">, </span><span>(</span><span style="color:#f29718;">item</span><span style="color:#bfbab0cc;">, </span><span>{ </span><span style="color:#f29718;">streamie </span><span>}) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&#39;Starting&#39;</span><span style="color:#bfbab0cc;">, </span><span>item)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">return </span><span style="color:#f29668;">new </span><span style="color:#59c2ff;">Promise</span><span>((</span><span style="color:#f29718;">resolve</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>    </span><span style="color:#f07178;">setTimeout</span><span>(() </span><span style="color:#ff7733;">=&gt; </span><span style="color:#ffb454;">resolve</span><span>()</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#f29668;">Math</span><span style="color:#f29668;">.</span><span style="color:#f07178;">random</span><span>() </span><span style="color:#f29668;">* </span><span style="color:#f29718;">1000</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  })
+</span><span>  </span><span style="color:#f29668;">.</span><span style="color:#f07178;">then</span><span>(() </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&#39;Done with&#39;</span><span style="color:#bfbab0cc;">, </span><span>item)</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">if </span><span>(item</span><span style="color:#f29668;">.</span><span>location </span><span style="color:#f29668;">=== </span><span style="color:#c2d94c;">&#39;Buenos Aires&#39;</span><span>) streamie</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">complete</span><span>(</span><span style="color:#c2d94c;">&#39;Final Value&#39;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  })</span><span style="color:#bfbab0cc;">;
+</span><span>})
+</span><span style="color:#f29668;">.</span><span style="color:#f07178;">then</span><span>((</span><span style="color:#f29718;">value</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&#39;Streamie complete.&#39;</span><span style="color:#bfbab0cc;">, </span><span>value))</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>It is possible to configure the concurrency limit in Streamie by passing in a configuration object as the third argument to the <code>source</code> function:</p>
+<pre  tabindex="0" data-lang="javascript" style="background-color:#0f1419;color:#bfbab0;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ffb454;">source</span><span>(items</span><span style="color:#bfbab0cc;">, </span><span>(</span><span style="color:#f29718;">item</span><span style="color:#bfbab0cc;">, </span><span>{ </span><span style="color:#f29718;">streamie </span><span>}) </span><span style="color:#ff7733;">=&gt; </span><span>{
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// ...
+</span><span>}</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#5c6773;">/* {concurrency: the_concurrency_limit } */</span><span>)
+</span><span style="color:#f29668;">.</span><span style="color:#f07178;">then</span><span>((</span><span style="color:#f29718;">value</span><span>) </span><span style="color:#ff7733;">=&gt; </span><span style="font-style:italic;color:#39bae6;">console</span><span style="color:#f29668;">.</span><span style="color:#f07178;">log</span><span>(</span><span style="color:#c2d94c;">&#39;Streamie complete.&#39;</span><span style="color:#bfbab0cc;">, </span><span>value))</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>
