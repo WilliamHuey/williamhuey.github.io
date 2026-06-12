@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Using Ava with Testdouble
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Using Ava with Testdouble
+</h2>
+
+    
+        
+            
+    
+    08&#x2F;05&#x2F;2022, Fri
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/testing/">
+                            #testing
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                            #NodeJs
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="example-of-a-simple-test-case">Example of a Simple Test Case</h3>
+<p><a rel="external" href="https://github.com/avajs/ava">Ava</a> is a unique testing framework in that it is one of the few testing frameworks out there that recognizes observable resolution.
+It also makes asynchronous testing the default option when you write tests ensuring better performance.
+Another nice feature of Ava is that it has a <a rel="external" href="https://github.com/avajs/ava#magic-assert">nicer assertion output display</a>.</p>
+<p><a rel="external" href="https://github.com/testdouble/testdouble.js">Testdouble</a> is an assertion library which specializes in create 'doubles'. Testdouble is different from Sinon because Testdouble will replace the function outright for which it is substituting when mocking out a function or object. It also makes it easier to track using a 'sandbox' API to alleviate the user from having to restore an original replaced function.</p>
+<span id="continue-reading"></span>
+<p>To demonstrate the usage of this testing framework and assertion library, the following modified example taken from <a rel="external" href="https://testdouble.github.io/testdouble.js/3-getting-started.html#getting-started">Testdouble's Readme</a> will be shown.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Import the libraries Ava and Testdouble</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">import</span><span> test</span><span style="color: #FF8F40;"> from</span><span style="color: #AAD94C;"> &#39;ava&#39;</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">import</span><span style="color: #D2A6FF;"> *</span><span style="color: #FF8F40;"> as</span><span> td</span><span style="color: #FF8F40;"> from</span><span style="color: #AAD94C;"> &#39;testdouble&#39;</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Example adapted from https://testdouble.github.io/testdouble.js/3-getting-started.html#getting-started</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Functions that are defined on the top level will be</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// mocked by Testdouble. The functions will be used to build</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// up the two classes.</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">let</span><span> subject</span><span style="color: #BFBDB6B3;">,</span><span> createRandomProblem</span><span style="color: #BFBDB6B3;">,</span><span> savesProblem</span><span style="color: #BFBDB6B3;">,</span><span> submitProblem</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">class</span><span style="color: #59C2FF;"> MathProblem</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  constructor</span><span>(</span><span style="color: #D2A6FF;">createRandomProblem</span><span style="color: #BFBDB6B3;">,</span><span style="color: #D2A6FF;"> savesProblem</span><span style="color: #BFBDB6B3;">,</span><span style="color: #D2A6FF;"> submitProblem</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;font-style: italic;">    this</span><span style="color: #F29668;">.</span><span>createRandomProblem</span><span style="color: #F29668;"> =</span><span> createRandomProblem</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;font-style: italic;">    this</span><span style="color: #F29668;">.</span><span>savesProblem</span><span style="color: #F29668;"> =</span><span> savesProblem</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;font-style: italic;">    this</span><span style="color: #F29668;">.</span><span>submitProblem</span><span style="color: #F29668;"> =</span><span> submitProblem</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FFB454;">  generate</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    const</span><span> problem</span><span style="color: #F29668;"> =</span><span style="color: #39BAE6;font-style: italic;"> this</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">createRandomProblem</span><span>()</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      savedProblem</span><span style="color: #F29668;"> =</span><span style="color: #39BAE6;font-style: italic;"> this</span><span style="color: #F29668;">.</span><span>savesProblem</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">save</span><span>(problem)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;font-style: italic;">    this</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">submitProblem</span><span>(savedProblem)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">class</span><span style="color: #59C2FF;"> SavesProblem</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FFB454;">  save</span><span>() {</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">//...</span></span></code></pre>
+<p>Continuing in the same file, there will be two blocks. One of which will be for
+defining the variables for comparison, while the second will be used
+for making assertions.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #5A6673;font-style: italic;">//...</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">class</span><span style="color: #59C2FF;"> SavesProblem</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FFB454;">  save</span><span>() {</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Ava&#39;s test blocks which will contain the testdouble assertions.</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Testdouble creates a &#39;double&#39; for two functions and an object.</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// This is the preparatory block for creating the class instances for</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// asserting in the block below.</span></span>
+<span class="giallo-l"><span>test</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">before</span><span>(()</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span>  createRandomProblem</span><span style="color: #F29668;"> =</span><span> td</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">func</span><span>(</span><span style="color: #AAD94C;">&#39;createRandomProblem&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  savesProblem</span><span style="color: #F29668;"> =</span><span> td</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">object</span><span>(</span><span style="color: #F29668;">new</span><span style="color: #FFB454;"> SavesProblem</span><span>())</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">  // Use td.func and not td.function</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">  // Issue - https://github.com/testdouble/testdouble.js/issues/214</span></span>
+<span class="giallo-l"><span>  submitProblem</span><span style="color: #F29668;"> =</span><span> td</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">func</span><span>(</span><span style="color: #AAD94C;">&#39;submitProblem&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  subject</span><span style="color: #F29668;"> = new</span><span style="color: #FFB454;"> MathProblem</span><span>(createRandomProblem</span><span style="color: #BFBDB6B3;">,</span><span> savesProblem</span><span style="color: #BFBDB6B3;">,</span><span> submitProblem)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>})</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Testdouble&#39;s assertion are primarily used in this block and they</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// checked against the output of the &#39;double&#39; function.</span></span>
+<span class="giallo-l"><span style="color: #FFB454;">test</span><span>(</span><span style="color: #AAD94C;">&#39;test double&#39;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #D2A6FF;"> t</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span>  td</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">when</span><span>(</span><span style="color: #FFB454;">createRandomProblem</span><span>())</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">thenReturn</span><span>(</span><span style="color: #AAD94C;">&#39;some problem&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  td</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">when</span><span>(savesProblem</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">save</span><span>(</span><span style="color: #AAD94C;">&#39;some problem&#39;</span><span>))</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">thenReturn</span><span>(</span><span style="color: #AAD94C;">&#39;saved problem&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  subject</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">generate</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">  // Wrap with an Ava assertion to state that there will not be an error when using</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">  // Testdouble&#39;s verify assertion. This prevents the Ava test from failing.</span></span>
+<span class="giallo-l"><span>  t</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">notThrows</span><span>(()</span><span style="color: #FF8F40;"> =&gt;</span><span> { td</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">verify</span><span>(</span><span style="color: #FFB454;">submitProblem</span><span>(</span><span style="color: #AAD94C;">&#39;saved problem&#39;</span><span>)) })</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>})</span><span style="color: #BFBDB6B3;">;</span></span></code></pre>
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

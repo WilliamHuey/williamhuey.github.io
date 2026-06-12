@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Nodejs - Quick Tips #2
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Nodejs - Quick Tips #2
+</h2>
+
+    
+        
+            
+    
+    04&#x2F;17&#x2F;2016, Sun
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+                    <div class="post-taxonomies">
+                        Tags:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/tags/nodejs/">
+                            #NodeJs
+                        </a>
+                        
+                    </div>
+                
+            </div>
+    
+
+    <h3 id="process-exit-and-time-elapse">Process Exit and Time Elapse</h3>
+<p>When performing a long-running operation in the terminal, such as file generation, a user would like to know how long the task has run.</p>
+<span id="continue-reading"></span>
+<p>A simple way to determine how much time has elapsed in general will be to listen to 'exit' event on the process object. This can be combined with the 'hrtime' method on the process object to provide a detailed time interval.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Using Built-In Nodejs Functions for Timing</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">let</span><span> time</span><span style="color: #F29668;"> =</span><span> process</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">hrtime</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>process</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">on</span><span>(</span><span style="color: #AAD94C;">&quot;exit&quot;</span><span style="color: #BFBDB6B3;">,</span><span> ()</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  let</span><span> timeDiff</span><span style="color: #F29668;"> =</span><span> process</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">hrtime</span><span>(time)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>  console</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">log</span><span>(</span></span>
+<span class="giallo-l"><span style="color: #AAD94C;">    &quot;Time elapsed for file(s) and folder(s) generation: %d nanoseconds&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    timeDiff[</span><span style="color: #D2A6FF;">0</span><span>]</span><span style="color: #F29668;"> *</span><span style="color: #D2A6FF;"> 1e9</span><span style="color: #F29668;"> +</span><span> timeDiff[</span><span style="color: #D2A6FF;">1</span><span>]</span></span>
+<span class="giallo-l"><span>  )</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>})</span><span style="color: #BFBDB6B3;">;</span></span></code></pre><h3 id="babel-webpack-eslint-boilerplate">Babel Webpack Eslint Boilerplate</h3>
+<p>The JavaScript community has embraced ES2015 as the go-to JavaScript version to do modern web development. There are many Gulp and Babel boilerplates out there, but I found out that it is not as reliable as the Webpack and Babel combination because the Gulp watch tasks did not always pick up file changes for me.</p>
+<p>Here is a simple config for creating a starter ES2015 JavaScript project.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="json"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;name&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;my-great-module&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;version&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;1.0.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;description&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;main&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;index.js&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;scripts&quot;</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;start&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;node_modules/webpack/bin/webpack.js --watch&quot;</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;author&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;license&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;ISC&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;dependencies&quot;</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.5.2&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-core&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.7.2&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-eslint&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.0.2&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-loader&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.2.4&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-plugin-syntax-async-functions&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.5.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-plugin-transform-runtime&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.6.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-preset-es2015&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.6.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;babel-preset-stage-3&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^6.5.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eslint&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^2.8.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eslint-config-standard&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^5.1.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eslint-loader&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^1.3.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eslint-plugin-babel&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^3.2.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eslint-plugin-promise&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^1.1.0&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eslint-plugin-standard&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^1.3.2&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;webpack&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;^1.12.14&quot;</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Async functions are actually a ES2016 feature, but they are a really useful functionality, so useful that I included it into the boilerplate.</p>
+<p>Webpack is a module bundler and loader, but it can also perform file transformations for us. Webpack in our case, will be used to transpile ES2015 and for linting.</p>
+<p>Webpack is configured with a webpack.config.js file:</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// webpack.config.js</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">var</span><span> path</span><span style="color: #F29668;"> =</span><span style="color: #FFB454;"> require</span><span>(</span><span style="color: #AAD94C;">&quot;path&quot;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #39BAE6;">module</span><span style="color: #F29668;">.</span><span style="color: #39BAE6;">exports</span><span style="color: #F29668;"> =</span><span> {</span></span>
+<span class="giallo-l"><span>  entry</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;./the-main-input-file.js&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  output</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span>    path</span><span style="color: #BFBDB6B3;">:</span><span> path</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">join</span><span>(__dirname</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;/dist/&quot;</span><span>)</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    filename</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;my-output-file.js&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  module</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span>    preLoaders</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span>      { test</span><span style="color: #BFBDB6B3;">:</span><span style="color: #95E6CB;"> /\.js</span><span style="color: #FF8F40;">$</span><span style="color: #95E6CB;">/</span><span style="color: #BFBDB6B3;">,</span><span> loader</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;eslint-loader&quot;</span><span style="color: #BFBDB6B3;">,</span><span> exclude</span><span style="color: #BFBDB6B3;">:</span><span style="color: #95E6CB;"> /node_modules/</span><span> }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    loaders</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span>        test</span><span style="color: #BFBDB6B3;">:</span><span style="color: #95E6CB;"> /\.js</span><span style="color: #FF8F40;">$</span><span style="color: #95E6CB;">/</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>        exclude</span><span style="color: #BFBDB6B3;">:</span><span style="color: #95E6CB;"> /node_modules/</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>        loader</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;babel-loader&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  resolve</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span>    extensions</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #AAD94C;">&quot;&quot;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;.config.js&quot;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;.js&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  eslint</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span>    configFile</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;./.eslintrc.json&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  babel</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span>    presets</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #AAD94C;">&quot;es2015&quot;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;stage-3&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>}</span><span style="color: #BFBDB6B3;">;</span></span></code></pre>
+<p>By default, Webpack intends to have an entry point file which serves as a manifest file for all your JavaScript files to be transformed to a single output file.</p>
+<p>Now a .babelrc is required to configure how Babel is to transpile ES2015 JavaScript:</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="json"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;presets&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #AAD94C;">&quot;stage-3&quot;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;es2015&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;plugins&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #AAD94C;">&quot;transform-runtime&quot;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;syntax-async-functions&quot;</span><span>]</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>A stage-3 preset is needed for the async function feature in ES2016.</p>
+<p>Lastly, for the eslintrc.json file, this will provide the rules for linting JavaScript:</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="json"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;parser&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;babel-eslint&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;parserOptions&quot;</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;ecmaVersion&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 7</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;sourceType&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;module&quot;</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;plugins&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #AAD94C;">&quot;babel&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;root&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;ecmaFeatures&quot;</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;arrowFunctions&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;binaryLiterals&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;blockBindings&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;classes&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;defaultParams&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;destructuring&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;forOf&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;generators&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;modules&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;objectLiteralComputedProperties&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;objectLiteralDuplicateProperties&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;objectLiteralShorthandMethods&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;objectLiteralShorthandProperties&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;octalLiterals&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;regexUFlag&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;regexYFlag&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;spread&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;superInFunctions&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;templateStrings&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;unicodeCodePointEscapes&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;globalReturn&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">  &quot;rules&quot;</span><span style="color: #BFBDB6B3;">:</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;strict&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-var&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;comma-dangle&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;never&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-cond-assign&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;always&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-console&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-debugger&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-alert&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-constant-condition&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-dupe-keys&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-duplicate-case&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-empty&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-ex-assign&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-extra-boolean-cast&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-extra-semi&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-func-assign&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-inner-declarations&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-invalid-regexp&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-irregular-whitespace&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-obj-calls&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;quote-props&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-sparse-arrays&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-unreachable&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;use-isnan&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;block-scoped-var&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;quotes&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">1</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;single&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-shadow&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-shadow-restricted-names&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-unused-vars&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;vars&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;local&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;args&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;after-used&quot;</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-use-before-define&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;consistent-return&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;complexity&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #D2A6FF;"> 7</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;curly&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;multi-line&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;default-case&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;dot-notation&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;allowKeywords&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eqeqeq&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;guard-for-in&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-caller&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-else-return&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-eq-null&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-eval&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-extend-native&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-extra-bind&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-fallthrough&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-floating-decimal&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-implied-eval&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-lone-blocks&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-loop-func&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-multi-str&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-native-reassign&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-new&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-new-func&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-new-wrappers&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-octal&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-octal-escape&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-param-reassign&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-proto&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-redeclare&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-return-assign&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-script-url&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-self-compare&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-sequences&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-throw-literal&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-with&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;radix&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;vars-on-top&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;wrap-iife&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;any&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;yoda&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;indent&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;brace-style&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #AAD94C;">      &quot;1tbs&quot;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;allowSingleLine&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;quotes&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">0</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;single&quot;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;avoid-escape&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;camelcase&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;properties&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &quot;never&quot;</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;comma-spacing&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;before&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> false</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;after&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;comma-style&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;last&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;eol-last&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;key-spacing&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;beforeColon&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> false</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;afterColon&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;new-cap&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;newIsCap&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-multiple-empty-lines&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;max&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-nested-ternary&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-new-object&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-spaced-func&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-trailing-spaces&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-extra-parens&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;no-underscore-dangle&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;one-var&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">0</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;never&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;padded-blocks&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;semi&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;always&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;semi-spacing&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span></span>
+<span class="giallo-l"><span style="color: #D2A6FF;">      2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>      {</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;before&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> false</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">        &quot;after&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> true</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    ]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;keyword-spacing&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;space-before-blocks&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;space-before-function-paren&quot;</span><span style="color: #BFBDB6B3;">:</span><span> [</span><span style="color: #D2A6FF;">2</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &quot;never&quot;</span><span>]</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;space-infix-ops&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;keyword-spacing&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 2</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span style="color: #39BAE6;">    &quot;spaced-comment&quot;</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 0</span></span>
+<span class="giallo-l"><span>  }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

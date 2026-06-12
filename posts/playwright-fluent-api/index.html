@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Playwright - Cleaner Promise Chains
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Playwright - Cleaner Promise Chains
+</h2>
+
+    
+        
+            
+    
+    05&#x2F;01&#x2F;2021, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/testing/">
+                            #testing
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="fluent-api">Fluent API</h3>
+<p>As with many JavaScript libraries, asynchronous operations are dealt with using promises, and the commonly preferred way of structuring promises flows entails the use of async / await.</p>
+<p>From the Playwright documentation</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #FF8F40;">const</span><span> { webkit }</span><span style="color: #F29668;"> =</span><span style="color: #FFB454;"> require</span><span>(</span><span style="color: #AAD94C;">&#39;playwright&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>(</span><span style="color: #FF8F40;">async</span><span> ()</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  const</span><span> browser</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> await</span><span> webkit</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">launch</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  const</span><span> page</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> await</span><span> browser</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">newPage</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  await</span><span> page</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">goto</span><span>(</span><span style="color: #AAD94C;">&#39;http://whatsmyuseragent.org/&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  await</span><span> page</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">screenshot</span><span>({ path</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> `example.png`</span><span> })</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  await</span><span> browser</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">close</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>})()</span><span style="color: #BFBDB6B3;">;</span></span></code></pre>
+<p>Every page operation will require the use of an await since each yields a promise. However, this simple example shows the extra effort needed to tame async control flow by having to prepend each operation with an await. This is a bit noisy and detracts from the true intent of the tests steps.</p>
+<span id="continue-reading"></span>
+<p>With the help of this library, <a rel="external" href="https://github.com/hdorgeval/playwright-fluent">playwright-jest</a>, it is possible to clean up an async await block in playwright to use only one await per block.</p>
+<p>Modified example from the "playwright-fluent" documentation</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #FF8F40;">import</span><span> { PlaywrightFluent</span><span style="color: #BFBDB6B3;">,</span><span> userDownloadsDirectory }</span><span style="color: #FF8F40;"> from</span><span style="color: #AAD94C;"> &#39;playwright-fluent&#39;</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">const</span><span> p</span><span style="color: #F29668;"> = new</span><span style="color: #FFB454;"> PlaywrightFluent</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">await</span><span> p</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">withBrowser</span><span>(</span><span style="color: #AAD94C;">&#39;firefox&#39;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">withOptions</span><span>({ headless</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> false</span><span> })</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">withCursor</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">recordPageErrors</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">recordFailedRequests</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">recordDownloadsTo</span><span>(userDownloadsDirectory)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">emulateDevice</span><span>(</span><span style="color: #AAD94C;">&#39;iPhone 6 landscape&#39;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">navigateTo</span><span>(</span><span style="color: #AAD94C;">&#39;https://reactstrap.github.io/components/form/&#39;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">click</span><span>(</span><span style="color: #AAD94C;">&#39;#exampleEmail&#39;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">typeText</span><span>(</span><span style="color: #AAD94C;">&#39;foo.bar@baz.com&#39;</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Use the playwright api for taking a screenshot</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">const</span><span> page</span><span style="color: #F29668;"> =</span><span> p</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">currentPage</span><span>()</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">await</span><span> page</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">screenshot</span><span>({ path</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> `example.png`</span><span> })</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Peform more browser actions</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">await</span><span> p</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">pressKey</span><span>(</span><span style="color: #AAD94C;">&#39;Tab&#39;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">expectThatSelector</span><span>(</span><span style="color: #AAD94C;">&#39;#examplePassword&#39;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">hasFocus</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">typeText</span><span>(</span><span style="color: #AAD94C;">&quot;don&#39;t tell!&quot;</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">pressKey</span><span>(</span><span style="color: #AAD94C;">&#39;Tab&#39;</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Take another screenshot</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">await</span><span> page</span></span>
+<span class="giallo-l"><span style="color: #F29668;">    .</span><span style="color: #FFB454;">screenshot</span><span>({ path</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> `another-example.png`</span><span> })</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">// Close the browser window</span></span>
+<span class="giallo-l"><span>p</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">currentBrowser</span><span>()</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">close</span><span>()</span><span style="color: #BFBDB6B3;">;</span></span></code></pre>
+<p>The original "playwright" object is needed for certain methods calls that are not implemented in "playwright-fluent" such as the screenshotting to file functionality, but the consecutive promise chains grouped together with "playwright-fluent" still provide greater clarity.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

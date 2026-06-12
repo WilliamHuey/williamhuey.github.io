@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Astrowind - Image Component
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Astrowind - Image Component
+</h2>
+
+    
+        
+            
+    
+    08&#x2F;10&#x2F;2024, Sat
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/javascript/">
+                            #JavaScript
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="searching-for-images">Searching for Images</h3>
+<p>Astro comes with a default image component that you can use to
+load your images from the /src/assets folder.</p>
+<p>From the actual <a rel="external" href="https://docs.astro.build/en/reference/api-reference/#image-">documentation page</a>,</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="markdown"><span class="giallo-l"><span>---</span></span>
+<span class="giallo-l"><span style="color: #AAD94C;">// import the Image component and the image</span></span>
+<span class="giallo-l"><span style="color: #AAD94C;">import { Image } from &#39;astro:assets&#39;;</span></span>
+<span class="giallo-l"><span style="color: #AAD94C;">import myImage from &quot;../assets/my_image.png&quot;; // Image is 1600x900</span></span>
+<span class="giallo-l"><span>---</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">&lt;!-- `alt` is mandatory on the Image component --&gt;</span></span>
+<span class="giallo-l"><span style="color: #39BAE680;">&lt;</span><span style="color: #39BAE6;">Image</span><span style="color: #FFB454;"> src</span><span style="color: #BFBDB6B3;">=</span><span style="color: #AAD94C;">{myImage}</span><span style="color: #FFB454;"> alt</span><span style="color: #BFBDB6B3;">=</span><span style="color: #AAD94C;">&quot;A description of my image.&quot;</span><span style="color: #39BAE680;"> /&gt;</span></span></code></pre>
+<p>Using Astro's <code>Image</code> component is useful in that it helps you perform optimizations to your images on the final build. It is able to output to webp format as well as set the width and height for them to improve site layout performance.</p>
+<p>However, one of the downside of using the default component is that you have to load the images one by one. Astro also has a suggestion for <a rel="external" href="https://docs.astro.build/en/recipes/dynamically-importing-images/">dynamic images</a> using <code>import.meta.glob</code>, but it still is not as dynamic as compared to that of Astro's <code>glob</code> method.</p>
+<span id="continue-reading"></span>
+<p>Supposedly, that you have images in folders located in the ''/src/assets/images/'. There is the expectation that '/src/assets/images/**' pattern will return all your images within those folders when using the that pattern with <code>import.meta.glob</code></p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #FF8F40;">const</span><span> images</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> import</span><span style="color: #F29668;">.</span><span>meta</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">glob</span><span>&lt;{ default</span><span style="color: #F29668;">:</span><span style="color: #59C2FF;"> ImageMetadata</span><span> }&gt;(</span><span style="color: #AAD94C;">&#39;/src/assets/images/**&#39;</span><span style="color: #F29668;">.</span><span>{jpeg</span><span style="color: #BFBDB6B3;">,</span><span>jpg</span><span style="color: #BFBDB6B3;">,</span><span>png</span><span style="color: #BFBDB6B3;">,</span><span>gif}</span><span style="color: #AAD94C;">&#39;)</span><span style="color: #D95757;">;</span></span></code></pre>
+<p>But it does not yield any results in the images results.</p>
+<p>While if you to use <code>Astro.glob</code> with that search pattern,</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #FF8F40;">const</span><span> images</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> await</span><span> Astro</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">glob</span><span>(</span><span style="color: #AAD94C;">&#39;/src/assets/images/**&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span></code></pre>
+<p>the images will provide the results.</p>
+<p>To retain flexibility in searching for images and as well as customization for the <code>&lt;img&gt;</code>, it is helpful go midway between using Astro's default <code>Image</code> component and the plain <code>&lt;img&gt;</code> tag by using Astrowind's <code>Image</code> component.</p>
+<p>To search for images dynamically in your src/assets folder, we will define
+the <code>getImageMetas</code> function in the <code>src/utils/images.ts</code> file.
+We need this function because we wish to narrow down the results that is returned from using <code>Astro.glob</code> by finding only the image names that we supply to it.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #FF8F40;">export const</span><span style="color: #FFB454;"> getImageMetas</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> async</span><span> (</span><span style="color: #D2A6FF;">searchImages</span><span style="color: #BFBDB6B3;">,</span><span style="color: #D2A6FF;"> allImages</span><span>)</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  const</span><span> imgNameToEntry</span><span style="color: #F29668;"> =</span><span> {}</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>  allImages</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">forEach</span><span>((</span><span style="color: #D2A6FF;">images</span><span style="color: #BFBDB6B3;">,</span><span style="color: #D2A6FF;"> imagesIndex</span><span>)</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    const</span><span> searchedNames</span><span style="color: #F29668;"> =</span><span> images</span><span style="color: #F29668;">.</span><span>default</span><span style="color: #F29668;">.</span><span>src</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    let</span><span> searchImageName</span><span style="color: #F29668;"> =</span><span style="color: #AAD94C;"> &#39;&#39;</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    let</span><span> searchImageEntry</span><span style="color: #F29668;">:</span><span style="color: #59C2FF;"> Record</span><span>&lt;</span><span style="color: #39BAE6;">any</span><span style="color: #BFBDB6B3;">,</span><span style="color: #39BAE6;"> any</span><span>&gt;</span><span style="color: #F29668;"> =</span><span> {}</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    const</span><span> foundImages</span><span style="color: #F29668;"> =</span><span> searchImages</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">filter</span><span>((</span><span style="color: #D2A6FF;">searchImg</span><span>)</span><span style="color: #FF8F40;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">      // Account for the differences in the image file name output</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">      // between development and final build</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">      // Build</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">      // my_image.DySEU_5O.jpg</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">      // Dev</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">      // my_image.jpg</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">      if</span><span> (searchedNames</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">indexOf</span><span>(</span><span style="color: #AAD94C;">`/</span><span style="color: #FF8F40;">${</span><span>path</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">parse</span><span>(searchImg)</span><span style="color: #F29668;">.</span><span>name</span><span style="color: #FF8F40;">}</span><span style="color: #AAD94C;">`</span><span>)</span><span style="color: #F29668;"> &gt; -</span><span style="color: #D2A6FF;">1</span><span>) {</span></span>
+<span class="giallo-l"><span>        searchImageName</span><span style="color: #F29668;"> =</span><span> searchImg</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>        searchImageEntry</span><span style="color: #F29668;"> =</span><span> allImages[imagesIndex]</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        return</span><span style="color: #D2A6FF;"> true</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>      }</span><span style="color: #FF8F40;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        return</span><span style="color: #D2A6FF;"> false</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>      }</span></span>
+<span class="giallo-l"><span>    })</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    if</span><span> (foundImages</span><span style="color: #F29668;">.</span><span>length</span><span style="color: #F29668;"> &gt;</span><span style="color: #D2A6FF;"> 0</span><span>) {</span></span>
+<span class="giallo-l"><span>      imgNameToEntry[searchImageName]</span><span style="color: #F29668;"> =</span><span> searchImageEntry</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>  })</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  return</span><span> imgNameToEntry</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Within your .astro file, you will define the images that you want to search for in the <code>searchImages</code> array. You will need to get all images from your image folder because <code>Astro.glob</code> does not support the use of dynamic strings in which it uses to search. Finally, call the <code>getImageMetas</code>
+by passing images to search for and all the images from your image folder.</p>
+<p>It is rather unfortunate that Astro doesn't allow you to pass in <code>Astro.glob</code> into our <code>getImageMetas</code> function because the <code>glob</code> function is restricted for use in Astro templates, so you will need to
+repeat this line in all the other .astro templates that need to perform
+dynamic image searches.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span style="color: #FF8F40;">const</span><span> searchImages</span><span style="color: #F29668;"> =</span><span> [</span><span style="color: #AAD94C;">&#39;some-image.jpg&#39;</span><span style="color: #BFBDB6B3;">,</span><span style="color: #AAD94C;"> &#39;another-image.jpg&#39;</span><span>]</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">const</span><span> allImages</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> await</span><span> Astro</span><span style="color: #F29668;">.</span><span style="color: #FFB454;">glob</span><span>(</span><span style="color: #AAD94C;">&#39;/src/assets/images/**&#39;</span><span>)</span><span style="color: #BFBDB6B3;">;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">const</span><span> imagesMetas</span><span style="color: #F29668;"> =</span><span style="color: #FF8F40;"> await</span><span style="color: #FFB454;"> getImageMetas</span><span>(searchImages</span><span style="color: #BFBDB6B3;">,</span><span> allImages)</span><span style="color: #BFBDB6B3;">;</span></span></code></pre>
+<p>The output of <code>imagesMetas</code> will look like the following</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="javascript"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  default</span><span>: {</span></span>
+<span class="giallo-l"><span>    src</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &#39;/@fs/home/my-repo-paths/src/assets/images/some-image.jpg?origWidth=1024&amp;origHeight=1024&amp;origFormat=jpg&#39;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    width</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1024</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    height</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1024</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    format</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &#39;jpg&#39;</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  [</span><span style="color: #FFB454;">Symbol</span><span>(Symbol</span><span style="color: #F29668;">.</span><span>toStringTag)]: </span><span style="color: #AAD94C;">&#39;Module&#39;</span></span>
+<span class="giallo-l"><span>}</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">  default</span><span>: {</span></span>
+<span class="giallo-l"><span>    src</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &#39;/@fs/home/my-repo-paths/src/assets/images/another-image.jpg?origWidth=1024&amp;origHeight=1024&amp;origFormat=jpg&#39;</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    width</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1024</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    height</span><span style="color: #BFBDB6B3;">:</span><span style="color: #D2A6FF;"> 1024</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>    format</span><span style="color: #BFBDB6B3;">:</span><span style="color: #AAD94C;"> &#39;jpg&#39;</span></span>
+<span class="giallo-l"><span>  }</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"><span>  [</span><span style="color: #FFB454;">Symbol</span><span>(Symbol</span><span style="color: #F29668;">.</span><span>toStringTag)]: </span><span style="color: #AAD94C;">&#39;Module&#39;</span></span>
+<span class="giallo-l"><span>}</span><span style="color: #BFBDB6B3;">,</span></span>
+<span class="giallo-l"></span></code></pre>
+<p>One can start using webp images from the beginning to gain the additional level of image optimization for your images if you forego using Astro's image component.</p>
+
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>

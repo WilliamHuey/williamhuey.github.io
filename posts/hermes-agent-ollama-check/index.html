@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="360">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+        <meta name="description" content="A blog about web development technologies.">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="stylesheet" href="https://williamhuey.github.io/style.css">
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://williamhuey.github.io/atom.xml">
+        
+        <title>
+            
+    Hermes Agent - Ollama Server Check
+
+        </title>
+    </head>
+    <body>
+        <main class="wrap" aria-label="Main Content">
+            <div class="nav-links-container">
+                <div class="home-page-container-link">
+                    <h1>
+                        <a href="/">
+                            WH
+                        </a>
+                    </h1>
+                </div>
+                <div class="nav-links-group">
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;atom.xml">
+                            RSS
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;posts">
+                            Archives
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;code">
+                            Code
+                        </a>
+                    </div>
+                    
+                    <div class="nav-link">
+                        <a href="&#x2F;about">
+                            About
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    <div id="content" class="section" >
+        
+        
+
+<h2 id="title">
+    Hermes Agent - Ollama Server Check
+</h2>
+
+    
+        
+            
+    
+    06&#x2F;12&#x2F;2026, Fri
+
+        
+        
+        
+            <div class="post-taxonomies-group">
+                
+                    <div class="post-taxonomies">
+                        Categories:
+                        
+                        <a class="post-taxonomy" href="https://williamhuey.github.io/categories/shell/">
+                            #Shell
+                        </a>
+                        
+                    </div>
+                
+                
+            </div>
+    
+
+    <h3 id="check-for-ollama-server-before-hermes-tui-starts">Check for Ollama Server before hermes --tui Starts</h3>
+<p>Since Hermes doesn't warn you if you don't have an active local end point when you are
+set up to use a local model in the --tui mode, you would need a way to remind yourself
+if the ollama service is running before use.</p>
+<p>One can certainly make the ollama server run on system start up, but this might
+excessive when you don't plan on using ollama for hermes all the time.</p>
+<p>A technique to solve the issue of forgetting to start up the ollama server is to
+wrap the hermes command and peform the checks on it before hermes can execute.</p>
+<span id="continue-reading"></span><pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="shellscript"><span class="giallo-l"><span style="color: #FFB454;">hermes</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    local</span><span> requires_ollama</span><span style="color: #F29668;">=</span><span>false</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # Check if --tui, --cli, or -c is in the arguments</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    for</span><span> arg</span><span style="color: #FF8F40;"> in</span><span style="color: #AAD94C;"> &quot;</span><span style="color: #D2A6FF;">$@</span><span style="color: #AAD94C;">&quot;</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> do</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        if</span><span> [[</span><span style="color: #AAD94C;"> &quot;</span><span>$arg</span><span style="color: #AAD94C;">&quot;</span><span style="color: #F29668;"> ==</span><span style="color: #AAD94C;"> &quot;--tui&quot;</span><span> ]]</span><span style="color: #F29668;"> ||</span><span> [[</span><span style="color: #AAD94C;"> &quot;</span><span>$arg</span><span style="color: #AAD94C;">&quot;</span><span style="color: #F29668;"> ==</span><span style="color: #AAD94C;"> &quot;--cli&quot;</span><span> ]]</span><span style="color: #F29668;"> ||</span><span> [[</span><span style="color: #AAD94C;"> &quot;</span><span>$arg</span><span style="color: #AAD94C;">&quot;</span><span style="color: #F29668;"> ==</span><span style="color: #AAD94C;"> &quot;-c&quot;</span><span> ]]</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> then</span></span>
+<span class="giallo-l"><span>            requires_ollama</span><span style="color: #F29668;">=</span><span style="color: #AAD94C;">true</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">            break</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        fi</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    done</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # No arguments were passed means ollama is still required</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # because hermes defaults to using the --tui</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    if</span><span> [[</span><span style="color: #39BAE6;font-style: italic;"> $#</span><span style="color: #F29668;"> -eq</span><span style="color: #D2A6FF;"> 0</span><span> ]]</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> then</span></span>
+<span class="giallo-l"><span style="color: #F07178;">        set</span><span style="color: #95E6CB;"> -- --tui</span></span>
+<span class="giallo-l"><span>        requires_ollama</span><span style="color: #F29668;">=</span><span style="color: #AAD94C;">true</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    fi</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # Only check/wait for Ollama if using TUI, CLI mode, or short -c option</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    if</span><span> [[</span><span style="color: #AAD94C;"> &quot;</span><span>$requires_ollama</span><span style="color: #AAD94C;">&quot;</span><span style="color: #F29668;"> ==</span><span style="color: #AAD94C;"> &quot;true&quot;</span><span> ]]</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> then</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        local</span><span> max_wait</span><span style="color: #F29668;">=</span><span style="color: #D2A6FF;">3</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        local</span><span> waited</span><span style="color: #F29668;">=</span><span style="color: #D2A6FF;">0</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">        # Check if Ollama by checking the server url</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        while</span><span style="color: #F29668;"> !</span><span style="color: #59C2FF;"> curl</span><span style="color: #95E6CB;"> -s</span><span style="color: #AAD94C;"> http://localhost:11434/api/tags</span><span style="color: #F29668;"> &gt;</span><span style="color: #AAD94C;"> /dev/null</span><span style="color: #F29668;"> 2&gt;&amp;1</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> do</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">            if</span><span> [[ $waited</span><span style="color: #F29668;"> -ge</span><span> $max_wait ]]</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> then</span></span>
+<span class="giallo-l"><span style="color: #F07178;">                echo</span><span style="color: #AAD94C;"> &quot;ERROR: Ollama not responding after </span><span>$max_wait</span><span style="color: #AAD94C;"> seconds&quot;</span><span style="color: #F29668;"> &gt;&amp;2</span></span>
+<span class="giallo-l"><span style="color: #F07178;">                echo</span><span style="color: #AAD94C;"> &quot;Please start ollama with: ollama serve&quot;</span><span style="color: #F29668;"> &gt;&amp;2</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">                return</span><span style="color: #D2A6FF;"> 1</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">            fi</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">            # Note: Fish &#39;set_color&#39; is replaced here with plain text. </span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">            # For yellow text in Bash, you can use \e[33m as shown below (optional):</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">            # echo -ne &quot;\e[33mWaiting for ollama... ($waited/$max_wait)\e[0m\n&quot;</span></span>
+<span class="giallo-l"><span style="color: #F07178;">            echo</span><span style="color: #AAD94C;"> &quot;Waiting for ollama... (</span><span>$waited</span><span style="color: #AAD94C;">/</span><span>$max_wait</span><span style="color: #AAD94C;">)&quot;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #59C2FF;">            sleep</span><span style="color: #D2A6FF;"> 1</span></span>
+<span class="giallo-l"><span>            ((waited</span><span style="color: #F29668;">++</span><span>))</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        done</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">        # Ollama is ready</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        if</span><span> [[ $waited</span><span style="color: #F29668;"> -gt</span><span style="color: #D2A6FF;"> 0</span><span> ]]</span><span style="color: #BFBDB6B3;">;</span><span style="color: #FF8F40;"> then</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">            # Note: Fish &#39;set_color green&#39; removed. Optional color code below:</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">            # echo -e &quot;\e[32mOllama is ready!\e[0m&quot;</span></span>
+<span class="giallo-l"><span style="color: #F07178;">            echo</span><span style="color: #AAD94C;"> &quot;Ollama is ready!&quot;</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        fi</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    fi</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # Call the actual &#39;hermes&#39; binary with all arguments</span></span>
+<span class="giallo-l"><span style="color: #F07178;">    command</span><span style="color: #AAD94C;"> hermes &quot;</span><span style="color: #D2A6FF;">$@</span><span style="color: #AAD94C;">&quot;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Here is a fish shell version of the bash script.</p>
+<pre class="giallo" style="color: #BFBDB6; background-color: #0D1017;"><code data-lang="fish"><span class="giallo-l"><span style="color: #FF8F40;">function</span><span> hermes</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # Check if --tui, --cli, or -c is in the arguments</span></span>
+<span class="giallo-l"><span style="color: #F07178;">    set</span><span> requires_ollama false</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    for</span><span> arg </span><span style="color: #FF8F40;">in</span><span style="color: #39BAE6;font-style: italic;"> $argv</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        if</span><span> test </span><span style="color: #AAD94C;">&quot;</span><span>$arg</span><span style="color: #AAD94C;">&quot;</span><span> = </span><span style="color: #AAD94C;">&quot;--tui&quot;</span><span> -o</span><span style="color: #AAD94C;"> &quot;</span><span>$arg</span><span style="color: #AAD94C;">&quot;</span><span> = </span><span style="color: #AAD94C;">&quot;--cli&quot;</span><span> -o</span><span style="color: #AAD94C;"> &quot;</span><span>$arg</span><span style="color: #AAD94C;">&quot;</span><span> = </span><span style="color: #AAD94C;">&quot;-c&quot;</span></span>
+<span class="giallo-l"><span style="color: #F07178;">            set</span><span> requires_ollama true</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">            break</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        end</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    end</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # No arguments were passed means ollama is still requred</span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # because hermes defaults to using the --tui</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    if</span><span> test (</span><span style="color: #F07178;">count</span><span style="color: #39BAE6;font-style: italic;"> $argv</span><span>) -eq 0</span></span>
+<span class="giallo-l"><span style="color: #F07178;">        set</span><span> argv --tui</span></span>
+<span class="giallo-l"><span style="color: #F07178;">        set</span><span> requires_ollama true</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    end</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # Only check/wait for Ollama if using TUI, CLI mode, or short -c option</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    if</span><span> test </span><span style="color: #AAD94C;">&quot;</span><span>$requires_ollama</span><span style="color: #AAD94C;">&quot;</span><span> = true</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">        # Wait for ollama with specified timeout</span></span>
+<span class="giallo-l"><span style="color: #F07178;">        set</span><span> max_wait 3</span></span>
+<span class="giallo-l"><span style="color: #F07178;">        set</span><span> waited 0</span></span>
+<span class="giallo-l"><span>        </span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">        # Check if Ollama by checking the server url</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        while not</span><span> curl -s http://localhost:11434/api/tags </span><span style="color: #F29668;">&gt; /dev/null 2&gt;&amp;1</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">            if</span><span> test $waited -ge $max_wait</span></span>
+<span class="giallo-l"><span style="color: #F07178;">                echo</span><span style="color: #AAD94C;"> &quot;ERROR: Ollama not responding after </span><span>$max_wait</span><span style="color: #AAD94C;"> seconds&quot;</span><span style="color: #F29668;"> &gt;&amp;2</span></span>
+<span class="giallo-l"><span style="color: #F07178;">                echo</span><span style="color: #AAD94C;"> &quot;Please start ollama with: ollama serve&quot;</span><span style="color: #F29668;"> &gt;&amp;2</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">                return</span><span> 1</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">            end</span></span>
+<span class="giallo-l"><span>            </span></span>
+<span class="giallo-l"><span style="color: #F07178;">            echo</span><span style="color: #AAD94C;"> &quot;Waiting for ollama... (</span><span>$waited</span><span style="color: #AAD94C;">/</span><span>$max_wait</span><span style="color: #AAD94C;">)&quot;</span><span style="color: #F29668;"> |</span><span style="color: #F07178;"> set_color</span><span> yellow</span></span>
+<span class="giallo-l"><span style="color: #F07178;">            sleep</span><span> 1</span></span>
+<span class="giallo-l"><span style="color: #F07178;">            math</span><span> $waited + 1 </span><span style="color: #F29668;">|</span><span style="color: #F07178;"> read</span><span> waited</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        end</span></span>
+<span class="giallo-l"><span>        </span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">        #  Ollama is ready</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        if</span><span> test $waited -gt 0</span></span>
+<span class="giallo-l"><span style="color: #F07178;">            echo</span><span style="color: #AAD94C;"> &quot;Ollama is ready!&quot;</span><span style="color: #F29668;"> |</span><span style="color: #F07178;"> set_color</span><span> green</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">        end</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">    end</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #5A6673;font-style: italic;">    # Call the actual &#39;hermes&#39; binary with all arguments</span></span>
+<span class="giallo-l"><span style="color: #F07178;">    command</span><span> hermes </span><span style="color: #39BAE6;font-style: italic;">$argv</span></span>
+<span class="giallo-l"><span style="color: #FF8F40;">end</span></span></code></pre>
+        <script
+            src="https://utteranc.es/client.js"
+            repo="WilliamHuey/williamhuey.github.io"
+            issue-term="pathname"
+            theme="github-dark-orange"
+            crossorigin="anonymous" async>
+        </script>
+
+        
+    </div>
+
+            <div class="taxonomies-container">
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/categories">Categories</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/api">api</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/browser">browser</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/cms">cms</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/containers">containers</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/css">css</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/documentation">documentation</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/editor">editor</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/fzf">fzf</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/git">git</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/html">html</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/installer">installer</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/javascript">javascript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/latex">latex</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markdown">markdown</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/markup">markup</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/python">python</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/ruby">ruby</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/rust">rust</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/server">server</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/shell">shell</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/testing">testing</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/tooling">tooling</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typescript">typescript</a>
+                        </div>
+                    
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/categories/typst">typst</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="taxonomies-group">
+                    <h2 class="taxonomies-header">
+                        <a href="/tags">Tags</a>
+                    </h2>
+                    
+                    <div class="taxonomy-listing-group">
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/angular">angular</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/cli-tools">cli-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/css">css</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dearpygui">dearpygui</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/dev-tools">dev-tools</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/emberjs">emberjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/frontend">frontend</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/graphing">graphing</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/javascript-animations">javascript-animations</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/jquery">jquery</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/julia">julia</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/meteorjs">meteorjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/nodejs">nodejs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/octopress">octopress</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pandoc">pandoc</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyqt">pyqt</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/pyside">pyside</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/quarto">quarto</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/ramda">ramda</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/restructuredtext">restructuredtext</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rmarkdown">rmarkdown</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/rxjs">rxjs</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/selenium">selenium</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/svg">svg</a>
+                        </div>
+                        
+                        <div class="taxonomy-listing">
+                            <a class="taxonomy-link" href="/tags/wordpress">wordpress</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section footer">
+                <p>
+    <span>
+        Copyright rightfully belongs here © 2013-2026 William Huey and proudly powered by <a href="https://github.com/getzola/zola">Zola</a> and <a href="https://github.com/williamhuey">
+    Github.</a>
+    </span>
+</p>
+            </div>
+        </main>
+
+        <script>
+            document.querySelectorAll('pre > code').forEach(el => {
+                const btn = document.createElement('button');
+                btn.innerText = 'Copy';
+                btn.className = 'copy-button';
+                btn.onclick = async () => {
+                    await navigator.clipboard.writeText(el.innerText);
+                    btn.innerText = 'Copied';
+                    setTimeout(() => { btn.innerText = 'Copy'; }, 1500);
+                };
+                el.parentNode.style.position = 'relative';
+                el.parentNode.appendChild(btn);
+                btn.style.position = 'absolute';
+                btn.style.top = '8px';
+                btn.style.right = '8px';
+            });
+
+        </script>
+    </body>
+</html>
